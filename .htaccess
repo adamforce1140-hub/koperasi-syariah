@@ -1,0 +1,21 @@
+# Proteksi tambahan bila proyek diakses lewat http://localhost/koperasi_syariah/
+# (document root salah). Akses yang benar: http://koperasi_syariah.test
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /koperasi_syariah/
+
+    # Tolak berkas sensitif dan direktori internal
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^(app|bootstrap|config|database|docs|node_modules|resources|routes|storage|tests|vendor)(/|$) - [F,L]
+    RewriteRule ^(artisan|composer\.json|composer\.lock|package\.json|package-lock\.json|phpunit\.xml|\.phpunit\.result\.cache)$ - [F,L]
+
+    # Teruskan permintaan lain ke front controller di /public
+    RewriteCond %{REQUEST_URI} !^/koperasi_syariah/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Matikan daftar direktori
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>

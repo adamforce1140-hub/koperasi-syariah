@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+
+    Options -MultiViews
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # S-04 — HSTS, X-Frame-Options, X-Content-Type-Options, dan CSP TIDAK lagi
+    # di-hardcode di sini. Seluruh header keamanan dikelola terpusat oleh
+    # App\Http\Middleware\KeamananHeader melalui `config/keamanan.php` (bersumber
+    # dari variabel lingkungan) sehingga dapat berbeda per-environment: HSTS
+    # hanya aktif di HTTPS produksi, CSP dapat di-enforce atau Report-Only, dst.
+    # Header di .htaccess akan menimpa middleware dan membuat saklar config
+    # tidak berefek — karena itu baris lama (HSTS preload untuk semua skema)
+    # dihapus agar tidak memaksa HTTPS di server pengembangan http://localhost.
+    #
+    # Yang tetap dipertahankan di sini hanya proteksi lintas-SSL yang tidak
+    # dikelola middleware.
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
