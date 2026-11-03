@@ -367,18 +367,15 @@ class Tahap7SkalabilitasTest extends TestCase
         $manajer = User::where('role', 'manajer')->first();
         $pengurus = User::where('role', 'pengurus')->first();
 
-        if ($manajer) {
-            $this->actingAs($manajer)
-                ->get(route('manajer.laporan.index'))
-                ->assertRedirect(route('dashboard.manajer'));
-        }
+        $this->assertNotNull($manajer, 'Prasyarat uji: pengguna peran manajer harus ada di basis data uji.');
+        $this->assertNotNull($pengurus, 'Prasyarat uji: pengguna peran pengurus harus ada di basis data uji.');
 
-        if ($pengurus) {
-            $this->actingAs($pengurus)
-                ->get(route('pengurus.laporan.index'))
-                ->assertOk();
-        }
+        $this->actingAs($manajer)
+            ->get(route('manajer.laporan.index'))
+            ->assertRedirect(route('dashboard.manajer'));
 
-        $this->assertTrue(true);
+        $this->actingAs($pengurus)
+            ->get(route('pengurus.laporan.index'))
+            ->assertOk();
     }
 }

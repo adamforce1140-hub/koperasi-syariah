@@ -51,6 +51,8 @@ class SmokeSemuaRuteTest extends TestCase
             .' (tanpa param: '.$tanpaParam->count()
             .', dengan param: '.$denganParam->count().")\n");
 
+        $temuan = [];
+
         foreach ($roles as $role) {
             $u = User::firstOrCreate(
                 ['email' => "smoke.{$role}@test.local"],
@@ -71,9 +73,20 @@ class SmokeSemuaRuteTest extends TestCase
             foreach (array_unique($errs) as $e) {
                 fwrite(STDERR, "  {$e}\n");
             }
+
+            foreach ($errs as $e) {
+                // "SKIP" = tidak ada ID uji yang cocok, bukan kegagalan produk.
+                if (! str_starts_with($e, 'SKIP ')) {
+                    $temuan[] = "[{$role}] {$e}";
+                }
+            }
         }
 
-        $this->assertTrue(true);
+        $this->assertEmpty(
+            $temuan,
+            "Smoke test menemukan error nyata (5xx/exception) pada rute berikut:\n"
+            .implode("\n", array_unique($temuan))
+        );
     }
 
     /** Kunjungi rute tanpa parameter. */
@@ -81,18 +94,33 @@ class SmokeSemuaRuteTest extends TestCase
     {
         $this->resetGuard();
 
+        /*
+         * `withoutExceptionHandling()` melewati renderer aplikasi
+         * (bootstrap/app.php) sehingga ValidationException tampak sebagai
+         * exception, padahal klien sungguhan menerima respons normal:
+         *   - Accept: text/html -> 302 kembali ke form dengan pesan validasi
+         *   - Accept: application/json -> 422 {"errors": {...}}
+         * Keduanya perilaku wajar untuk input kosong dan tidak ditangani
+         * ulang oleh renderer (baris 176: `ValidationException` -> null).
+         *
+         * Karena itu JANGAN pakai tanpaExceptionHandling untuk rute tanpa
+         * parameter: respons HTTP asli yang diperiksa (sama seperti browser).
+         */
         try {
-            $this->withoutExceptionHandling();
-            $response = $this->actingAs($u)->get('/'.$route->uri(), $extra);
-            $code = $response->getStatusCode();
-            $this->withExceptionHandling();
-
-            if ($code >= 500) {
-                $errs[] = "{$code} {$route->getName()} ({$route->uri()})";
-            }
+            $response = $this->actingAs($u)->get('/'.$route->uri(), $extra, [
+                'Accept' => 'text/html,application/xhtml+xml',
+                'User-Agent' => 'Mozilla/5.0 (SmokeTest)',
+            ]);
         } catch (\Throwable $e) {
-            $this->withExceptionHandling();
             $this->catat($e, $route->getName(), $route->uri(), $errs);
+
+            return;
+        }
+
+        $code = $response->getStatusCode();
+
+        if ($code >= 500) {
+            $errs[] = "{$code} {$route->getName()} ({$route->uri()})";
         }
     }
 
