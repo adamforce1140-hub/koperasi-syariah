@@ -164,6 +164,18 @@ class CakupanAntreanApprovalTest extends TestCase
         $this->getJson('/api/approval/status')->assertForbidden();
     }
 
+    public function test_api_status_ditolak_untuk_personel_tanpa_antrean_approval(): void
+    {
+        $teller = $this->pengguna('teller', 'pengaju');
+        $this->approval('APR-UJI-MJ-0006', 'PENDING_MANAJER', $teller);
+
+        foreach (['admin', 'dps', 'super_admin'] as $peran) {
+            Sanctum::actingAs($this->pengguna($peran, "personel-{$peran}"));
+
+            $this->getJson('/api/approval/status')->assertForbidden();
+        }
+    }
+
     public function test_api_status_manajer_hanya_memuat_antrean_manajer(): void
     {
         $teller = $this->pengguna('teller', 'pengaju');

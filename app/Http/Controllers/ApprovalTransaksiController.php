@@ -199,7 +199,21 @@ class ApprovalTransaksiController extends Controller
                 ->exists();
 
         if ($isVoidRequest) {
-            $result = $this->reversalService->executeVoidReversal($approval, Auth::id());
+            if (! in_array(Auth::user()->role, HierarkiRole::peranUntukStatus($approval->status), true)) {
+                return redirect()->route('pengelola.approval.index')
+                    ->with('error', 'Anda tidak memiliki hak untuk menyetujui transaksi ini.');
+            }
+
+            try {
+                $result = $this->reversalService->executeVoidReversal($approval, Auth::id());
+            } catch (\Throwable $e) {
+                // Jurnal pembalik gagal → reversal di-rollback oleh DB::transaction.
+                report($e);
+
+                return redirect()->route('pengelola.approval.index')
+                    ->with('error', $e->getMessage());
+            }
+
             $msg = $result['status'] === 'success'
                 ? 'Void berhasil disetujui dan transaksi telah dibatalkan.'
                 : $result['message'];
