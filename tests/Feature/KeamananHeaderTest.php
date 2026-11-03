@@ -65,17 +65,52 @@ class KeamananHeaderTest extends TestCase
         }
     }
 
-    public function test_csp_dikirim_dalam_mode_laporan_secara_bawaan(): void
+    public function test_csp_dikirim_dalam_mode_laporan_di_lingkungan_non_produksi(): void
     {
+        // Pada APP_ENV=local/testing, default config adalah Report-Only agar
+        // aktivasi CSP dapat bertahap tanpa memutus UI pengembangan.
+        config(['keamanan.header.csp_enforce' => false]);
+
         $respons = $this->lewatMiddleware(Request::create('/uji', 'GET'));
 
         $this->assertNull($respons->headers->get('Content-Security-Policy'),
-            'Mode bawaan seharusnya Report-Only agar aktivasi dapat bertahap.');
+            'Mode Report-Only tidak boleh mengirim header penegakan.');
 
         $laporan = (string) $respons->headers->get('Content-Security-Policy-Report-Only');
         $this->assertStringContainsString("default-src 'self'", $laporan);
         $this->assertStringContainsString("frame-ancestors 'self'", $laporan);
         $this->assertStringContainsString("object-src 'none'", $laporan);
+    }
+
+    /**
+     * Nilai default `csp_enforce` bergantung pada lingkungan: produksi menegakkan
+     * CSP, local/testing hanya melaporkan. Test ini mengevaluasi berkas config
+     * apa adanya pada dua nilai APP_ENV berbeda, sehingga tetap sah tanpa
+     * bergantung pada APP_ENV saat suite dijalankan.
+     */
+    public function test_default_csp_menegakkan_header_di_produksi(): void
+    {
+        $semula = [$_ENV['APP_ENV'] ?? null, $_SERVER['APP_ENV'] ?? null];
+
+        try {
+            foreach (['production' => true, 'local' => false, 'testing' => false] as $lingkungan => $harusMenegakkan) {
+                putenv("APP_ENV={$lingkungan}");
+                $_ENV['APP_ENV'] = $lingkungan;
+                $_SERVER['APP_ENV'] = $lingkungan;
+
+                $config = require base_path('config/keamanan.php');
+
+                $this->assertSame(
+                    $harusMenegakkan,
+                    $config['header']['csp_enforce'],
+                    "Default csp_enforce pada APP_ENV={$lingkungan} tidak sesuai."
+                );
+            }
+        } finally {
+            putenv($semula[0] === null ? 'APP_ENV' : "APP_ENV={$semula[0]}");
+            $_ENV['APP_ENV'] = $semula[0];
+            $_SERVER['APP_ENV'] = $semula[1];
+        }
     }
 
     public function test_csp_dapat_dinonaktifkan_lewat_env(): void

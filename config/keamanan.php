@@ -10,6 +10,24 @@
  *
  * Lihat: docs/TAHAP10-KEAMANAN-DATA-UU-PDP.md
  */
+if (! function_exists('keamanan_env')) {
+    /**
+     * Baca env dengan arti "kosong = tidak diset".
+     *
+     * `env('KUNCI')` mengembalikan string kosong bila `.env` menulis
+     * `KUNCI=`, dan argumen default TIDAK dipakai. Casting langsung lalu
+     * membuat `(int) '' = 0` dan `(bool) '' = false`, sehingga proteksi
+     * keamanan bisa turun diam-diam. Helper ini mengembalikan `$bawaan`
+     * untuk nilai null maupun string kosong.
+     */
+    function keamanan_env(string $kunci, mixed $bawaan): mixed
+    {
+        $nilai = env($kunci);
+
+        return ($nilai === null || $nilai === '') ? $bawaan : $nilai;
+    }
+}
+
 return [
 
     /*
@@ -38,9 +56,12 @@ return [
         // S-04 — default aman: di produksi CSP di-ENFORCE (benar-benar
         // memblokir) agar XSS tidak lolos; di lokal/testing tetap Report-Only
         // supaya pengembangan tidak terhambat. Dapat ditimpa lewat env.
-        'csp_enforce' => env(
-            'KEAMANAN_CSP_ENFORCE',
-            ! in_array((string) env('APP_ENV', 'production'), ['local', 'testing'], true)
+        'csp_enforce' => filter_var(
+            keamanan_env(
+                'KEAMANAN_CSP_ENFORCE',
+                ! in_array((string) env('APP_ENV', 'production'), ['local', 'testing'], true)
+            ),
+            FILTER_VALIDATE_BOOLEAN
         ),
 
         // S-04 — Mode ketat: aktifkan nonce per-permintaan dan BUANG
@@ -48,12 +69,12 @@ return [
         // benar diblokir. Aktifkan hanya setelah seluruh blok <script>/<style>
         // inline diberi `nonce="{{ csp_nonce() }}"` (lihat KeamananHeader).
         // Default `false` agar perilaku terkini tidak berubah.
-        'csp_strict' => env('KEAMANAN_CSP_STRICT', false),
+        'csp_strict' => filter_var(keamanan_env('KEAMANAN_CSP_STRICT', false), FILTER_VALIDATE_BOOLEAN),
 
         // HSTS hanya dikirim pada koneksi HTTPS. Biarkan `false` di lingkungan
         // pengembangan (Laragon) agar http://localhost tidak terkunci ke HTTPS.
-        'hsts_aktif' => env('KEAMANAN_HSTS_AKTIF', false),
-        'hsts_max_age' => (int) env('KEAMANAN_HSTS_MAX_AGE', 31536000),
+        'hsts_aktif' => filter_var(keamanan_env('KEAMANAN_HSTS_AKTIF', false), FILTER_VALIDATE_BOOLEAN),
+        'hsts_max_age' => (int) keamanan_env('KEAMANAN_HSTS_MAX_AGE', 31536000),
     ],
 
     /*
@@ -138,13 +159,20 @@ return [
     'password' => (function () {
         $lokal = in_array((string) env('APP_ENV', 'production'), ['local', 'testing'], true);
 
+        /*
+         * `.env.example` menulis kunci kebijakan sebagai `KUNCI=` kosong dengan
+         * maksud "ikuti default". `env()` mengembalikan "" (bukan default),
+         * sehingga casting langsung menjatuhkan minimum ke 0 karakter dan
+         * mematikan syarat huruf besar/simbol. `keamanan_env()` memperlakukan
+         * nilai kosong sebagai "tidak diset".
+         */
         return [
-            'min' => (int) env('KEAMANAN_PASSWORD_MIN', $lokal ? 8 : 12),
-            'huruf_besar' => (bool) env('KEAMANAN_PASSWORD_HURUF_BESAR', ! $lokal),
-            'angka' => (bool) env('KEAMANAN_PASSWORD_ANGKA', true),
-            'simbol' => (bool) env('KEAMANAN_PASSWORD_SIMBOL', ! $lokal),
+            'min' => (int) keamanan_env('KEAMANAN_PASSWORD_MIN', $lokal ? 8 : 12),
+            'huruf_besar' => filter_var(keamanan_env('KEAMANAN_PASSWORD_HURUF_BESAR', ! $lokal), FILTER_VALIDATE_BOOLEAN),
+            'angka' => filter_var(keamanan_env('KEAMANAN_PASSWORD_ANGKA', true), FILTER_VALIDATE_BOOLEAN),
+            'simbol' => filter_var(keamanan_env('KEAMANAN_PASSWORD_SIMBOL', ! $lokal), FILTER_VALIDATE_BOOLEAN),
             // Tolak password yang sudah pernah bocor pada kebocoran data publik.
-            'cek_bocor' => (bool) env('KEAMANAN_PASSWORD_CEK_BOCOR', false),
+            'cek_bocor' => filter_var(keamanan_env('KEAMANAN_PASSWORD_CEK_BOCOR', false), FILTER_VALIDATE_BOOLEAN),
         ];
     })(),
 

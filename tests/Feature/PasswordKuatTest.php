@@ -105,4 +105,48 @@ class PasswordKuatTest extends TestCase
         $this->assertTrue($kebijakan['angka'],
             'Syarat minimal satu angka sebaiknya selalu aktif.');
     }
+
+    /**
+     * `.env.example` (dan `.env` yang diturunkan darinya) menulis kunci kebijakan
+     * sebagai `KUNCI=` kosong dengan maksud "ikuti default". Namun `env()`
+     * mengembalikan string kosong, bukan default: `(int) ""` = 0 dan
+     * `(bool) ""` = false. Akibatnya kebijakan password runtuh diam-diam —
+     * panjang minimum menjadi 0 karakter dan syarat huruf besar/simbol mati
+     * bahkan di produksi. Test ini mengunci agar nilai kosong tetap aman.
+     */
+    public function test_nilai_env_kosong_tidak_melemahkan_kebijakan(): void
+    {
+        $semula = [
+            'APP_ENV' => [$_ENV['APP_ENV'] ?? null, $_SERVER['APP_ENV'] ?? null],
+            'KEAMANAN_PASSWORD_MIN' => [$_ENV['KEAMANAN_PASSWORD_MIN'] ?? null, $_SERVER['KEAMANAN_PASSWORD_MIN'] ?? null],
+            'KEAMANAN_PASSWORD_HURUF_BESAR' => [$_ENV['KEAMANAN_PASSWORD_HURUF_BESAR'] ?? null, $_SERVER['KEAMANAN_PASSWORD_HURUF_BESAR'] ?? null],
+            'KEAMANAN_PASSWORD_SIMBOL' => [$_ENV['KEAMANAN_PASSWORD_SIMBOL'] ?? null, $_SERVER['KEAMANAN_PASSWORD_SIMBOL'] ?? null],
+        ];
+
+        try {
+            foreach (['production', 'local'] as $lingkungan) {
+                foreach (['APP_ENV' => $lingkungan, 'KEAMANAN_PASSWORD_MIN' => '', 'KEAMANAN_PASSWORD_HURUF_BESAR' => '', 'KEAMANAN_PASSWORD_SIMBOL' => ''] as $kunci => $nilai) {
+                    putenv("{$kunci}={$nilai}");
+                    $_ENV[$kunci] = $nilai;
+                    $_SERVER[$kunci] = $nilai;
+                }
+
+                $kebijakan = (require base_path('config/keamanan.php'))['password'];
+                $harapanMin = $lingkungan === 'production' ? 12 : 8;
+
+                $this->assertSame($harapanMin, $kebijakan['min'],
+                    "Nilai kosong pada KEAMANAN_PASSWORD_MIN melemahkan minimum di {$lingkungan}.");
+                $this->assertSame($lingkungan === 'production', $kebijakan['huruf_besar'],
+                    "Nilai kosong pada KEAMANAN_PASSWORD_HURUF_BESAR melemahkan syarat di {$lingkungan}.");
+                $this->assertSame($lingkungan === 'production', $kebijakan['simbol'],
+                    "Nilai kosong pada KEAMANAN_PASSWORD_SIMBOL melemahkan syarat di {$lingkungan}.");
+            }
+        } finally {
+            foreach ($semula as $kunci => [$env, $server]) {
+                putenv($env === null ? $kunci : "{$kunci}={$env}");
+                $_ENV[$kunci] = $env;
+                $_SERVER[$kunci] = $server;
+            }
+        }
+    }
 }

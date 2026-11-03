@@ -203,6 +203,119 @@ class PengerasanKonfigurasiDanDokumenTest extends TestCase
         $this->assertFalse(config('session.secure'));
     }
 
+    /**
+     * `.env.example` adalah berkas yang disalin menjadi `.env` di server baru.
+     * Bila nilai contohnya melemahkan default `config/`, setiap deployment
+     * yang mengikuti dokumentasi otomatis kehilangan proteksi tanpa ada yang
+     * menyadarinya. Test ini mengunci nilai contoh tersebut.
+     */
+    public function test_env_example_tidak_melemahkan_default_keamanan(): void
+    {
+        $contoh = $this->bacaEnvExample();
+
+        $wajibAman = [
+            'APP_DEBUG' => 'false',
+            'IGNITION_ENABLE_RUNNABLE_SOLUTIONS' => 'false',
+            'SESSION_ENCRYPT' => 'true',
+            'SESSION_SECURE_COOKIE' => 'true',
+            'KEAMANAN_CSP_AKTIF' => 'true',
+            'KEAMANAN_CSP_ENFORCE' => 'true',
+            'KEAMANAN_AUDIT_PII' => 'true',
+            'BACKUP_ENKRIPSI' => 'true',
+        ];
+
+        foreach ($wajibAman as $kunci => $nilai) {
+            $this->assertArrayHasKey($kunci, $contoh,
+                "`{$kunci}` wajib ada di .env.example agar deployment baru sadar akan setelan ini.");
+            $this->assertSame($nilai, strtolower($contoh[$kunci]),
+                "`.env.example` menulis {$kunci}={$contoh[$kunci]}, seharusnya {$nilai}.");
+        }
+    }
+
+    /**
+     * Kunci yang sengaja TIDAK diisi di `.env` lokal karena nilainya mengikuti
+     * default `config/` per lingkungan. Ditulis kosong (`KUNCI=`) pun berbahaya
+     * untuk kunci boolean: `env()` mengembalikan "" dan `(bool) ""` = false,
+     * sehingga proteksi turun diam-diam. Karena itu dilarang sama sekali.
+     */
+    private const KUNCI_BOLEH_TIDAK_ADA = ['KEAMANAN_CSP_ENFORCE'];
+
+    /**
+     * Setiap kunci di `.env.example` harus diketahui `.env` lokal, baik diisi
+     * nilai maupun sengaja dibiarkan kosong. Hanya kunci pada daftar pengecualian
+     * yang boleh absen.
+     */
+    public function test_env_local_memuat_seluruh_kunci_keamanan_dari_contoh(): void
+    {
+        $contoh = $this->bacaEnvExample();
+        $lokal = $this->bacaEnv(base_path('.env'));
+
+        if ($lokal === []) {
+            $this->markTestSkipped('Berkas .env tidak tersedia pada lingkungan uji ini.');
+        }
+
+        $kunciKeamanan = array_values(array_filter(
+            array_keys($contoh),
+            fn (string $k) => str_starts_with($k, 'KEAMANAN_')
+                || str_starts_with($k, 'SESSION_')
+                || str_starts_with($k, 'BACKUP_')
+                || str_starts_with($k, 'IGNITION_')
+        ));
+
+        $hilang = array_values(array_diff($kunciKeamanan, array_keys($lokal)));
+
+        $diabaikan = [];
+
+        foreach ($hilang as $i => $kunci) {
+            if (in_array($kunci, self::KUNCI_BOLEH_TIDAK_ADA, true)) {
+                $diabaikan[] = $kunci;
+                unset($hilang[$i]);
+            }
+        }
+
+        // Kunci boolean yang mengikuti default config tidak boleh ditulis kosong.
+        foreach ($diabaikan as $kunci) {
+            $this->assertArrayNotHasKey($kunci, $lokal,
+                "{$kunci} tidak boleh ditulis di .env, bahkan kosong: `(bool) \"\"` = false.");
+        }
+
+        $this->assertSame([], array_values($hilang),
+            'Kunci keamanan berikut ada di .env.example tetapi tidak ada di .env: '
+            .implode(', ', $hilang));
+    }
+
+    /** @return array<string, string> */
+    private function bacaEnvExample(): array
+    {
+        $path = base_path('.env.example');
+        $this->assertFileExists($path, '.env.example wajib ada sebagai acuan deployment.');
+
+        return $this->bacaEnv($path);
+    }
+
+    /** @return array<string, string> */
+    private function bacaEnv(string $path): array
+    {
+        $hasil = [];
+
+        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $baris) {
+            $baris = trim($baris);
+
+            if ($baris === '' || str_starts_with($baris, '#')) {
+                continue;
+            }
+
+            if (! str_contains($baris, '=')) {
+                continue;
+            }
+
+            [$kunci, $nilai] = explode('=', $baris, 2);
+            $hasil[trim($kunci)] = trim($nilai, " \t\"'");
+        }
+
+        return $hasil;
+    }
+
     // ---------------------------------------------------------------------
     // T-04 — Masa berlaku token Sanctum
     // ---------------------------------------------------------------------
