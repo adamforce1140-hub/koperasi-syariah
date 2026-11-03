@@ -1,1 +1,0 @@
-<x-pesan-galat :errors="$errors" />

@@ -26,4 +26,6 @@ yarn-error.log
 /scripts/scheduler-hidden.vbs
 # Cakram palsu milik suite test (Storage::fake): isinya berkas dummy.
 /storage/framework/testing
+# Hasil kompilasi Blade: dibangkitkan ulang otomatis, berubah setiap test run.
+/storage/framework/views/*.php
 *.md.bak
