@@ -230,9 +230,9 @@
                             <div style="color:#991b1b;font-weight:600;">D: {{ $item->coaBeban?->kode_akun }} {{ $item->coaBeban?->nama_akun }}</div>
                             <div style="color:#065f46;font-weight:600;">K: {{ $item->coaKas?->kode_akun }} {{ $item->coaKas?->nama_akun }}</div>
                             @if($item->jurnal)
-                                <div style="font-size:.68rem;color:#64748b;margin-top:.15rem;">{{ $item->jurnal->no_jurnal }}</div>
+                                <div style="font-size:0.7rem;color:#64748b;margin-top:.15rem;">{{ $item->jurnal->no_jurnal }}</div>
                             @else
-                                <div style="font-size:.68rem;color:#b45309;margin-top:.15rem;">Jurnal belum terposting</div>
+                                <div style="font-size:0.7rem;color:#b45309;margin-top:.15rem;">Jurnal belum terposting</div>
                             @endif
                         </td>
                         <td style="padding:.75rem 1rem;text-align:right;font-weight:700;color:#1e293b;">Rp {{ number_format($item->nominal, 0, ',', '.') }}</td>
@@ -246,7 +246,7 @@
                             @endphp
                             <span style="padding:.25rem .75rem;border-radius:9999px;font-size:.7rem;font-weight:700;background:{{ $badge[0] }};color:{{ $badge[1] }};">{{ $badge[2] }}</span>
                             @if($item->catatan_manajer)
-                                <div style="font-size:.68rem;color:#64748b;margin-top:.25rem;">"{{ $item->catatan_manajer }}"</div>
+                                <div style="font-size:0.7rem;color:#64748b;margin-top:.25rem;">"{{ $item->catatan_manajer }}"</div>
                             @endif
                         </td>
                         <td style="padding:.75rem 1rem;font-size:.75rem;color:#334155;">

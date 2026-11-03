@@ -56,7 +56,7 @@
                         <span class="icon" aria-hidden="true">{{ $childIcon }}</span>
                         {{ $child['label'] }}
                         @if($childBadge > 0)
-                            <span aria-hidden="true" style="margin-left:auto;background:#ef4444;color:#fff;font-size:0.65rem;
+                            <span aria-hidden="true" style="margin-left:auto;background:#ef4444;color:#fff;font-size:0.7rem;
                                 font-weight:700;padding:0.1rem 0.45rem;border-radius:9999px;">{{ $childBadge }}</span>
                             <span class="sr-only">({{ $childBadge }} menunggu tindakan)</span>
                         @endif

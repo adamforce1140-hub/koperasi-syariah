@@ -43,7 +43,7 @@
     .modal-foot { display:flex; justify-content:flex-end; gap:.6rem; padding:1rem 1.4rem; border-top:1px solid #f1f5f9; background:#f8fafc; }
     .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:.5rem .9rem; font-size:.82rem; }
     .detail-grid .d { background:#f8fafc; border:1px solid #e2e8f0; border-radius:.5rem; padding:.5rem .7rem; }
-    .detail-grid .d .k { font-size:.66rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:.03em; }
+    .detail-grid .d .k { font-size:0.7rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:.03em; }
     .detail-grid .d .v { font-size:.85rem; font-weight:700; color:#0f172a; margin-top:.1rem; }
     .detail-grid .d.full { grid-column:1/-1; }
     label.m-label { font-size:.72rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:.03em; }
@@ -118,7 +118,7 @@
         <span class="card-title">Daftar Pengajuan <span style="color:#94a3b8;font-weight:500;">({{ $statusFilter }})</span></span>
         <form method="GET" style="display:flex;gap:.5rem;">
             <input type="hidden" name="status" value="{{ $statusFilter }}">
-            <input type="text" name="search" value="{{ $search }}"
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari no. pembiayaan atau anggota"
                 placeholder="Cari no. pembiayaan / anggota..."
                 style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:240px;">
             <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Cari</button>
@@ -236,7 +236,7 @@
                 </div>
 
                 <div style="margin-top:1rem;">
-                    <label class="m-label" id="mjCatatanLabel">Catatan Manajer *</label>
+                    <label class="m-label" id="mjCatatanLabel" for="mjCatatan">Catatan Manajer *</label>
                     <textarea class="m-textarea" name="catatan_manajer" id="mjCatatan" rows="3"
                         placeholder="Isi catatan / pertimbangan Manajer..."></textarea>
                 </div>

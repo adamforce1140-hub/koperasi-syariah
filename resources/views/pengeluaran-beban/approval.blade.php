@@ -75,7 +75,7 @@
                             @endphp
                             <span style="padding:.25rem .75rem;border-radius:9999px;font-size:.7rem;font-weight:700;background:{{ $badge[0] }};color:{{ $badge[1] }};">{{ $badge[2] }}</span>
                             @if($item->catatan_manajer)
-                                <div style="font-size:.68rem;color:#64748b;margin-top:.25rem;">"{{ $item->catatan_manajer }}"</div>
+                                <div style="font-size:0.7rem;color:#64748b;margin-top:.25rem;">"{{ $item->catatan_manajer }}"</div>
                             @endif
                         </td>
                         <td style="padding:.75rem 1rem;text-align:center;">
@@ -91,7 +91,7 @@
                                 <summary style="font-size:.7rem;color:#dc2626;cursor:pointer;list-style:none;">Tolak</summary>
                                 <form method="POST" action="{{ route('manajer.beban.reject', $item) }}" style="margin-top:.35rem;">
                                     @csrf
-                                    <input type="text" name="catatan" placeholder="Alasan penolakan" required
+                                    <input type="text" name="catatan" aria-label="Alasan penolakan" placeholder="Alasan penolakan" required
                                         style="width:100%;padding:.35rem .5rem;border:1px solid #cbd5e1;border-radius:.35rem;font-size:.72rem;">
                                     <button type="submit" style="margin-top:.25rem;padding:.35rem .8rem;background:#dc2626;color:#fff;border:none;border-radius:.4rem;font-size:.72rem;font-weight:700;cursor:pointer;">
                                         Konfirmasi Tolak

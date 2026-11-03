@@ -143,16 +143,16 @@
         <form method="GET" action="{{ route('teller.riwayat') }}">
             <div class="filter-row">
                 <div class="filter-group">
-                    <label>Dari Tanggal</label>
-                    <input type="date" name="dari" value="{{ request('dari', now()->format('Y-m-d')) }}">
+                    <label for="dari">Dari Tanggal</label>
+                    <input id="dari" type="date" name="dari" value="{{ request('dari', now()->format('Y-m-d')) }}">
                 </div>
                 <div class="filter-group">
-                    <label>Sampai Tanggal</label>
-                    <input type="date" name="sampai" value="{{ request('sampai', now()->format('Y-m-d')) }}">
+                    <label for="sampai">Sampai Tanggal</label>
+                    <input id="sampai" type="date" name="sampai" value="{{ request('sampai', now()->format('Y-m-d')) }}">
                 </div>
                 <div class="filter-group">
-                    <label>Cari (ID / Nama / No. Rekening)</label>
-                    <input type="text" name="cari" value="{{ request('cari') }}" placeholder="Ketik untuk mencari...">
+                    <label for="cari">Cari (ID / Nama / No. Rekening)</label>
+                    <input id="cari" type="text" name="cari" value="{{ request('cari') }}" placeholder="Ketik untuk mencari...">
                 </div>
                 <div class="filter-group">
                     <label>Jenis Transaksi</label>
@@ -335,15 +335,15 @@
                         <td style="text-align:right;font-weight:600;">
                             @if($tidakAdaMutasi)
                                 <span style="color:#94a3b8;">—</span>
-                                <div style="font-size:0.68rem;color:#94a3b8;">Tidak Ada Mutasi</div>
+                                <div style="font-size:0.7rem;color:#94a3b8;">Tidak Ada Mutasi</div>
                             @elseif($isPending)
                                 <div style="color:#92400e;">Rp {{ number_format($saldoAkhir, 0, ',', '.') }}</div>
-                                <div style="font-size:0.68rem;color:#b45309;background:#fef3c7;padding:0.1rem 0.4rem;border-radius:0.25rem;display:inline-block;margin-top:0.15rem;">
+                                <div style="font-size:0.7rem;color:#b45309;background:#fef3c7;padding:0.1rem 0.4rem;border-radius:0.25rem;display:inline-block;margin-top:0.15rem;">
                                     {{ $labelSaldo }} (Hold)
                                 </div>
                             @else
                                 <div>Rp {{ number_format($saldoAkhir, 0, ',', '.') }}</div>
-                                <div style="font-size:0.68rem;color:#94a3b8;">{{ $labelSaldo }}</div>
+                                <div style="font-size:0.7rem;color:#94a3b8;">{{ $labelSaldo }}</div>
                             @endif
                         </td>
                         <td style="font-size:0.82rem;">{{ $t->dibuatOleh?->name ?? '-' }}</td>
@@ -383,11 +383,11 @@
                                         default         => '⚠ AML High-Value',
                                     };
                                 @endphp
-                                <div style="font-size:0.68rem;{{ $amlStyle }}padding:0.1rem 0.45rem;border-radius:0.25rem;display:inline-block;margin-top:0.2rem;font-weight:600;">
+                                <div style="font-size:0.7rem;{{ $amlStyle }}padding:0.1rem 0.45rem;border-radius:0.25rem;display:inline-block;margin-top:0.2rem;font-weight:600;">
                                     {{ $amlLabel }}
                                 </div>
                                 @if($t->aml_sumber_dana)
-                                <div style="font-size:0.65rem;color:#94a3b8;margin-top:0.1rem;">
+                                <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.1rem;">
                                     Sumber: {{ $t->aml_sumber_dana }}
                                 </div>
                                 @endif
@@ -443,7 +443,7 @@
         <p style="font-size:0.875rem;color:#475569;margin-bottom:0.5rem;">
             Permintaan void akan dikirim ke manajer untuk otorisasi. Masukkan alasan:
         </p>
-        <textarea id="voidAlasan" placeholder="Contoh: Salah input nominal, nasabah membatalkan transaksi..."></textarea>
+        <textarea id="voidAlasan" aria-label="Alasan permintaan void" placeholder="Contoh: Salah input nominal, nasabah membatalkan transaksi..."></textarea>
         <div class="modal-footer">
             <button onclick="tutupModal()" class="btn btn-sm" style="background:#f1f5f9;color:#475569;">Batal</button>
             <button onclick="kirimVoid()" class="btn btn-primary btn-sm" id="btnKirimVoid">Kirim Request Void</button>

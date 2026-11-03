@@ -535,6 +535,7 @@ class KasKasirTest extends TestCase
             JenisTransaksi::CASH_IN,
             JenisTransaksi::CASH_OUT,
             JenisTransaksi::AUTO_DEBIT_WAJIB,
+            JenisTransaksi::PEMINDAHAN_PRODUK,
             JenisTransaksi::STATUS_NON_KAS
         ));
         $asing = DB::table('transaksi')->distinct()->pluck('jenis_transaksi')

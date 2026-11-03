@@ -54,11 +54,11 @@
                         {{ $ao->nama }}
                         @if($ao->peran)
                             <span style="display:inline-block;margin-left:0.375rem;padding:0.1rem 0.5rem;border-radius:9999px;
-                                         font-size:0.68rem;font-weight:600;background:#e0e7ff;color:#3730a3;">{{ strtoupper($ao->peran) }}</span>
+                                         font-size:0.7rem;font-weight:600;background:#e0e7ff;color:#3730a3;">{{ strtoupper($ao->peran) }}</span>
                         @endif
                         @if($kosongAO)
                             <span style="display:inline-block;margin-left:0.375rem;padding:0.1rem 0.5rem;border-radius:9999px;
-                                         font-size:0.68rem;font-weight:600;background:#f1f5f9;color:#64748b;">Tanpa Aktivitas</span>
+                                         font-size:0.7rem;font-weight:600;background:#f1f5f9;color:#64748b;">Tanpa Aktivitas</span>
                         @endif
                     </td>
                     <td>{{ $ao->total_pengajuan }} berkas</td>
@@ -103,11 +103,11 @@
                         {{ $t->nama }}
                         @if($t->peran)
                             <span style="display:inline-block;margin-left:0.375rem;padding:0.1rem 0.5rem;border-radius:9999px;
-                                         font-size:0.68rem;font-weight:600;background:#e0e7ff;color:#3730a3;">{{ strtoupper($t->peran) }}</span>
+                                         font-size:0.7rem;font-weight:600;background:#e0e7ff;color:#3730a3;">{{ strtoupper($t->peran) }}</span>
                         @endif
                         @if($kosongTeller)
                             <span style="display:inline-block;margin-left:0.375rem;padding:0.1rem 0.5rem;border-radius:9999px;
-                                         font-size:0.68rem;font-weight:600;background:#f1f5f9;color:#64748b;">Tanpa Aktivitas</span>
+                                         font-size:0.7rem;font-weight:600;background:#f1f5f9;color:#64748b;">Tanpa Aktivitas</span>
                         @endif
                     </td>
                     <td>{{ $t->total_transaksi }} transaksi</td>

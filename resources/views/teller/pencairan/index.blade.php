@@ -51,7 +51,7 @@
             </div>
         </div>
         <form method="GET" action="{{ route('teller.pencairan.index') }}" style="display:flex;gap:0.5rem;">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari No. Pembiayaan / Anggota..." 
+            <input type="text" name="search" value="{{ request('search') }}" aria-label="Cari no. pembiayaan atau anggota" placeholder="Cari No. Pembiayaan / Anggota..." 
                 style="padding:0.5rem 0.85rem;border:1px solid #cbd5e1;border-radius:8px;font-size:0.875rem;outline:none;width:260px;">
             <button type="submit" style="padding:0.5rem 1rem;background:#0284c7;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.875rem;">
                 Cari

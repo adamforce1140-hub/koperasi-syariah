@@ -83,8 +83,8 @@
         <form method="GET" action="{{ route('teller.deposito.index') }}"
               style="display:flex;gap:.75rem;align-items:flex-end;flex-wrap:wrap;">
             <div style="flex:1;min-width:220px;">
-                <label style="display:block;font-size:.76rem;font-weight:600;color:#475569;margin-bottom:.375rem;">Cari Anggota / No. Rekening</label>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama, No. Anggota, No. Rekening…"
+                <label style="display:block;font-size:.76rem;font-weight:600;color:#475569;margin-bottom:.375rem;" for="search">Cari Anggota / No. Rekening</label>
+                <input id="search" type="text" name="search" value="{{ request('search') }}" placeholder="Nama, No. Anggota, No. Rekening…"
                        style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.825rem;box-sizing:border-box;">
             </div>
             <div style="min-width:160px;">

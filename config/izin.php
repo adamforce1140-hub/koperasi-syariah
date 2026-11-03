@@ -71,6 +71,15 @@ return [
         'manajer.operasional' => ['manajer', 'super_admin'],
         'pengurus.operasional' => ['pengurus', 'super_admin'],
         'teller.loket' => ['teller', 'manajer', 'pengurus', 'super_admin'],
+
+        // K-2 — EKSEKUSI KAS, bukan sekadar modul loket.
+        // `teller.loket` di atas bersifat "boleh masuk modul loket" sehingga
+        // manajer/pengurus ikut di dalamnya (untuk koreksi & pengawasan).
+        // Pembukaan deposito MEMINDAHKAN DANA anggota, jadi wewenangnya
+        // dipersempit ke pemegang laci saja: teller, ditambah super_admin
+        // sebagai peran teknis tertinggi. Manajer/pengurus menyetujui
+        // (mis. `pembiayaan.approve`) tetapi tidak mengeksekusi kas.
+        'kas.loket.eksekusi' => ['teller', 'super_admin'],
         'anggota.edit' => ['teller', 'super_admin'],
         'angsuran.setoran' => ['teller', 'super_admin'],
 
@@ -100,6 +109,22 @@ return [
         'pembiayaan.persetujuan' => ['pengurus'],
         'produk.pembiayaan' => ['pengurus', 'super_admin'],
         'autodebit.konfirmasi' => ['manajer', 'super_admin', 'admin'],
+
+        // ─── Tulis buku besar lewat API (K-1 — pemisahan tugas) ───
+        // routes/api.php sebelumnya menyebut `role:admin,manajer,pengurus,teller`
+        // sehingga `admin` — yang menurut matriks ini hanya memegang wewenang
+        // administratif (autodebit.konfirmasi, pengaturan.admin) — dapat
+        // membuat/mengubah/menghapus rekening, transaksi, angsuran, dan jurnal.
+        // `admin` sengaja TIDAK dicantumkan: penulis buku besar adalah pemegang
+        // operasi/akuntansi (teller, manajer, pengurus) plus super_admin.
+        'buku_besar.tulis' => ['teller', 'manajer', 'pengurus', 'super_admin'],
+
+        // Kontrak pembiayaan menyentuh AKAD, bukan kas loket: `teller` dan
+        // `admin` tidak berwenang. Sejalan dengan penulis akad di web.
+        // Endpoint API tulis pembiayaan juga berada di balik halaman
+        // `pembiayaan.approve` (menu Manajer/Pengurus), sehingga super_admin
+        // menjangkaunya lewat induk tersebut tanpa perlu menu tersendiri.
+        'pembiayaan.kontrak' => ['manajer', 'pengurus', 'super_admin'],
 
         // ─── Keanggotaan ───
         'terminasi.pengajuan' => ['teller', 'manajer', 'pengurus', 'super_admin'],

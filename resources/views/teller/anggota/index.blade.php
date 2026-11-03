@@ -44,7 +44,7 @@
     {{-- Search & Filter --}}
     <form method="GET" action="{{ route('teller.anggota.index') }}"
           style="display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
-        <input type="text" name="search" value="{{ request('search') }}"
+        <input type="text" name="search" value="{{ request('search') }}" aria-label="Cari anggota"
                placeholder="Cari nama, NIK, atau No. Anggota..."
                style="flex:1;min-width:220px;padding:.55rem .9rem;border:1px solid #d1d5db;border-radius:8px;font-size:.9rem;">
         <select name="status" style="padding:.55rem .9rem;border:1px solid #d1d5db;border-radius:8px;font-size:.9rem;">

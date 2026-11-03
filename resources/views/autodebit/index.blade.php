@@ -139,7 +139,7 @@
                             <span style="display:inline-block;padding:.15rem .5rem;border-radius:9999px;font-size:.7rem;font-weight:600;
                                 background:{{ $warna[0] }};color:{{ $warna[1] }};">{{ $u->status_label }}</span>
                             @if($u->alasan)
-                            <div style="font-size:.68rem;color:#94a3b8;margin-top:.15rem;">{{ $u->alasan }}</div>
+                            <div style="font-size:0.7rem;color:#94a3b8;margin-top:.15rem;">{{ $u->alasan }}</div>
                             @endif
                         </td>
                         <td style="padding:.7rem .9rem;color:#64748b;">{{ $u->dibuat_formatted }}</td>

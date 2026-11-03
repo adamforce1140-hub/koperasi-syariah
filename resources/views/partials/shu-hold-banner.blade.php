@@ -42,7 +42,7 @@
     .hold-table-wrap tfoot td { background: #fffbeb; font-weight: 700; color: #78350f; }
     .hold-tag {
         display: inline-block; padding: 0.1rem 0.5rem; border-radius: 9999px;
-        background: #fee2e2; color: #991b1b; font-size: 0.68rem; font-weight: 700;
+        background: #fee2e2; color: #991b1b; font-size: 0.7rem; font-weight: 700;
     }
     .hold-catatan { margin: 0.5rem 0 0; font-size: 0.72rem; color: #b45309; }
     @media (max-width: 640px) {

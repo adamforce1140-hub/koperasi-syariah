@@ -51,7 +51,7 @@
         }
         .merek__lambang svg { width: 24px; height: 24px; stroke: #a7f3d0; }
         .merek__teks small {
-            display: block; font-size: 0.66rem; font-weight: 700;
+            display: block; font-size: 0.7rem; font-weight: 700;
             letter-spacing: 0.12em; text-transform: uppercase; color: #059669;
         }
         .merek__teks strong { display: block; font-size: 0.95rem; font-weight: 700; color: #0f172a; }

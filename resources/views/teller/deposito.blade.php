@@ -133,7 +133,7 @@
                 $maksPembukaan = (float) ($batasPembukaan['maksimum'] ?? 50000000);
             @endphp
             <div style="margin-bottom:1.1rem;">
-                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;">
+                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;" for="nominal">
                     Nominal Setoran Awal (Rp) <span style="color:#ef4444;">*</span>
                 </label>
                 <input type="number" name="nominal" id="nominal"
@@ -193,8 +193,8 @@
 
             {{-- Catatan --}}
             <div style="margin-bottom:1.5rem;">
-                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;">Catatan (opsional)</label>
-                <input type="text" name="catatan" value="{{ old('catatan') }}"
+                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;" for="catatan">Catatan (opsional)</label>
+                <input id="catatan" type="text" name="catatan" value="{{ old('catatan') }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.95rem;box-sizing:border-box;"
                     placeholder="Keterangan tambahan...">
             </div>

@@ -17,7 +17,7 @@
     <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
         <span class="card-title">Semua Pengajuan</span>
         <form method="GET" style="display:flex;gap:.5rem;">
-            <input type="text" name="search" value="{{ $search }}"
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama / no. pengajuan"
                 placeholder="Cari nama / no. pengajuan..."
                 style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:240px;">
             <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Cari</button>

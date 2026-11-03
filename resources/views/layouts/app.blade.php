@@ -101,7 +101,7 @@
         /* min-height:0 wajib agar daftar menu benar-benar bisa digulir di dalam
            flex column; tanpa itu daftar mendorong footer keluar dari layar. */
         .sidebar-nav { flex: 1 1 auto; min-height: 0; padding: 1rem 0; overflow-y: auto; }
-        .nav-section { padding: 0.5rem 1.25rem 0.25rem; font-size: 0.65rem; font-weight: 600;
+        .nav-section { padding: 0.5rem 1.25rem 0.25rem; font-size: 0.7rem; font-weight: 600;
             letter-spacing: 0.1em; opacity: 0.55; text-transform: uppercase; }
         .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1.5rem;
             color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem;
@@ -142,7 +142,7 @@
         .profile-name { display: block; font-size: 0.85rem; font-weight: 600; color: #1e293b; max-width: 120px;
             overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .profile-role { display: block; font-size: 0.7rem; color: #64748b; }
-        .profile-chevron { font-size: 0.65rem; color: #94a3b8; transition: transform 0.2s; }
+        .profile-chevron { font-size: 0.7rem; color: #94a3b8; transition: transform 0.2s; }
         .profile-wrap.open .profile-chevron { transform: rotate(180deg); }
         .profile-dropdown { display: none; position: absolute; right: 0; top: calc(100% + 8px);
             background: white; border: 1px solid #e2e8f0; border-radius: 0.9rem;

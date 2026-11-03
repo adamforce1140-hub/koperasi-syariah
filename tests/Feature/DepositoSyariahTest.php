@@ -145,7 +145,7 @@ class DepositoSyariahTest extends TestCase
 
     private function pengguna(): User
     {
-        return User::firstOrCreate(
+        $pengguna = User::firstOrCreate(
             ['email' => 'deposito.syariah@test.local'],
             [
                 'name' => 'Petugas Deposito Uji',
@@ -154,6 +154,14 @@ class DepositoSyariahTest extends TestCase
                 'is_active' => true,
             ]
         );
+
+        // K-2: `/api/deposito/store` adalah transaksi loket yang dijaga
+        // `kas.terbuka`. Sesi kas dibuka di sini (idempoten) supaya seluruh
+        // test API pembukaan deposito berfokus pada perilaku validasi &
+        // mutasi saldo, bukan tersandung guard laci.
+        $this->bukaSesiKas($pengguna);
+
+        return $pengguna;
     }
 
     /** Pengguna berperan AO — pemilik route form "Buka Rekening Simpanan". */
@@ -165,6 +173,27 @@ class DepositoSyariahTest extends TestCase
                 'name' => 'AO Deposito Uji',
                 'password' => Hash::make('password'),
                 'role' => 'ao',
+                'is_active' => true,
+            ]
+        );
+    }
+
+    /**
+     * Pengguna berperan MANAJER untuk jalur WEB loket (K-2).
+     *
+     * Grup web `teller.*` dijaga `izin:teller.loket`, jadi manajer boleh
+     * mengeksekusi pembukaan deposito lewat form web (penyelia loket).
+     * Hal ini SENGAJA berbeda dari API `/api/deposito/store` yang kini
+     * dijaga `izin:kas.loket.eksekusi` (teller + super_admin saja).
+     */
+    private function penggunaManajer(): User
+    {
+        return User::firstOrCreate(
+            ['email' => 'deposito.manajer@test.local'],
+            [
+                'name' => 'Manajer Deposito Uji',
+                'password' => Hash::make('password'),
+                'role' => 'manajer',
                 'is_active' => true,
             ]
         );
@@ -852,8 +881,9 @@ class DepositoSyariahTest extends TestCase
         $produk = $this->produk(6, 65.00, 100000);
 
         // Rute `teller.deposito.store` dijaga middleware `kas.terbuka`.
+        // K-2: pembukaan deposito dieksekusi pemegang laci (teller) dengan
+        // sesi kas yang sudah dibuka; AO hanya menyiapkan form rekening.
         $petugas = $this->pengguna();
-        $this->bukaSesiKas($petugas);
 
         $this->actingAs($petugas)
             ->post(route('teller.deposito.store'), [
@@ -2219,7 +2249,15 @@ class DepositoSyariahTest extends TestCase
         $sumber = $this->rekeningSukarela($anggota, 10000000);
         $mulai = '2026-01-31'; // uji clamp addMonthsNoOverflow (31 Jan + 3 bln = 30 Apr)
 
-        $respon = $this->actingAs($this->penggunaAo())->postJson('/api/deposito/store', [
+        // K-2: /api/deposito/store adalah EKSEKUSI KAS — dijaga
+        // `izin:kas.loket.eksekusi` + `kas.terbuka`, sama seperti jalur web.
+        // AO berwenang menyiapkan pembukaan rekening, tetapi pembukaan
+        // deposito memindahkan dana anggota sehingga dieksekusi pemegang
+        // laci (teller) dengan sesi kas yang sudah dibuka.
+        $petugas = $this->pengguna();
+        $this->bukaSesiKas($petugas);
+
+        $respon = $this->actingAs($petugas)->postJson('/api/deposito/store', [
             'member_id' => $anggota->id,
             'product_id' => $produk->id,
             'source_saving_account_id' => $sumber->id,
@@ -2258,6 +2296,54 @@ class DepositoSyariahTest extends TestCase
 
         $this->assertStringContainsString($rekening->no_rekening, $html,
             'Daftar rekening pada Portofolio CIF harus memuat rekening deposito baru.');
+    }
+
+    /**
+     * K-2 — API pembukaan deposito adalah EKSEKUSI KAS.
+     *
+     * Jalur web `teller.deposito.store` sengaja masih menerima manajer
+     * penyelia loket, tetapi API hanya untuk pemegang laci. Bila kelak
+     * `izin:kas.loket.eksekusi` melebar lagi ke `teller.loket`, rekening
+     * anggota akan terdebit oleh penyetuju — inilah yang dijaga test ini.
+     */
+    public function test_api_store_menolak_manajer_dan_tidak_mendebit_rekening_anggota(): void
+    {
+        $anggota = $this->anggota();
+        $produk = $this->produk(3, 60, 100000);
+        $sumber = $this->rekeningSukarela($anggota, 10000000);
+
+        $this->actingAs($this->penggunaManajer())->postJson('/api/deposito/store', [
+            'member_id' => $anggota->id,
+            'product_id' => $produk->id,
+            'source_saving_account_id' => $sumber->id,
+            'principal_amount' => 2500000,
+            'start_date' => '2026-02-10',
+            'is_aro' => false,
+        ])->assertForbidden();
+
+        $this->assertSame(10000000.0, (float) $sumber->fresh()->saldo,
+            'Manajer tidak boleh memindahkan dana anggota lewat API deposito.');
+        $this->assertSame(0, Deposito::where('member_id', $anggota->id)->count());
+    }
+
+    /** Jalur WEB tetap menerima manajer (penyelia loket) — lihat test di atas. */
+    public function test_web_store_tetap_menerima_manajer_dengan_sesi_kas(): void
+    {
+        $anggota = $this->anggota();
+        $produk = $this->produk(3, 60, 100000);
+        $this->rekeningSukarela($anggota, 10000000);
+
+        $manajer = $this->penggunaManajer();
+        $this->bukaSesiKas($manajer);
+
+        $respon = $this->actingAs($manajer)->post(route('teller.deposito.store'), [
+            'anggota_id' => $anggota->id,
+            'nominal' => 2500000,
+            'deposito_product_id' => $produk->id,
+        ]);
+
+        $this->assertNotSame(403, $respon->status(),
+            'Gerbang web `teller.loket` tidak boleh berubah oleh perbaikan K-2 (API saja).');
     }
 
     public function test_api_store_menolak_setoran_di_bawah_min_amount_dengan_pesan_jelas(): void

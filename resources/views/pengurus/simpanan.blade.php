@@ -150,7 +150,7 @@
                          style="position:absolute;left:0.625rem;top:50%;transform:translateY(-50%);pointer-events:none;">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input type="text" name="search" value="{{ $search }}" placeholder="No. Anggota atau nama…"
+                    <input type="text" name="search" value="{{ $search }}" aria-label="Cari no. anggota atau nama" placeholder="No. Anggota atau nama…"
                            style="width:100%;padding:0.5rem 0.75rem 0.5rem 2rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">

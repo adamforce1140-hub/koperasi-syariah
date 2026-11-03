@@ -158,7 +158,7 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label for="jumlah_pengajuan" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
                     Jumlah Pengajuan (Rp) <span style="color:#ef4444">*</span>
                 </label>
                 <input type="number" name="jumlah_pengajuan" id="jumlah_pengajuan"
@@ -168,7 +168,7 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label for="tenor" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
                     Tenor (bulan) <span style="color:#ef4444">*</span>
                 </label>
                 <input type="number" name="tenor" id="tenor"
@@ -178,16 +178,16 @@
             </div>
 
             <div style="grid-column:span 2;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label for="tujuan" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
                     Tujuan Pembiayaan
                 </label>
-                <input type="text" name="tujuan" value="{{ old('tujuan') }}"
+                <input type="text" name="tujuan" id="tujuan" value="{{ old('tujuan') }}"
                     placeholder="Contoh: Modal usaha, renovasi rumah, dll."
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div style="grid-column:span 2;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label for="agunan" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
                     Agunan / Jaminan
                 </label>
                 <input type="text" name="agunan" id="agunan" value="{{ old('agunan') }}"
@@ -196,26 +196,26 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Penghasilan Bulanan (Rp)</label>
-                <input type="number" name="penghasilan_bulanan" min="0" step="100000" value="{{ old('penghasilan_bulanan') }}"
+                <label for="penghasilan_bulanan" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Penghasilan Bulanan (Rp)</label>
+                <input type="number" name="penghasilan_bulanan" id="penghasilan_bulanan" min="0" step="100000" value="{{ old('penghasilan_bulanan') }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Pengeluaran Bulanan (Rp)</label>
-                <input type="number" name="pengeluaran_bulanan" min="0" step="100000" value="{{ old('pengeluaran_bulanan') }}"
+                <label for="pengeluaran_bulanan" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Pengeluaran Bulanan (Rp)</label>
+                <input type="number" name="pengeluaran_bulanan" id="pengeluaran_bulanan" min="0" step="100000" value="{{ old('pengeluaran_bulanan') }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Jumlah Tanggungan</label>
-                <input type="number" name="jumlah_tanggungan" min="0" value="{{ old('jumlah_tanggungan', 0) }}"
+                <label for="jumlah_tanggungan" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Jumlah Tanggungan</label>
+                <input type="number" name="jumlah_tanggungan" id="jumlah_tanggungan" min="0" value="{{ old('jumlah_tanggungan', 0) }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Berkas Survei / Agunan (PDF/Gambar)</label>
-                <input type="file" name="berkas_survei" accept=".pdf,.jpg,.jpeg,.png"
+                <label for="berkas_survei" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Berkas Survei / Agunan (PDF/Gambar)</label>
+                <input type="file" name="berkas_survei" id="berkas_survei" accept=".pdf,.jpg,.jpeg,.png"
                     style="width:100%;padding:.4rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
         </div>

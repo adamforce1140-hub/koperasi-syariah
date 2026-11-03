@@ -146,7 +146,7 @@
                             <td style="padding:0.4rem 0.6rem;">
                                 {{ $barisVerifikasi['nama'] }}
                                 @if($barisVerifikasi['kontra'])
-                                <span style="font-size:0.62rem;background:#fef3c7;color:#92400e;padding:0.05rem 0.4rem;border-radius:999px;font-weight:700;margin-left:0.25rem;">Kontra</span>
+                                <span style="font-size:0.7rem;background:#fef3c7;color:#92400e;padding:0.05rem 0.4rem;border-radius:999px;font-weight:700;margin-left:0.25rem;">Kontra</span>
                                 @endif
                             </td>
                             <td style="padding:0.4rem 0.6rem;text-align:center;">{{ $barisVerifikasi['posisi'] }}</td>
@@ -342,9 +342,9 @@
             <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
                 <span style="font-size:0.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Selisih</span>
                 @if(abs($selisih) < 0.01)
-                    <span style="background:#d1fae5;color:#065f46;font-size:0.68rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:999px;letter-spacing:0.05em;">BALANCED &#10003;</span>
+                    <span style="background:#d1fae5;color:#065f46;font-size:0.7rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:999px;letter-spacing:0.05em;">BALANCED &#10003;</span>
                 @else
-                    <span style="background:#dc2626;color:#fff;font-size:0.68rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:999px;letter-spacing:0.05em;">UNBALANCED &#9888;</span>
+                    <span style="background:#dc2626;color:#fff;font-size:0.7rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:999px;letter-spacing:0.05em;">UNBALANCED &#9888;</span>
                 @endif
             </div>
             <div style="font-size:1.25rem;font-weight:700;margin-top:0.35rem;color:{{ abs($selisih) < 0.01 ? '#065f46' : '#b91c1c' }};">
@@ -409,10 +409,10 @@
                         <td style="padding:0.65rem 1rem;color:#334155;">
                             {{ $coa->nama_akun }}
                             @if($coa->jurnal_detail_count > 0)
-                                <span style="font-size:0.68rem;color:#94a3b8;margin-left:0.35rem;">({{ $coa->jurnal_detail_count }} mutasi)</span>
+                                <span style="font-size:0.7rem;color:#94a3b8;margin-left:0.35rem;">({{ $coa->jurnal_detail_count }} mutasi)</span>
                             @endif
                             @if($coa->kode_akun === '3-9000')
-                                <span style="font-size:0.68rem;color:#7c3aed;background:#ede9fe;padding:0.1rem 0.45rem;border-radius:999px;margin-left:0.35rem;font-weight:700;">Laba Ditahan</span>
+                                <span style="font-size:0.7rem;color:#7c3aed;background:#ede9fe;padding:0.1rem 0.45rem;border-radius:999px;margin-left:0.35rem;font-weight:700;">Laba Ditahan</span>
                             @endif
                         </td>
                         <td style="padding:0.65rem 1rem;text-align:center;">
@@ -429,7 +429,7 @@
                             </span>
                             @if($akunKontra)
                             <span title="Akun kontra: berposisi {{ $posisiAkun }} (Kepala {{ substr($coa->kode_akun, 0, 1) }}) namun disajikan sebagai pengurang kelompoknya, sehingga bersaldo negatif dan mengurangi total {{ $coa->kategori }}."
-                                  style="display:inline-block;margin-left:0.25rem;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.65rem;font-weight:700;background:#fef3c7;color:#92400e;">
+                                  style="display:inline-block;margin-left:0.25rem;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.7rem;font-weight:700;background:#fef3c7;color:#92400e;">
                                 Kontra
                             </span>
                             @endif
@@ -466,7 +466,7 @@
                                 <span style="padding:0.15rem 0.6rem;border-radius:999px;font-size:0.7rem;font-weight:700;background:#f1f5f9;color:#475569;">
                                     {{ $coa->percentage_label }}
                                 </span>
-                                <div style="font-size:0.68rem;color:#94a3b8;margin-top:0.25rem;">Via SHU Tahunan</div>
+                                <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.25rem;">Via SHU Tahunan</div>
                             @else
                                 <span style="font-size:0.72rem;color:#cbd5e1;">&mdash;</span>
                             @endif
@@ -527,13 +527,13 @@
         <form action="{{ route('pengurus.coa.store') }}" method="POST" style="display:flex;flex-direction:column;gap:0.875rem;">
             @csrf
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Kode Akun *</label>
-                <input type="text" name="kode_akun" required placeholder="cth: 1-1003" maxlength="20"
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="kode_akun">Kode Akun *</label>
+                <input id="kode_akun" type="text" name="kode_akun" required placeholder="cth: 1-1003" maxlength="20"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;font-family:monospace;box-sizing:border-box;">
             </div>
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Nama Akun *</label>
-                <input type="text" name="nama_akun" required placeholder="cth: Kas Kecil Operasional" maxlength="150"
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="nama_akun">Nama Akun *</label>
+                <input id="nama_akun" type="text" name="nama_akun" required placeholder="cth: Kas Kecil Operasional" maxlength="150"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
@@ -569,8 +569,8 @@
                 <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.2rem;">Menentukan sub-kelompok penyajian pada Laporan Neraca. Pilihan mengikuti Kategori.</div>
             </div>
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Saldo Awal (Rp)</label>
-                <input type="number" name="saldo_awal" min="0" step="0.01" value="0"
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="saldo_awal">Saldo Awal (Rp)</label>
+                <input id="saldo_awal" type="number" name="saldo_awal" min="0" step="0.01" value="0"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">
                 <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.2rem;">Isi sesuai saldo neraca pembukaan. Saldo Berjalan = Saldo Awal ± Mutasi Jurnal.</div>
             </div>
@@ -592,12 +592,12 @@
             @csrf
             @method('PUT')
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Kode Akun *</label>
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="editKode">Kode Akun *</label>
                 <input type="text" name="kode_akun" id="editKode" required maxlength="20"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;font-family:monospace;box-sizing:border-box;">
             </div>
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Nama Akun *</label>
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="editNama">Nama Akun *</label>
                 <input type="text" name="nama_akun" id="editNama" required maxlength="150"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">
             </div>
@@ -634,7 +634,7 @@
                 <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.2rem;">Sub-kelompok penyajian pada Laporan Neraca. Pilihan mengikuti Kategori.</div>
             </div>
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Saldo Awal (Rp)</label>
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="editSaldoAwal">Saldo Awal (Rp)</label>
                 <input type="number" name="saldo_awal" id="editSaldoAwal" min="0" step="0.01"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">
                 <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.2rem;">Ubah saldo awal → Saldo Berjalan otomatis terhitung ulang.</div>
@@ -663,8 +663,8 @@
         <form action="{{ route('pengurus.coa.close-fiscal-year') }}" method="POST" style="display:flex;flex-direction:column;gap:0.875rem;">
             @csrf
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Tahun Buku yang Ditutup *</label>
-                <input type="number" name="tahun_buku" required min="2000" max="2100"
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;" for="tahun_buku">Tahun Buku yang Ditutup *</label>
+                <input id="tahun_buku" type="number" name="tahun_buku" required min="2000" max="2100"
                        value="{{ date('Y') - 1 }}"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #fca5a5;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">
             </div>

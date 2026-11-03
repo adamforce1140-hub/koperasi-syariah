@@ -29,7 +29,7 @@
                          style="position:absolute;left:0.625rem;top:50%;transform:translateY(-50%);pointer-events:none;">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input type="text" name="q" value="{{ $q }}"
+                    <input type="text" name="q" value="{{ $q }}" aria-label="Cari nama, NIK, nomor anggota, atau CIF"
                            placeholder="Nama, NIK, No Anggota, atau No CIF…"
                            autofocus
                            style="width:100%;padding:0.5rem 0.75rem 0.5rem 2rem;border:1px solid #cbd5e1;

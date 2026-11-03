@@ -136,7 +136,7 @@
                     $maksPembukaan = (float) ($batasPembukaan['maksimum'] ?? 50000000);
                 @endphp
                 <div style="display:flex;gap:0.5rem;">
-                    <input type="number" name="nominal_simpanan_awal"
+                    <input type="number" name="nominal_simpanan_awal" aria-label="Nominal simpanan awal (Rp)"
                            min="{{ $minPembukaan }}" max="{{ $maksPembukaan }}" step="1000"
                            placeholder="Contoh: {{ (int) $minPembukaan }}"
                            style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
@@ -164,7 +164,7 @@
                     Alasan Penolakan
                 </label>
                 <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-                    <textarea name="alasan_tolak" rows="2" placeholder="Jelaskan alasan penolakan..."
+                    <textarea name="alasan_tolak" rows="2" aria-label="Alasan penolakan" placeholder="Jelaskan alasan penolakan..."
                               style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
                                      border-radius:8px;padding:0.6rem;color:white;font-size:0.9rem;resize:vertical;"
                               required></textarea>
@@ -222,7 +222,7 @@
                   style="margin-top:0.5rem;">
                 @csrf
                 <div style="display:flex;gap:0.5rem;align-items:flex-start;">
-                    <input type="text" name="catatan" placeholder="Alasan penolakan pembayaran..."
+                    <input type="text" name="catatan" aria-label="Alasan penolakan pembayaran" placeholder="Alasan penolakan pembayaran..."
                            style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
                                   border-radius:8px;padding:0.6rem;color:white;font-size:0.85rem;" required />
                     <button type="submit"

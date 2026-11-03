@@ -60,35 +60,35 @@
                 {{-- Kiri --}}
                 <div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nik">
                             NIK <span style="color:#dc2626;">*</span>
                         </label>
-                        <input type="text" name="nik" value="{{ old('nik') }}" maxlength="16" placeholder="16 digit NIK"
+                        <input id="nik" type="text" name="nik" value="{{ old('nik') }}" maxlength="16" placeholder="16 digit NIK"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid {{ $errors->has('nik') ? '#fca5a5' : '#cbd5e1' }};
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                         @error('nik')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nama_lengkap">
                             Nama Lengkap <span style="color:#dc2626;">*</span>
                         </label>
-                        <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" placeholder="Nama sesuai KTP"
+                        <input id="nama_lengkap" type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" placeholder="Nama sesuai KTP"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid {{ $errors->has('nama_lengkap') ? '#fca5a5' : '#cbd5e1' }};
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                         @error('nama_lengkap')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Tempat Lahir</label>
-                        <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir') }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tempat_lahir">Tempat Lahir</label>
+                        <input id="tempat_lahir" type="text" name="tempat_lahir" value="{{ old('tempat_lahir') }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tanggal_lahir">Tanggal Lahir</label>
+                        <input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -124,32 +124,32 @@
                 {{-- Kanan --}}
                 <div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="no_hp">
                             No HP <span style="color:#dc2626;">*</span>
                         </label>
-                        <input type="text" name="no_hp" value="{{ old('no_hp') }}" placeholder="08xxxxxxxxxx"
+                        <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp') }}" placeholder="08xxxxxxxxxx"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid {{ $errors->has('no_hp') ? '#fca5a5' : '#cbd5e1' }};
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                         @error('no_hp')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Pekerjaan</label>
-                        <input type="text" name="pekerjaan" value="{{ old('pekerjaan') }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pekerjaan">Pekerjaan</label>
+                        <input id="pekerjaan" type="text" name="pekerjaan" value="{{ old('pekerjaan') }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="email">Email</label>
+                        <input id="email" type="email" name="email" value="{{ old('email') }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Nama Ibu Kandung</label>
-                        <input type="text" name="nama_ibu_kandung" value="{{ old('nama_ibu_kandung') }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nama_ibu_kandung">Nama Ibu Kandung</label>
+                        <input id="nama_ibu_kandung" type="text" name="nama_ibu_kandung" value="{{ old('nama_ibu_kandung') }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -213,10 +213,10 @@
                 Alamat
             </div>
             <div style="margin-bottom:0.875rem;">
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="alamat">
                     Alamat <span style="color:#dc2626;">*</span>
                 </label>
-                <input type="text" name="alamat" value="{{ old('alamat') }}" placeholder="Jl. nama jalan, nomor"
+                <input id="alamat" type="text" name="alamat" value="{{ old('alamat') }}" placeholder="Jl. nama jalan, nomor"
                        style="width:100%;padding:0.5rem 0.75rem;border:1px solid {{ $errors->has('alamat') ? '#fca5a5' : '#cbd5e1' }};
                               border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                        onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -224,22 +224,22 @@
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:0.875rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">RT/RW</label>
-                    <input type="text" name="rt_rw" value="{{ old('rt_rw') }}" placeholder="001/002"
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="rt_rw">RT/RW</label>
+                    <input id="rt_rw" type="text" name="rt_rw" value="{{ old('rt_rw') }}" placeholder="001/002"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kelurahan</label>
-                    <input type="text" name="kelurahan" value="{{ old('kelurahan') }}"
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kelurahan">Kelurahan</label>
+                    <input id="kelurahan" type="text" name="kelurahan" value="{{ old('kelurahan') }}"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kecamatan</label>
-                    <input type="text" name="kecamatan" value="{{ old('kecamatan') }}"
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kecamatan">Kecamatan</label>
+                    <input id="kecamatan" type="text" name="kecamatan" value="{{ old('kecamatan') }}"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -247,28 +247,28 @@
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kota">
                         Kota <span style="color:#dc2626;">*</span>
                     </label>
-                    <input type="text" name="kota" value="{{ old('kota') }}"
+                    <input id="kota" type="text" name="kota" value="{{ old('kota') }}"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid {{ $errors->has('kota') ? '#fca5a5' : '#cbd5e1' }};
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     @error('kota')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="provinsi">
                         Provinsi <span style="color:#dc2626;">*</span>
                     </label>
-                    <input type="text" name="provinsi" value="{{ old('provinsi') }}"
+                    <input id="provinsi" type="text" name="provinsi" value="{{ old('provinsi') }}"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid {{ $errors->has('provinsi') ? '#fca5a5' : '#cbd5e1' }};
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     @error('provinsi')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kode Pos</label>
-                    <input type="text" name="kode_pos" value="{{ old('kode_pos') }}"
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kode_pos">Kode Pos</label>
+                    <input id="kode_pos" type="text" name="kode_pos" value="{{ old('kode_pos') }}"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -295,7 +295,7 @@
                     </label>
                     <div style="position:relative;">
                         <span style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);font-size:0.825rem;color:#64748b;font-weight:600;">Rp</span>
-                        <input type="number" name="setoran_pertama" value="{{ old('setoran_pertama', $minimumSetoranAwal) }}"
+                        <input type="number" name="setoran_pertama" aria-label="Jumlah setoran pertama" value="{{ old('setoran_pertama', $minimumSetoranAwal) }}"
                                min="{{ $minimumSetoranAwal }}" step="1000"
                                style="width:100%;padding:0.5rem 0.75rem 0.5rem 2.5rem;border:1px solid {{ $errors->has('setoran_pertama') ? '#fca5a5' : '#cbd5e1' }};
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
@@ -346,10 +346,10 @@
                     @error('pep_status')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pep_keterangan">
                         Keterangan PEP / Jabatan Publik
                     </label>
-                    <input type="text" name="pep_keterangan" value="{{ old('pep_keterangan') }}" placeholder="Nama jabatan/instansi (bila PEP)"
+                    <input id="pep_keterangan" type="text" name="pep_keterangan" value="{{ old('pep_keterangan') }}" placeholder="Nama jabatan/instansi (bila PEP)"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -358,19 +358,19 @@
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.875rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pemilik_manfaat_nama">
                         Nama Pemilik Manfaat
                     </label>
-                    <input type="text" name="pemilik_manfaat_nama" value="{{ old('pemilik_manfaat_nama') }}" placeholder="Nama lengkap pemilik manfaat (opsional)"
+                    <input id="pemilik_manfaat_nama" type="text" name="pemilik_manfaat_nama" value="{{ old('pemilik_manfaat_nama') }}" placeholder="Nama lengkap pemilik manfaat (opsional)"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pemilik_manfaat_hubungan">
                         Hubungan Pemilik Manfaat
                     </label>
-                    <input type="text" name="pemilik_manfaat_hubungan" value="{{ old('pemilik_manfaat_hubungan') }}" placeholder="cth: Pemilik perusahaan, Keluarga"
+                    <input id="pemilik_manfaat_hubungan" type="text" name="pemilik_manfaat_hubungan" value="{{ old('pemilik_manfaat_hubungan') }}" placeholder="cth: Pemilik perusahaan, Keluarga"
                            style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -378,10 +378,10 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pemilik_manfaat_keterangan">
                     Keterangan Pemilik Manfaat
                 </label>
-                <textarea name="pemilik_manfaat_keterangan" rows="2" placeholder="Penjelasan tambahan (opsional)"
+                <textarea id="pemilik_manfaat_keterangan" name="pemilik_manfaat_keterangan" rows="2" placeholder="Penjelasan tambahan (opsional)"
                           style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                                  border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;
                                  resize:vertical;box-sizing:border-box;"
@@ -396,7 +396,7 @@
                         padding-bottom:0.625rem;border-bottom:1px solid #f1f5f9;">
                 Keterangan
             </div>
-            <textarea name="keterangan" rows="3" placeholder="Catatan tambahan (opsional)"
+            <textarea name="keterangan" rows="3" aria-label="Keterangan" placeholder="Catatan tambahan (opsional)"
                       style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                              border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;
                              resize:vertical;box-sizing:border-box;"

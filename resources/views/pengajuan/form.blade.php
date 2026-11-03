@@ -186,7 +186,7 @@
         {{-- Seksi 4: Upload Dokumen --}}
         <div class="form-card">
             <h3 class="form-section-title">Upload Dokumen</h3>
-                    <input type="file" id="foto_ktp" name="foto_ktp" accept="image/*" required />
+                    <input type="file" id="foto_ktp" name="foto_ktp" aria-label="Foto KTP" aria-describedby="petunjuk_foto_ktp" accept="image/*" required />
                     <small id="petunjuk_foto_ktp" style="color:#64748b;">Format: JPG/PNG, maks. 5MB</small>
                 </div>
                 <div class="form-group">

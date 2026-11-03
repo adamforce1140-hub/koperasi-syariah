@@ -59,28 +59,28 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
                 <div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">NIK <span style="color:#dc2626;">*</span></label>
-                        <input type="text" name="nik" value="{{ old('nik', $anggota->nik) }}" maxlength="16"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nik">NIK <span style="color:#dc2626;">*</span></label>
+                        <input id="nik" type="text" name="nik" value="{{ old('nik', $anggota->nik) }}" maxlength="16"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                         @error('nik')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Nama Lengkap <span style="color:#dc2626;">*</span></label>
-                        <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $anggota->nama_lengkap) }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nama_lengkap">Nama Lengkap <span style="color:#dc2626;">*</span></label>
+                        <input id="nama_lengkap" type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $anggota->nama_lengkap) }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                         @error('nama_lengkap')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Tempat Lahir</label>
-                        <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir', $anggota->tempat_lahir) }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tempat_lahir">Tempat Lahir</label>
+                        <input id="tempat_lahir" type="text" name="tempat_lahir" value="{{ old('tempat_lahir', $anggota->tempat_lahir) }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $anggota->tanggal_lahir ? $anggota->tanggal_lahir->format('Y-m-d') : '') }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tanggal_lahir">Tanggal Lahir</label>
+                        <input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $anggota->tanggal_lahir ? $anggota->tanggal_lahir->format('Y-m-d') : '') }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
@@ -105,27 +105,27 @@
                 </div>
                 <div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">No HP <span style="color:#dc2626;">*</span></label>
-                        <input type="text" name="no_hp" value="{{ old('no_hp', $anggota->no_hp) }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="no_hp">No HP <span style="color:#dc2626;">*</span></label>
+                        <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp', $anggota->no_hp) }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                         @error('no_hp')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Pekerjaan</label>
-                        <input type="text" name="pekerjaan" value="{{ old('pekerjaan', $anggota->pekerjaan) }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pekerjaan">Pekerjaan</label>
+                        <input id="pekerjaan" type="text" name="pekerjaan" value="{{ old('pekerjaan', $anggota->pekerjaan) }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Email</label>
-                        <input type="email" name="email" value="{{ old('email', $anggota->email) }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="email">Email</label>
+                        <input id="email" type="email" name="email" value="{{ old('email', $anggota->email) }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
                     <div style="margin-bottom:0.875rem;">
-                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Nama Ibu Kandung</label>
-                        <input type="text" name="nama_ibu_kandung" value="{{ old('nama_ibu_kandung', $anggota->nama_ibu_kandung) }}"
+                        <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nama_ibu_kandung">Nama Ibu Kandung</label>
+                        <input id="nama_ibu_kandung" type="text" name="nama_ibu_kandung" value="{{ old('nama_ibu_kandung', $anggota->nama_ibu_kandung) }}"
                                style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     </div>
@@ -187,47 +187,47 @@
         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:0.875rem;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:1rem;">
             <div style="font-size:0.85rem;font-weight:700;color:#1e293b;margin-bottom:1rem;padding-bottom:0.625rem;border-bottom:1px solid #f1f5f9;">Alamat</div>
             <div style="margin-bottom:0.875rem;">
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Alamat <span style="color:#dc2626;">*</span></label>
-                <input type="text" name="alamat" value="{{ old('alamat', $anggota->alamat) }}"
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="alamat">Alamat <span style="color:#dc2626;">*</span></label>
+                <input id="alamat" type="text" name="alamat" value="{{ old('alamat', $anggota->alamat) }}"
                        style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                        onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 @error('alamat')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:0.875rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">RT/RW</label>
-                    <input type="text" name="rt_rw" value="{{ old('rt_rw', $anggota->rt_rw) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="rt_rw">RT/RW</label>
+                    <input id="rt_rw" type="text" name="rt_rw" value="{{ old('rt_rw', $anggota->rt_rw) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kelurahan</label>
-                    <input type="text" name="kelurahan" value="{{ old('kelurahan', $anggota->kelurahan) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kelurahan">Kelurahan</label>
+                    <input id="kelurahan" type="text" name="kelurahan" value="{{ old('kelurahan', $anggota->kelurahan) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kecamatan</label>
-                    <input type="text" name="kecamatan" value="{{ old('kecamatan', $anggota->kecamatan) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kecamatan">Kecamatan</label>
+                    <input id="kecamatan" type="text" name="kecamatan" value="{{ old('kecamatan', $anggota->kecamatan) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kota <span style="color:#dc2626;">*</span></label>
-                    <input type="text" name="kota" value="{{ old('kota', $anggota->kota) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kota">Kota <span style="color:#dc2626;">*</span></label>
+                    <input id="kota" type="text" name="kota" value="{{ old('kota', $anggota->kota) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     @error('kota')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Provinsi <span style="color:#dc2626;">*</span></label>
-                    <input type="text" name="provinsi" value="{{ old('provinsi', $anggota->provinsi) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="provinsi">Provinsi <span style="color:#dc2626;">*</span></label>
+                    <input id="provinsi" type="text" name="provinsi" value="{{ old('provinsi', $anggota->provinsi) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                     @error('provinsi')<div style="font-size:0.75rem;color:#dc2626;margin-top:0.25rem;">{{ $message }}</div>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">Kode Pos</label>
-                    <input type="text" name="kode_pos" value="{{ old('kode_pos', $anggota->kode_pos) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
+                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kode_pos">Kode Pos</label>
+                    <input id="kode_pos" type="text" name="kode_pos" value="{{ old('kode_pos', $anggota->kode_pos) }}" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>
             </div>
         </div>
 
         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:0.875rem;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:1.25rem;">
             <div style="font-size:0.85rem;font-weight:700;color:#1e293b;margin-bottom:1rem;padding-bottom:0.625rem;border-bottom:1px solid #f1f5f9;">Keterangan</div>
-            <textarea name="keterangan" rows="3" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;resize:vertical;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">{{ old('keterangan', $anggota->keterangan) }}</textarea>
+            <textarea name="keterangan" rows="3" aria-label="Keterangan" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;resize:vertical;box-sizing:border-box;" onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">{{ old('keterangan', $anggota->keterangan) }}</textarea>
         </div>
 
         <div style="display:flex;gap:0.75rem;">

@@ -254,7 +254,7 @@
                 <div style="margin-top:1rem;padding:1rem;background:linear-gradient(135deg,#1e1b4b,#3730a3);border-radius:9px;color:#fff;">
                     <div style="font-size:0.75rem;opacity:0.85;">SALDO KAS SISTEM</div>
                     <div style="font-size:1.5rem;font-weight:700;margin-top:0.2rem;">Rp {{ $fmt($saldoSistem) }}</div>
-                    <div style="font-size:0.68rem;opacity:0.7;margin-top:0.3rem;">
+                    <div style="font-size:0.7rem;opacity:0.7;margin-top:0.3rem;">
                         Kas Awal + Total Cash In − Total Cash Out
                     </div>
                 </div>
@@ -308,6 +308,7 @@
                     <input type="number"
                            name="rincian_pecahan[{{ $pecahan }}]"
                            id="pecahan_{{ $pecahan }}"
+                           aria-label="Jumlah lembar pecahan Rp {{ $fmt($pecahan) }}"
                            data-pecahan="{{ $pecahan }}"
                            class="input-pecahan"
                            min="0" step="1" value="{{ old('rincian_pecahan.' . $pecahan, 0) }}"

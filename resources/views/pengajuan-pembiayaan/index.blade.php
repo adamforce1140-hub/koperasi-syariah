@@ -94,7 +94,7 @@
         {{-- 3. Nominal & Tenor --}}
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;margin-bottom:1rem;">
             <div>
-                <label class="form-label">Nominal Pengajuan (Rp) <span style="color:#ef4444">*</span></label>
+                <label class="form-label" for="jumlah_pembiayaan">Nominal Pengajuan (Rp) <span style="color:#ef4444">*</span></label>
                 <input type="number" name="jumlah_pembiayaan" id="jumlah_pembiayaan"
                     value="{{ old('jumlah_pembiayaan') }}" min="{{ \App\Support\Setting::minimalPengajuanPembiayaan() }}" step="1000" required
                     placeholder="Contoh: 5000000"
@@ -102,7 +102,7 @@
                     oninput="hitungSimulasi()">
             </div>
             <div>
-                <label class="form-label">Tenor (Bulan) <span style="color:#ef4444">*</span></label>
+                <label class="form-label" for="tenor">Tenor (Bulan) <span style="color:#ef4444">*</span></label>
                 <input type="number" name="tenor" id="tenor"
                     value="{{ old('tenor') }}" min="1" max="360" required
                     placeholder="Contoh: 12"
@@ -113,7 +113,7 @@
 
         {{-- 4. Margin / Nisbah --}}
         <div id="wrap-margin-nisbah" style="margin-bottom:1rem;">
-            <label class="form-label">Margin / Nisbah (% per tahun) <span style="color:#ef4444">*</span></label>
+            <label class="form-label" for="margin_nisbah">Margin / Nisbah (% per tahun) <span style="color:#ef4444">*</span></label>
             <input type="number" name="margin_nisbah" id="margin_nisbah"
                 value="{{ old('margin_nisbah', 12) }}" min="0" max="100" step="0.01" required
                 style="width:100%;padding:.55rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.88rem;"
@@ -133,8 +133,8 @@
 
         {{-- 5. Tujuan --}}
         <div style="margin-bottom:1rem;">
-            <label class="form-label">Tujuan Pembiayaan <span style="color:#ef4444">*</span></label>
-            <input type="text" name="tujuan_pembiayaan" value="{{ old('tujuan_pembiayaan') }}" required
+            <label class="form-label" for="tujuan_pembiayaan">Tujuan Pembiayaan <span style="color:#ef4444">*</span></label>
+            <input id="tujuan_pembiayaan" type="text" name="tujuan_pembiayaan" value="{{ old('tujuan_pembiayaan') }}" required
                 placeholder="Contoh: Modal usaha perdagangan sembako"
                 style="width:100%;padding:.55rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.88rem;">
         </div>
@@ -170,8 +170,8 @@
 
         {{-- 8. Keterangan --}}
         <div style="margin-bottom:1.2rem;">
-            <label class="form-label">Keterangan Tambahan</label>
-            <textarea name="keterangan" rows="2"
+            <label class="form-label" for="keterangan">Keterangan Tambahan</label>
+            <textarea id="keterangan" name="keterangan" rows="2"
                 placeholder="Catatan agunan, kondisi usaha, dll."
                 style="width:100%;padding:.55rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.88rem;resize:vertical;">{{ old('keterangan') }}</textarea>
         </div>
@@ -191,7 +191,7 @@
     <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
         <span class="card-title">Daftar Pengajuan</span>
         <form method="GET" action="{{ route('pengajuan-pembiayaan.index') }}" style="display:flex;gap:.5rem;">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari no/nama..."
+            <input type="text" name="search" value="{{ request('search') }}" aria-label="Cari nomor atau nama pengajuan" placeholder="Cari no/nama..."
                 style="padding:.4rem .7rem;border:1px solid #d1d5db;border-radius:6px;font-size:.83rem;width:160px;">
             <select name="status" style="padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.83rem;">
                 <option value="">Semua Status</option>

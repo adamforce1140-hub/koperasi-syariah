@@ -46,8 +46,8 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             {{-- Judul --}}
             <div style="display:flex;flex-direction:column;gap:0.35rem;">
-                <label style="font-size:0.82rem;font-weight:600;color:#374151;">Judul Opini / Catatan <span style="color:#dc2626;">*</span></label>
-                <input type="text" name="judul" placeholder="cth. Temuan Akad Murabahah Q3 2025"
+                <label style="font-size:0.82rem;font-weight:600;color:#374151;" for="judul">Judul Opini / Catatan <span style="color:#dc2626;">*</span></label>
+                <input id="judul" type="text" name="judul" placeholder="cth. Temuan Akad Murabahah Q3 2025"
                        style="padding:0.5rem 0.75rem;border:1px solid #d1d5db;border-radius:0.375rem;font-size:0.875rem;width:100%;box-sizing:border-box;" required>
             </div>
 
@@ -68,8 +68,8 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             {{-- Periode --}}
             <div style="display:flex;flex-direction:column;gap:0.35rem;">
-                <label style="font-size:0.82rem;font-weight:600;color:#374151;">Periode</label>
-                <input type="month" name="periode" value="{{ now()->format('Y-m') }}"
+                <label style="font-size:0.82rem;font-weight:600;color:#374151;" for="periode">Periode</label>
+                <input id="periode" type="month" name="periode" value="{{ now()->format('Y-m') }}"
                        style="padding:0.5rem 0.75rem;border:1px solid #d1d5db;border-radius:0.375rem;font-size:0.875rem;width:100%;box-sizing:border-box;">
             </div>
 
@@ -88,8 +88,8 @@
 
         {{-- Isi Catatan --}}
         <div style="display:flex;flex-direction:column;gap:0.35rem;">
-            <label style="font-size:0.82rem;font-weight:600;color:#374151;">Isi Opini / Catatan <span style="color:#dc2626;">*</span></label>
-            <textarea name="isi" rows="5" placeholder="Tuliskan temuan, analisis, dan rekomendasi DPS..."
+            <label style="font-size:0.82rem;font-weight:600;color:#374151;" for="isi">Isi Opini / Catatan <span style="color:#dc2626;">*</span></label>
+            <textarea id="isi" name="isi" rows="5" placeholder="Tuliskan temuan, analisis, dan rekomendasi DPS..."
                       style="padding:0.5rem 0.75rem;border:1px solid #d1d5db;border-radius:0.375rem;font-size:0.875rem;width:100%;box-sizing:border-box;resize:vertical;" required></textarea>
         </div>
 

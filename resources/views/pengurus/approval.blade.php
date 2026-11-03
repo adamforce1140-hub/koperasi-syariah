@@ -44,7 +44,7 @@
     {{-- ── FILTER ───────────────────────────────────────── --}}
     <form method="GET" action="{{ route('pengurus.approval.index') }}"
           style="display:flex;gap:0.625rem;flex-wrap:wrap;align-items:flex-end;">
-        <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama / no. anggota…"
+        <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama / no. anggota" placeholder="Cari nama / no. anggota…"
                style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;"
                onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">

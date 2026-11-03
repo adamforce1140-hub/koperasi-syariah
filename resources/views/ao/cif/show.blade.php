@@ -400,7 +400,7 @@
                 $maksPembukaan = (float) ($batasPembukaan['maksimum'] ?? 50000000);
             @endphp
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="inp-setoran">
                     <span id="label-setoran">Setoran Awal (Rp)</span> <span style="color:#dc2626;">*</span>
                 </label>
                 <input type="number" name="setoran_awal" id="inp-setoran"
@@ -497,7 +497,7 @@
                  Dikosongkan secara default: pengisian oleh penggunalah yang
                  memicu perhitungan jatuh tempo otomatis. --}}
             <div id="wrap-tanggal-akad" style="display:none;">
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="inp-tanggal-akad">
                     Tanggal Akad <span style="color:#dc2626;">*</span>
                 </label>
                 <input type="date" name="tanggal_akad" id="inp-tanggal-akad" required

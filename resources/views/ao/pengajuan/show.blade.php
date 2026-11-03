@@ -115,14 +115,14 @@
             <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem;">
                 <form method="POST" action="{{ route('ao.pengajuan.approve', $item->id) }}">
                     @csrf
-                    <textarea name="catatan_ao" rows="3" placeholder="Catatan (opsional)..."
+                    <textarea name="catatan_ao" rows="3" placeholder="Catatan (opsional)..." aria-label="Catatan AO"
                         style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;margin-bottom:.6rem;"></textarea>
                     <button type="submit" class="btn btn-primary" style="width:100%;">Teruskan ke Manajer</button>
                 </form>
 
                 <form method="POST" action="{{ route('ao.pengajuan.reject', $item->id) }}">
                     @csrf
-                    <textarea name="catatan_tolak" rows="3" placeholder="Alasan penolakan..." required
+                    <textarea name="catatan_tolak" rows="3" placeholder="Alasan penolakan..." required aria-label="Alasan penolakan"
                         style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;margin-bottom:.6rem;"></textarea>
                     <button type="submit" class="btn btn-danger" style="width:100%;"
                         onclick="return confirm('Tolak pengajuan ini?')">Tolak Pengajuan</button>

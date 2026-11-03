@@ -46,7 +46,7 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.75rem;">
             <div>
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">
+                <label for="{{ $prefix }}PctMember" style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">
                     <span id="{{ $prefix }}LabelAnggota">Nisbah Anggota</span> (%)
                 </label>
                 <input type="number" name="default_percentage_member" id="{{ $prefix }}PctMember"
@@ -54,7 +54,7 @@
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">
             </div>
             <div id="{{ $prefix }}WrapInstitusi">
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Nisbah Koperasi (%)</label>
+                <label for="{{ $prefix }}PctInstitution" style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:0.3rem;">Nisbah Koperasi (%)</label>
                 <input type="number" name="default_percentage_institution" id="{{ $prefix }}PctInstitution"
                        min="0" max="100" step="0.01" value="{{ $institusi }}"
                        style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;box-sizing:border-box;">

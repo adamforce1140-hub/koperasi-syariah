@@ -61,7 +61,7 @@
                     <option value="APPROVED"        {{ $status === 'APPROVED'        ? 'selected' : '' }}>Disetujui</option>
                     <option value="REJECTED"        {{ $status === 'REJECTED'        ? 'selected' : '' }}>Ditolak</option>
                 </select>
-                <input type="text" name="search" value="{{ $search }}"
+                <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama / no. anggota / bilyet"
                     placeholder="Cari nama / no. anggota / bilyet..."
                     style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:240px;">
                 <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Filter</button>
@@ -163,10 +163,10 @@
                     <input type="radio" name="rekomendasi_ao" value="TOLAK" required> TOLAK
                 </label>
             </div>
-            <label style="display:block;font-weight:600;margin-bottom:.35rem;font-size:.9rem;">
+            <label for="catatan_ao" style="display:block;font-weight:600;margin-bottom:.35rem;font-size:.9rem;">
                 Catatan Analisis AO <span style="color:#dc2626;">*</span>
             </label>
-            <textarea name="catatan_ao" rows="3" required
+            <textarea name="catatan_ao" id="catatan_ao" rows="3" required
                 style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"
                 placeholder="Hasil verifikasi lapangan & pertimbangan..."></textarea>
             <div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;">

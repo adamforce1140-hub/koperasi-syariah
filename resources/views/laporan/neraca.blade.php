@@ -28,7 +28,7 @@
             <p class="text-muted mb-0 small">
                 Per {{ $tanggalFilter->translatedFormat('d F Y') }} &mdash; Standar PSAK 101
                 @if($mode === 'akhir_bulan')
-                    <span class="badge bg-secondary ms-1" style="font-size:.68rem;">Akhir Bulan</span>
+                    <span class="badge bg-secondary ms-1" style="font-size:0.7rem;">Akhir Bulan</span>
                 @endif
             </p>
         </div>

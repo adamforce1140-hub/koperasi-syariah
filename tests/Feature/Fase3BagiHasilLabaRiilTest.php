@@ -46,6 +46,26 @@ class Fase3BagiHasilLabaRiilTest extends TestCase
      | FIXTURE
      |===================================================================== */
 
+    /**
+     * Memastikan periode uji hanya berisi deposito buatan test ini.
+     *
+     * `bagiHasilPeriode()` membagikan ke SELURUH deposito ACTIVE di basis data
+     * (perilaku produksi yang benar). Pada basis data uji yang berisi data demo,
+     * deposito lain ikut terhitung sehingga angka `dibagikan` melenceng. Test
+     * ini mengunci prasyaratnya: hapus jejak bagi hasil periode tersebut dan
+     * nonaktifkan deposito lain — semuanya di-rollback DatabaseTransactions.
+     */
+    private function siapkanPeriodeBersih(int $tahun, int $bulan): void
+    {
+        DepositoProfitSharing::query()
+            ->where('period_year', $tahun)->where('period_month', $bulan)
+            ->delete();
+
+        Deposito::query()
+            ->where('status', Deposito::STATUS_ACTIVE)
+            ->update(['status' => Deposito::STATUS_CLOSED]);
+    }
+
     private function pengurus(): User
     {
         return User::firstOrCreate(
@@ -154,6 +174,8 @@ class Fase3BagiHasilLabaRiilTest extends TestCase
         // Pool pendapatan investasi riil periode yang akan dibagikan.
         $pendapatan = 12000000.0;
 
+        $this->siapkanPeriodeBersih(2026, 5);
+
         // Dua deposito: pokok 30jt dan 10jt → bobot 75% : 25%.
         $besar = $this->deposito(30000000, 60.00, 'BESAR');
         $kecil = $this->deposito(10000000, 50.00, 'KECIL');
@@ -224,6 +246,8 @@ class Fase3BagiHasilLabaRiilTest extends TestCase
 
     public function test_bagi_hasil_periode_idempoten_tidak_membentuk_jurnal_ganda(): void
     {
+        $this->siapkanPeriodeBersih(2026, 6);
+
         $deposito = $this->deposito(20000000, 60.00, 'IDEM');
 
         $pertama = app(DepositoService::class)->bagiHasilPeriode(2026, 6, 5000000, $this->pengurus()->id);

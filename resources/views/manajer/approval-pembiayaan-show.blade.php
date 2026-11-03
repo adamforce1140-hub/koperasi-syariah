@@ -80,7 +80,7 @@
                     {{ $idx < $currentIdx ? 'background:#10b981;color:#fff;' : ($idx === $currentIdx ? 'background:#f59e0b;color:#fff;' : 'background:#e2e8f0;color:#94a3b8;') }}">
             {{ $idx < $currentIdx ? '✓' : ($idx + 1) }}
         </div>
-        <span style="font-size:0.68rem;color:{{ $idx <= $currentIdx ? '#1e293b' : '#94a3b8' }};font-weight:{{ $idx === $currentIdx ? '700' : '500' }};">
+        <span style="font-size:0.7rem;color:{{ $idx <= $currentIdx ? '#1e293b' : '#94a3b8' }};font-weight:{{ $idx === $currentIdx ? '700' : '500' }};">
             {{ $label }}
         </span>
     </div>
@@ -258,10 +258,10 @@
         <form action="{{ route('manajer.approval-pembiayaan.reject', $item->id) }}" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">
+                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;" for="catatan_tolak">
                     Alasan Penolakan <span style="color:#dc2626;">*</span>
                 </label>
-                <textarea name="catatan_tolak" rows="4" required placeholder="Tuliskan alasan penolakan..."
+                <textarea id="catatan_tolak" name="catatan_tolak" rows="4" required placeholder="Tuliskan alasan penolakan..."
                     style="width:100%;padding:0.65rem 0.85rem;border:1px solid #d1d5db;border-radius:0.5rem;
                            font-size:0.875rem;resize:vertical;box-sizing:border-box;"></textarea>
             </div>
@@ -287,10 +287,10 @@
         <form action="{{ route('manajer.approval-pembiayaan.revisi', $item->id) }}" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">
+                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;" for="catatan_revisi">
                     Catatan Revisi / Dokumen Tambahan <span style="color:#dc2626;">*</span>
                 </label>
-                <textarea name="catatan_revisi" rows="4" required placeholder="Jelaskan hal yang perlu diperbaiki atau ditambah oleh AO..."
+                <textarea id="catatan_revisi" name="catatan_revisi" rows="4" required placeholder="Jelaskan hal yang perlu diperbaiki atau ditambah oleh AO..."
                     style="width:100%;padding:0.65rem 0.85rem;border:1px solid #d1d5db;border-radius:0.5rem;
                            font-size:0.875rem;resize:vertical;box-sizing:border-box;"></textarea>
             </div>
@@ -325,10 +325,10 @@
                 </select>
             </div>
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">
+                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;" for="catatan">
                     Catatan Rekomendasi Manajer
                 </label>
-                <textarea name="catatan" rows="3" placeholder="Alasan penerusan / rekomendasi komite..."
+                <textarea id="catatan" name="catatan" rows="3" placeholder="Alasan penerusan / rekomendasi komite..."
                     style="width:100%;padding:0.65rem 0.85rem;border:1px solid #d1d5db;border-radius:0.5rem;
                            font-size:0.875rem;resize:vertical;box-sizing:border-box;"></textarea>
             </div>

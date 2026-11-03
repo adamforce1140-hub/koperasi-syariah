@@ -175,7 +175,7 @@
                             {{ $rb->label }}
                             @if($aktif)
                                 <span style="display:inline-block;margin-left:0.375rem;padding:0.1rem 0.5rem;border-radius:9999px;
-                                             font-size:0.68rem;font-weight:600;background:#dbeafe;color:#1d4ed8;">Periode ini</span>
+                                             font-size:0.7rem;font-weight:600;background:#dbeafe;color:#1d4ed8;">Periode ini</span>
                             @endif
                         </td>
                         <td style="padding:0.7rem 1rem;text-align:right;color:#475569;">{{ number_format($rb->jumlah) }}</td>

@@ -20,7 +20,7 @@
         {{-- Filter Bulan/Tahun --}}
         <form method="GET" action="{{ route('manajer.audit.index') }}"
               style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
-            <input type="text" name="search" value="{{ $search }}" placeholder="Cari..."
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari catatan audit" placeholder="Cari..."
                    style="width:160px;padding:0.45rem 0.75rem;border:1px solid #cbd5e1;
                           border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;"
                    onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#cbd5e1'">

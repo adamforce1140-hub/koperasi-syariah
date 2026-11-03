@@ -78,12 +78,12 @@
             <div style="background:#fff;border:1px solid #e2e8f0;border-radius:0.5rem;padding:0.75rem 0.9rem;">
                 <div style="font-size:0.72rem;color:#64748b;">Pengembalian Pokok</div>
                 <div style="font-size:1rem;font-weight:700;color:#1e293b;">Rp {{ number_format($pengembalianPokok, 0, ',', '.') }}</div>
-                <div style="font-size:0.68rem;color:#94a3b8;margin-top:0.15rem;">bukan pendapatan</div>
+                <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.15rem;">bukan pendapatan</div>
             </div>
             <div style="background:#fff;border:1px solid #e2e8f0;border-radius:0.5rem;padding:0.75rem 0.9rem;">
                 <div style="font-size:0.72rem;color:#64748b;">Pendapatan Margin + Bagi Hasil</div>
                 <div style="font-size:1rem;font-weight:700;color:#7c3aed;">Rp {{ number_format($pendapatanMargin + $pendapatanBagiHasil, 0, ',', '.') }}</div>
-                <div style="font-size:0.68rem;color:#94a3b8;margin-top:0.15rem;">dari margin angsuran</div>
+                <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.15rem;">dari margin angsuran</div>
             </div>
             <div style="background:#fff;border:1px solid #fde68a;border-radius:0.5rem;padding:0.75rem 0.9rem;"
                  id="box-dana-kebajikan"
@@ -91,7 +91,7 @@
                  data-jumlah-mutasi="">
                 <div style="font-size:0.72rem;color:#92400e;">Dana Kebajikan (Ta'zir/Denda)</div>
                 <div style="font-size:1rem;font-weight:700;color:#d97706;" data-field="dana-kebajikan">Rp {{ number_format($danaKebajikan, 0, ',', '.') }}</div>
-                <div style="font-size:0.68rem;color:#94a3b8;margin-top:0.15rem;">bukan pendapatan koperasi</div>
+                <div style="font-size:0.7rem;color:#94a3b8;margin-top:0.15rem;">bukan pendapatan koperasi</div>
             </div>
         </div>
     </div>

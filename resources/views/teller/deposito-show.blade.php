@@ -144,8 +144,8 @@
                       onsubmit="return confirm('Cairkan deposito Rp {{ number_format($rekening->saldo, 0, ',', '.') }}? Tindakan ini tidak dapat dibatalkan.')">
                     @csrf
                     <div style="margin-bottom:.625rem;">
-                        <label style="display:block;font-size:.76rem;font-weight:600;color:#475569;margin-bottom:.3rem;">Catatan (opsional)</label>
-                        <input type="text" name="catatan" placeholder="Misal: Pencairan atas permintaan anggota"
+                        <label style="display:block;font-size:.76rem;font-weight:600;color:#475569;margin-bottom:.3rem;" for="catatan">Catatan (opsional)</label>
+                        <input id="catatan" type="text" name="catatan" placeholder="Misal: Pencairan atas permintaan anggota"
                                style="width:100%;padding:.45rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.8rem;box-sizing:border-box;">
                     </div>
                     <button type="submit"

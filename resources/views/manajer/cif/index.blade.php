@@ -82,7 +82,7 @@
                          style="position:absolute;left:0.625rem;top:50%;transform:translateY(-50%);pointer-events:none;">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input type="text" name="search" value="{{ $search }}" placeholder="Nama, NIK, No Anggota, atau No CIF…"
+                    <input type="text" name="search" value="{{ $search }}" aria-label="Cari anggota" placeholder="Nama, NIK, No Anggota, atau No CIF…"
                            style="width:100%;padding:0.5rem 0.75rem 0.5rem 2rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;box-sizing:border-box;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">

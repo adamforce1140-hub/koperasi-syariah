@@ -78,7 +78,7 @@
 
             {{-- Jumlah --}}
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;">Jumlah Tarik (Rp)</label>
+                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;" for="jumlah">Jumlah Tarik (Rp)</label>
                 <input type="number" name="jumlah" id="jumlah" min="1000" step="1000"
                     value="{{ old('jumlah') }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.95rem;box-sizing:border-box;"
@@ -88,8 +88,8 @@
 
             {{-- Catatan --}}
             <div style="margin-bottom:1.5rem;">
-                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;">Catatan (opsional)</label>
-                <input type="text" name="catatan" value="{{ old('catatan') }}"
+                <label style="display:block;font-weight:600;margin-bottom:.4rem;color:#374151;" for="catatan">Catatan (opsional)</label>
+                <input id="catatan" type="text" name="catatan" value="{{ old('catatan') }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.95rem;box-sizing:border-box;"
                     placeholder="Keterangan tambahan...">
             </div>

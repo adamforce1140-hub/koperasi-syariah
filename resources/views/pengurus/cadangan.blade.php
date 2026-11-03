@@ -120,15 +120,15 @@
                 @csrf
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Nominal Alokasi (Rp)</label>
-                        <input type="number" name="nominal" class="form-control @error('nominal') is-invalid @enderror"
+                        <label class="form-label fw-semibold" for="nominal">Nominal Alokasi (Rp)</label>
+                        <input id="nominal" type="number" name="nominal" class="form-control @error('nominal') is-invalid @enderror"
                                placeholder="Contoh: 2500000" min="1" step="1" value="{{ old('nominal') }}"
                                {{ $sedangRugi ? 'disabled' : 'required' }}>
                         @error('nominal')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-semibold">Keterangan Jurnal</label>
-                        <input type="text" name="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
+                        <label class="form-label fw-semibold" for="keterangan">Keterangan Jurnal</label>
+                        <input id="keterangan" type="text" name="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
                                placeholder="Contoh: Alokasi SHU Tahun 2025 berdasarkan RAT" value="{{ old('keterangan') }}"
                                {{ $sedangRugi ? 'disabled' : 'required' }}>
                         @error('keterangan')<div class="invalid-feedback">{{ $message }}</div>@enderror

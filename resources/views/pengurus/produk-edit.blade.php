@@ -37,10 +37,10 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
                 {{-- Margin / Nisbah --}}
                 <div style="grid-column:1 / -1;background:#f0fdf4;border:1px solid #bbf7d0;padding:1rem;border-radius:0.625rem;">
-                    <label style="display:block;font-size:0.85rem;font-weight:700;color:#166534;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.85rem;font-weight:700;color:#166534;margin-bottom:0.35rem;" for="margin_persen">
                         Margin / Nisbah Bagi Hasil (%) <span style="color:#ef4444;">*</span>
                     </label>
-                    <input type="number" step="0.01" min="0" max="100" name="margin_persen" 
+                    <input id="margin_persen" type="number" step="0.01" min="0" max="100" name="margin_persen" 
                            value="{{ old('margin_persen', $produk->margin_persen) }}" required
                            style="width:100%;max-width:260px;padding:0.55rem 0.75rem;border:1px solid #86efac;border-radius:0.5rem;font-size:1.05rem;font-weight:700;color:#14532d;outline:none;background:#fff;">
                     <span style="display:block;font-size:0.75rem;color:#15803d;margin-top:0.3rem;">
@@ -50,50 +50,50 @@
 
                 {{-- Min Plafon --}}
                 <div>
-                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="min_plafon">
                         Minimum Plafon (Rp) <span style="color:#ef4444;">*</span>
                     </label>
-                    <input type="number" step="1000" min="0" name="min_plafon" 
+                    <input id="min_plafon" type="number" step="1000" min="0" name="min_plafon" 
                            value="{{ old('min_plafon', $produk->min_plafon) }}" required
                            style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.875rem;outline:none;">
                 </div>
 
                 {{-- Max Plafon --}}
                 <div>
-                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="max_plafon">
                         Maksimum Plafon (Rp) <span style="color:#ef4444;">*</span>
                     </label>
-                    <input type="number" step="1000" min="0" name="max_plafon" 
+                    <input id="max_plafon" type="number" step="1000" min="0" name="max_plafon" 
                            value="{{ old('max_plafon', $produk->max_plafon) }}" required
                            style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.875rem;outline:none;">
                 </div>
 
                 {{-- Min Tenor --}}
                 <div>
-                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="min_tenor_bulan">
                         Min Tenor (Bulan) <span style="color:#ef4444;">*</span>
                     </label>
-                    <input type="number" min="1" max="360" name="min_tenor_bulan" 
+                    <input id="min_tenor_bulan" type="number" min="1" max="360" name="min_tenor_bulan" 
                            value="{{ old('min_tenor_bulan', $produk->min_tenor_bulan) }}" required
                            style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.875rem;outline:none;">
                 </div>
 
                 {{-- Max Tenor --}}
                 <div>
-                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="max_tenor_bulan">
                         Maks Tenor (Bulan) <span style="color:#ef4444;">*</span>
                     </label>
-                    <input type="number" min="1" max="360" name="max_tenor_bulan" 
+                    <input id="max_tenor_bulan" type="number" min="1" max="360" name="max_tenor_bulan" 
                            value="{{ old('max_tenor_bulan', $produk->max_tenor_bulan) }}" required
                            style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.875rem;outline:none;">
                 </div>
 
                 {{-- Biaya Admin --}}
                 <div>
-                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="biaya_admin">
                         Biaya Administrasi (Rp)
                     </label>
-                    <input type="number" step="1000" min="0" name="biaya_admin" 
+                    <input id="biaya_admin" type="number" step="1000" min="0" name="biaya_admin" 
                            value="{{ old('biaya_admin', $produk->biaya_admin) }}"
                            style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.875rem;outline:none;">
                 </div>

@@ -69,6 +69,14 @@ final class JenisTransaksi
 
     public const TAZIR = "Ta'zir";
 
+    /**
+     * Pembukaan deposito mudharabah: dana berpindah dari Simpanan Sukarela ke
+     * Simpanan Berjangka. BUKAN kas fisik (laci teller tidak berubah), sehingga
+     * sengaja tidak masuk CASH_IN/CASH_OUT; terdaftar agar penjaga registri
+     * `KasKasirTest` tidak melaporkannya sebagai "nilai hantu".
+     */
+    public const PEMBUKAAN_DEPOSITO = 'Pembukaan Deposito Mudharabah';
+
     /* ── KELOMPOK ──────────────────────────────────────────────────────── */
 
     /** Setoran tunai ke rekening simpanan yang bersifat setoran (pokok/wajib/sukarela). */
@@ -139,6 +147,15 @@ final class JenisTransaksi
 
     /** Status transaksi yang TIDAK diperhitungkan pada perhitungan kas. */
     public const STATUS_NON_KAS = ['Gagal', 'Dibatalkan', 'Voided', 'Pending Void', 'Pending'];
+
+    /**
+     * Pemindahan dana antar-produk simpanan: kas fisik TIDAK berubah, sehingga
+     * bukan cash in maupun cash out. Nilai di sini tetap termasuk daftar
+     * "dikenal" agar tidak dianggap nilai hantu.
+     */
+    public const PEMINDAHAN_PRODUK = [
+        self::PEMBUKAAN_DEPOSITO,
+    ];
 
     /**
      * Nilai kolom `transaksi.jenis_pembayaran` yang bersifat PEMINDAHAN dana

@@ -111,13 +111,13 @@
             letter-spacing: .03em;
         }
         .nota-nominal .terbilang {
-            font-size: .68rem;
+            font-size: 0.7rem;
             color: #374151;
             font-style: italic;
             margin-top: .2rem;
         }
 
-        .nota-footer { font-size: .68rem; text-align: center; color: #6b7280; margin-top: .5rem; }
+        .nota-footer { font-size: 0.7rem; text-align: center; color: #6b7280; margin-top: .5rem; }
 
         .ttd-row {
             display: flex;
@@ -130,7 +130,7 @@
             border-radius: 4px;
             padding: .5rem;
             text-align: center;
-            font-size: .68rem;
+            font-size: 0.7rem;
             color: #374151;
         }
         .ttd-box .ttd-label { font-weight: 600; margin-bottom: 2.5rem; }
@@ -279,7 +279,7 @@
     </div>
 
     @if($isHighValue)
-    <div style="margin: 0.5rem 0; padding: 0.5rem; background: #fef2f2; border: 1px dashed #ef4444; border-radius: 4px; text-align: center; font-size: 0.68rem; color: #991b1b; line-height: 1.3;">
+    <div style="margin: 0.5rem 0; padding: 0.5rem; background: #fef2f2; border: 1px dashed #ef4444; border-radius: 4px; text-align: center; font-size: 0.7rem; color: #991b1b; line-height: 1.3;">
         <strong>[ CATATAN KEPATUHAN / COMPLIANCE ]</strong><br>
         Transaksi Terkategori AML High-Value (Nominal &ge; Rp {{ number_format($amlThreshold, 0, ',', '.') }}). Wajib Melampirkan Dokumen Pendukung Sumber Dana.
     </div>

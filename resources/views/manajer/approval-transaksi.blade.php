@@ -57,7 +57,7 @@
     {{-- ── FILTER ───────────────────────────────────────── --}}
     <form method="GET" action="{{ route('manajer.approval-transaksi.index') }}"
           style="display:flex;gap:0.625rem;flex-wrap:wrap;align-items:flex-end;">
-        <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama pengaju…"
+        <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama pengaju" placeholder="Cari nama pengaju…"
                style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;"
                onfocus="this.style.borderColor='#047857'" onblur="this.style.borderColor='#cbd5e1'">
@@ -204,8 +204,8 @@
                     Nominal: <strong id="modalNominal" style="color:#dc2626;"></strong>
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.8rem;font-weight:600;color:#334155;margin-bottom:0.375rem;">Alasan Penolakan <span style="color:#dc2626;">*</span></label>
-                    <textarea name="catatan" rows="3" required placeholder="Masukkan alasan penolakan untuk Teller..."
+                    <label style="display:block;font-size:0.8rem;font-weight:600;color:#334155;margin-bottom:0.375rem;" for="catatan">Alasan Penolakan <span style="color:#dc2626;">*</span></label>
+                    <textarea id="catatan" name="catatan" rows="3" required placeholder="Masukkan alasan penolakan untuk Teller..."
                               style="width:100%;padding:0.625rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.825rem;outline:none;box-sizing:border-box;"></textarea>
                 </div>
             </div>

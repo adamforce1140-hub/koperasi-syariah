@@ -124,7 +124,7 @@ class KebijakanFormMetadataTest extends TestCase
         $sumber = file_get_contents(resource_path('views/pengurus/kebijakan.blade.php'));
 
         preg_match_all(
-            '/<input type="number"[^>]*?name="([a-z0-9_]+)"[^>]*?step="([^"]*)"/s',
+            '/<input\b[^>]*?\btype="number"[^>]*?\bname="([a-z0-9_]+)"[^>]*?\bstep="([^"]*)"/s',
             $sumber,
             $cocok,
             PREG_SET_ORDER

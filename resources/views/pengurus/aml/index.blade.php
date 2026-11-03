@@ -41,10 +41,10 @@
             </div>
             <form method="GET" action="{{ route('pengurus.aml.export', ['jenis' => 'LTKT']) }}"
                   style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
-                <input type="date" name="dari" value="{{ request('dari', now()->startOfMonth()->toDateString()) }}"
+                <input type="date" name="dari" aria-label="Tanggal awal" value="{{ request('dari', now()->startOfMonth()->toDateString()) }}"
                        style="padding:0.45rem 0.6rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.8rem;color:#1e293b;background:#fff;">
                 <span style="color:#94a3b8;font-size:0.8rem;">s.d.</span>
-                <input type="date" name="sampai" value="{{ request('sampai', now()->toDateString()) }}"
+                <input type="date" name="sampai" aria-label="Tanggal akhir" value="{{ request('sampai', now()->toDateString()) }}"
                        style="padding:0.45rem 0.6rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.8rem;color:#1e293b;background:#fff;">
                 <button type="submit" formaction="{{ route('pengurus.aml.export', ['jenis' => 'LTKT']) }}"
                         style="padding:0.45rem 0.85rem;border:1px solid #2563eb;background:#2563eb;color:#fff;border-radius:0.5rem;font-size:0.8rem;font-weight:600;cursor:pointer;">LTKT</button>
@@ -182,7 +182,7 @@
                 @csrf
                 <div style="display:flex;flex-direction:column;gap:0.85rem;">
                     <div>
-                        <label style="display:block;font-size:0.85rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="modalSumberDana">
                             Sumber Dana (Source of Funds) <span style="color:#dc2626;">*</span>
                         </label>
                         <input type="text" name="aml_sumber_dana" id="modalSumberDana" required
@@ -191,16 +191,16 @@
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.85rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="aml_dokumen">
                             Unggah Dokumen Pendukung (KTP/NPWP/Bukti Transfer/Akta)
                         </label>
-                        <input type="file" name="aml_dokumen" accept=".pdf,.jpg,.jpeg,.png"
+                        <input id="aml_dokumen" type="file" name="aml_dokumen" accept=".pdf,.jpg,.jpeg,.png"
                                style="width:100%;padding:0.5rem 0;font-size:0.85rem;color:#475569;">
                         <div id="modalExistingDoc" style="font-size:0.75rem;color:#059669;margin-top:0.25rem;"></div>
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.85rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.85rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="modalCatatan">
                             Catatan Tim Compliance / PPATK
                         </label>
                         <textarea name="aml_catatan" id="modalCatatan" rows="3"
@@ -230,10 +230,10 @@
                     @csrf
                     <div style="display:flex;gap:0.75rem;align-items:flex-end;">
                         <div style="flex:1;">
-                            <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;">
+                            <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.35rem;" for="aml_catatan">
                                 Alasan Penolakan <span style="color:#dc2626;">*</span>
                             </label>
-                            <input type="text" name="aml_catatan" required
+                            <input id="aml_catatan" type="text" name="aml_catatan" required
                                    placeholder="Contoh: Indikasi pencucian uang, dokumen tidak valid..."
                                    style="width:100%;padding:0.55rem 0.75rem;border:1px solid #fca5a5;border-radius:0.5rem;font-size:0.85rem;outline:none;box-sizing:border-box;">
                         </div>

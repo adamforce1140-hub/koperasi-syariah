@@ -246,8 +246,8 @@ $statusLabel = match(strtolower($pembiayaan->status_pembiayaan)) {
         {{-- Review / Teruskan ke Pengurus --}}
         <form method="POST" action="{{ route('pengajuan-pembiayaan.review', $pembiayaan->id) }}" style="margin-bottom:1rem;">
             @csrf
-            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Catatan (opsional)</label>
-            <textarea name="catatan_manajer" rows="2" placeholder="Catatan review..."
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="catatan_manajer">Catatan (opsional)</label>
+            <textarea id="catatan_manajer" name="catatan_manajer" rows="2" placeholder="Catatan review..."
                 style="width:100%;padding:.5rem .7rem;border:1px solid #d1d5db;border-radius:6px;font-size:.83rem;resize:vertical;margin-bottom:.6rem;"></textarea>
             <button type="submit"
                 style="width:100%;padding:.6rem;background:#3b82f6;color:#fff;border:none;border-radius:7px;font-size:.88rem;font-weight:600;cursor:pointer;">
@@ -258,8 +258,8 @@ $statusLabel = match(strtolower($pembiayaan->status_pembiayaan)) {
         {{-- Tolak --}}
         <form method="POST" action="{{ route('pengajuan-pembiayaan.tolak-manajer', $pembiayaan->id) }}">
             @csrf
-            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Alasan Penolakan <span style="color:#ef4444">*</span></label>
-            <textarea name="catatan_manajer" rows="2" placeholder="Wajib diisi jika menolak..." required
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="catatan_manajer">Alasan Penolakan <span style="color:#ef4444">*</span></label>
+            <textarea id="catatan_manajer" name="catatan_manajer" rows="2" placeholder="Wajib diisi jika menolak..." required
                 style="width:100%;padding:.5rem .7rem;border:1px solid #fca5a5;border-radius:6px;font-size:.83rem;resize:vertical;margin-bottom:.6rem;"></textarea>
             <button type="submit"
                 style="width:100%;padding:.6rem;background:#ef4444;color:#fff;border:none;border-radius:7px;font-size:.88rem;font-weight:600;cursor:pointer;"
@@ -325,8 +325,8 @@ $statusLabel = match(strtolower($pembiayaan->status_pembiayaan)) {
         {{-- Approve --}}
         <form method="POST" action="{{ route('pengajuan-pembiayaan.approve', $pembiayaan->id) }}" style="margin-bottom:1rem;">
             @csrf
-            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Catatan Persetujuan (opsional)</label>
-            <textarea name="catatan_pengurus" rows="2" placeholder="Catatan pengurus..."
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="catatan_pengurus">Catatan Persetujuan (opsional)</label>
+            <textarea id="catatan_pengurus" name="catatan_pengurus" rows="2" placeholder="Catatan pengurus..."
                 style="width:100%;padding:.5rem .7rem;border:1px solid #d1d5db;border-radius:6px;font-size:.83rem;resize:vertical;margin-bottom:.6rem;"></textarea>
             <button type="submit"
                 style="width:100%;padding:.65rem;background:#10b981;color:#fff;border:none;border-radius:7px;font-size:.9rem;font-weight:700;cursor:pointer;"
@@ -338,8 +338,8 @@ $statusLabel = match(strtolower($pembiayaan->status_pembiayaan)) {
         {{-- Tolak --}}
         <form method="POST" action="{{ route('pengajuan-pembiayaan.tolak-pengurus', $pembiayaan->id) }}">
             @csrf
-            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Alasan Penolakan <span style="color:#ef4444">*</span></label>
-            <textarea name="catatan_pengurus" rows="2" placeholder="Wajib diisi..." required
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="catatan_pengurus">Alasan Penolakan <span style="color:#ef4444">*</span></label>
+            <textarea id="catatan_pengurus" name="catatan_pengurus" rows="2" placeholder="Wajib diisi..." required
                 style="width:100%;padding:.5rem .7rem;border:1px solid #fca5a5;border-radius:6px;font-size:.83rem;resize:vertical;margin-bottom:.6rem;"></textarea>
             <button type="submit"
                 style="width:100%;padding:.6rem;background:#ef4444;color:#fff;border:none;border-radius:7px;font-size:.88rem;font-weight:600;cursor:pointer;"

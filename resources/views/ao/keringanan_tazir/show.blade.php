@@ -77,10 +77,10 @@
             </div>
 
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-weight:600;margin-bottom:.4rem;font-size:.9rem;color:#374151;">
+                <label for="catatan_ao" style="display:block;font-weight:600;margin-bottom:.4rem;font-size:.9rem;color:#374151;">
                     Catatan Analisis AO <span style="color:#dc2626;">*</span>
                 </label>
-                <textarea name="catatan_ao" rows="4" required
+                <textarea name="catatan_ao" id="catatan_ao" rows="4" required
                     placeholder="Hasil kunjungan/verifikasi lapangan, kondisi ekonomi anggota, dsb."
                     style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;">{{ old('catatan_ao') }}</textarea>
             </div>

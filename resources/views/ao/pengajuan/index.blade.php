@@ -37,7 +37,7 @@
         <span class="card-title">Daftar Pengajuan</span>
         <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;">
             <form method="GET" style="display:flex;gap:.5rem;">
-                <input type="text" name="search" value="{{ $search }}"
+                <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama / no. pengajuan"
                     placeholder="Cari nama / no. pengajuan..."
                     style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:220px;">
                 <select name="status" style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;">

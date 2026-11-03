@@ -24,6 +24,11 @@ class TransaksiMobileController extends Controller
 
         $user = $request->user();
 
+        // T-2 — hanya personel berkebijakan batas yang boleh memakai kanal ini.
+        if (! HierarkiRole::tundukBatasOperasional($user?->role)) {
+            return $this->peranTanpaBatas();
+        }
+
         // K-01 (IDOR): anggota hanya boleh bertransaksi atas rekening MILIKNYA.
         $rekening = $this->rekeningMilikPengguna($request, (int) $request->rekening_id);
         if ($rekening instanceof JsonResponse) {
@@ -76,6 +81,12 @@ class TransaksiMobileController extends Controller
         }
 
         $user = $request->user();
+
+        // T-2 — sama dengan setor(): peran pemakai jasa tidak boleh menembus
+        // kebijakan batas yang memang tidak memuat batas untuk mereka.
+        if (! HierarkiRole::tundukBatasOperasional($user?->role)) {
+            return $this->peranTanpaBatas();
+        }
 
         $result = $this->limitService->processTransactionWithLimitCheck(
             $user,
@@ -137,6 +148,20 @@ class TransaksiMobileController extends Controller
         }
 
         return $rekening;
+    }
+
+    /**
+     * Tolak peran yang tidak tunduk pada kebijakan batas operasional (T-2).
+     *
+     * Memakai 403 — bukan 422 — agar pesan tidak membocorkan konfigurasi
+     * kebijakan, dan konsisten dengan middleware `role:`/`izin:`.
+     */
+    private function peranTanpaBatas(): JsonResponse
+    {
+        return response()->json([
+            'success' => false,
+            'message' => 'Peran Anda tidak berwenang melakukan transaksi tunai melalui kanal ini.',
+        ], 403);
     }
 
     /**

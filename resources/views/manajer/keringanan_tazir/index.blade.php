@@ -54,7 +54,7 @@
                 <option value="APPROVED"        {{ $status === 'APPROVED' ? 'selected' : '' }}>Disetujui</option>
                 <option value="REJECTED"        {{ $status === 'REJECTED' ? 'selected' : '' }}>Ditolak</option>
             </select>
-            <input type="text" name="search" value="{{ $search }}"
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama atau no. anggota"
                 placeholder="Cari nama / no. anggota..."
                 style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:220px;">
             <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Filter</button>
@@ -146,8 +146,8 @@
         <p id="approve-text" style="font-size:.9rem;color:#475569;margin-bottom:1rem;"></p>
         <form method="POST" id="form-approve">
             @csrf
-            <label style="display:block;font-weight:600;margin-bottom:.35rem;font-size:.9rem;">Catatan Manajer (opsional)</label>
-            <textarea name="catatan_manajer" rows="3"
+            <label style="display:block;font-weight:600;margin-bottom:.35rem;font-size:.9rem;" for="catatan_manajer">Catatan Manajer (opsional)</label>
+            <textarea id="catatan_manajer" name="catatan_manajer" rows="3"
                 style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"
                 placeholder="Catatan persetujuan..."></textarea>
             <div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;">
@@ -165,10 +165,10 @@
         <p id="reject-text" style="font-size:.9rem;color:#475569;margin-bottom:1rem;"></p>
         <form method="POST" id="form-reject">
             @csrf
-            <label style="display:block;font-weight:600;margin-bottom:.35rem;font-size:.9rem;">
+            <label style="display:block;font-weight:600;margin-bottom:.35rem;font-size:.9rem;" for="catatan_manajer_tolak">
                 Alasan Penolakan <span style="color:#dc2626;">*</span>
             </label>
-            <textarea name="catatan_manajer" rows="3" required
+            <textarea id="catatan_manajer_tolak" name="catatan_manajer" rows="3" required
                 style="width:100%;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"
                 placeholder="Alasan penolakan..."></textarea>
             <div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;">

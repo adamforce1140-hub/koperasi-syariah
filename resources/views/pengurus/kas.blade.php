@@ -20,15 +20,15 @@
         <form method="GET" action="{{ route('pengurus.kas.index') }}"
               style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0;flex-wrap:wrap;">
             <div>
-                <label style="display:block;font-size:0.7rem;font-weight:600;color:#64748b;margin-bottom:0.2rem;">Dari</label>
-                <input type="date" name="tgl_mulai" value="{{ $tglMulai }}"
+                <label style="display:block;font-size:0.7rem;font-weight:600;color:#64748b;margin-bottom:0.2rem;" for="tgl_mulai">Dari</label>
+                <input id="tgl_mulai" type="date" name="tgl_mulai" value="{{ $tglMulai }}"
                        style="padding:0.4rem 0.625rem;border:1px solid #cbd5e1;border-radius:0.5rem;
                               font-size:0.8rem;color:#1e293b;outline:none;"
                        onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
             </div>
             <div>
-                <label style="display:block;font-size:0.7rem;font-weight:600;color:#64748b;margin-bottom:0.2rem;">Sampai</label>
-                <input type="date" name="tgl_selesai" value="{{ $tglSelesai }}"
+                <label style="display:block;font-size:0.7rem;font-weight:600;color:#64748b;margin-bottom:0.2rem;" for="tgl_selesai">Sampai</label>
+                <input id="tgl_selesai" type="date" name="tgl_selesai" value="{{ $tglSelesai }}"
                        style="padding:0.4rem 0.625rem;border:1px solid #cbd5e1;border-radius:0.5rem;
                               font-size:0.8rem;color:#1e293b;outline:none;"
                        onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">

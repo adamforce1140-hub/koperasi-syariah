@@ -69,7 +69,7 @@
         }
         .merek__lambang svg { width: 26px; height: 26px; stroke: #a7f3d0; }
         .merek__teks small {
-            display: block; font-size: 0.68rem; font-weight: 700;
+            display: block; font-size: 0.7rem; font-weight: 700;
             letter-spacing: 0.12em; text-transform: uppercase; color: #a7f3d0;
         }
         .merek__teks strong { display: block; font-size: 1rem; font-weight: 700; letter-spacing: 0.01em; }
@@ -215,7 +215,7 @@
             width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: #94a3b8;
         }
         .quick-account .tugas {
-            margin-top: 0.15rem; font-size: 0.68rem; color: #64748b;
+            margin-top: 0.15rem; font-size: 0.7rem; color: #64748b;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .quick-account--teller  .peran i { background: #059669; }

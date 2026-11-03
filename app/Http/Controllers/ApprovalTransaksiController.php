@@ -139,6 +139,20 @@ class ApprovalTransaksiController extends Controller
     {
         $user = Auth::user();
 
+        // T-2 — cabang terakhir `batasiKeCakupanPeran()` menyaring
+        // `diajukan_oleh`, sehingga peran pemakai jasa (anggota/nasabah) dapat
+        // memindai ID approval satu per satu: ID miliknya sendiri
+        // mengembalikan baris, ID orang lain mengembalikan kosong — dan itu
+        // sendiri sudah membocorkan keberadaan approval milik pihak lain.
+        // Peran tersebut juga tidak tunduk pada `frekuensi`/`akses_data`,
+        // sehingga pembatas laju berbasis kebijakan ikut mati. Kanal ini
+        // khusus personel; pengajuan anggota dibaca lewat halaman web.
+        abort_unless(
+            HierarkiRole::tundukBatasOperasional($user?->role),
+            403,
+            'Kanal ini hanya tersedia untuk personel koperasi.',
+        );
+
         $query = ApprovalTransaksi::with(['pengaju', 'approver'])
             ->orderBy('created_at', 'desc');
 

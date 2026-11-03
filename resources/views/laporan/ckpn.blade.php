@@ -60,8 +60,8 @@
 <div class="card">
     <form method="GET" style="display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
         <div>
-            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Tanggal Acuan</label>
-            <input type="date" name="tanggal" value="{{ $tanggal->toDateString() }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="tanggal">Tanggal Acuan</label>
+            <input id="tanggal" type="date" name="tanggal" value="{{ $tanggal->toDateString() }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
         </div>
         <button type="submit" class="btn btn-primary">Hitung Ulang</button>
     </form>

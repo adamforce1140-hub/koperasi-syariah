@@ -439,8 +439,11 @@ class IntegritasRuteSisaBatch29Test extends TestCase
             'tanggal_buka' => now()->toDateString(),
         ];
 
-        // Grup tulis `routes/api.php` hanya memuat admin, manajer, pengurus, teller.
-        foreach (['dps', 'ao', 'super_admin'] as $peran) {
+        // Grup tulis `routes/api.php` dijaga `izin:buku_besar.tulis`
+        // (teller, manajer, pengurus, super_admin — lihat K-1). Peran yang
+        // tidak tercantum di sana wajib ditolak sebelum menyentuh database.
+        // `admin` ikut ditolak: K-1 mencabut wewenang tulis keuangannya.
+        foreach (['dps', 'ao', 'admin'] as $peran) {
             $this->actingAs($this->user($peran, 'tolakrek'), 'web')
                 ->postJson('/api/rekening', $payload)
                 ->assertForbidden();

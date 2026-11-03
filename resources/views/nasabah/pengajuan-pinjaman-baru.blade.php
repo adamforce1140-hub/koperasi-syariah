@@ -362,7 +362,7 @@
         .form-grid { grid-template-columns: 1fr; }
         .form-group.full { grid-column: span 1; }
         .kalkulator-grid { grid-template-columns: 1fr 1fr; }
-        .step-label { font-size: 0.65rem; }
+        .step-label { font-size: 0.7rem; }
     }
 </style>
 @endsection

@@ -52,7 +52,7 @@
                         <div style="font-size: 1rem; font-weight: 700; color: #1e293b;">
                             {{ rtrim(rtrim(number_format((float) $d->nisbah_anggota, 2, ',', '.'), '0'), ',') }}% : {{ rtrim(rtrim(number_format((float) $d->nisbah_koperasi, 2, ',', '.'), '0'), ',') }}%
                         </div>
-                        <div style="font-size: 0.68rem; color: #94a3b8;">Anggota : Koperasi</div>
+                        <div style="font-size: 0.7rem; color: #94a3b8;">Anggota : Koperasi</div>
                     </div>
                 </div>
 

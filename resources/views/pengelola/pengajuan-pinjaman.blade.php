@@ -162,8 +162,8 @@
         <form id="form-review" method="POST">
             @csrf
             @method('PATCH')
-            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;">Catatan Manajer (opsional)</label>
-            <textarea name="catatan_manajer" rows="3" placeholder="Misal: Sudah dicek kelayakan, layak diproses..." style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;box-sizing:border-box;"></textarea>
+            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;" for="catatan_manajer">Catatan Manajer (opsional)</label>
+            <textarea id="catatan_manajer" name="catatan_manajer" rows="3" placeholder="Misal: Sudah dicek kelayakan, layak diproses..." style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;box-sizing:border-box;"></textarea>
             <div style="display:flex;gap:.8rem;margin-top:1.2rem;">
                 <button type="submit" style="flex:1;padding:.7rem;background:#2563eb;color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;">Teruskan ke Pengurus</button>
                 <button type="button" onclick="closeModal('modal-review')" style="flex:1;padding:.7rem;background:#f1f5f9;color:#374151;border:none;border-radius:6px;cursor:pointer;">Batal</button>
@@ -180,8 +180,8 @@
         <form id="form-approve" method="POST">
             @csrf
             @method('PATCH')
-            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;">Catatan (opsional)</label>
-            <textarea name="catatan_pengelola" rows="3" placeholder="Misal: Disetujui sesuai plafon..." style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"></textarea>
+            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;" for="catatan_pengelola">Catatan (opsional)</label>
+            <textarea id="catatan_pengelola" name="catatan_pengelola" rows="3" placeholder="Misal: Disetujui sesuai plafon..." style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"></textarea>
             <div style="display:flex;gap:.8rem;margin-top:1.2rem;">
                 <button type="submit" style="flex:1;padding:.7rem;background:#059669;color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;">Konfirmasi Setujui</button>
                 <button type="button" onclick="closeModal('modal-approve')" style="flex:1;padding:.7rem;background:#f1f5f9;color:#374151;border:none;border-radius:6px;cursor:pointer;">Batal</button>
@@ -198,8 +198,8 @@
         <form id="form-tolak" method="POST">
             @csrf
             @method('PATCH')
-            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;">Alasan Penolakan <span style="color:#ef4444">*</span></label>
-            <textarea name="catatan_pengelola" rows="3" required placeholder="Misal: Riwayat angsuran kurang baik..." style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"></textarea>
+            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;" for="catatan_pengelola_tolak">Alasan Penolakan <span style="color:#ef4444">*</span></label>
+            <textarea id="catatan_pengelola_tolak" name="catatan_pengelola" rows="3" required placeholder="Misal: Riwayat angsuran kurang baik..." style="width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;resize:vertical;"></textarea>
             <div style="display:flex;gap:.8rem;margin-top:1.2rem;">
                 <button type="submit" style="flex:1;padding:.7rem;background:#dc2626;color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;">Konfirmasi Tolak</button>
                 <button type="button" onclick="closeModal('modal-tolak')" style="flex:1;padding:.7rem;background:#f1f5f9;color:#374151;border:none;border-radius:6px;cursor:pointer;">Batal</button>

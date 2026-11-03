@@ -17,7 +17,7 @@
     <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
         <span class="card-title">Antrian Survei ({{ $pengajuan->total() }} pengajuan)</span>
         <form method="GET" style="display:flex;gap:.5rem;">
-            <input type="text" name="search" value="{{ $search }}"
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari pengajuan survei"
                 placeholder="Cari nama / no. pengajuan..."
                 style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:240px;">
             <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Cari</button>
@@ -68,8 +68,8 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#6b7280;margin-bottom:.3rem;">Catatan Survei</label>
-                    <input type="text" name="catatan_survei" placeholder="Catatan opsional..."
+                    <label for="catatan_survei" style="display:block;font-size:.75rem;color:#6b7280;margin-bottom:.3rem;">Catatan Survei</label>
+                    <input type="text" name="catatan_survei" id="catatan_survei" placeholder="Catatan opsional..."
                         style="width:100%;padding:.4rem .5rem;border:1px solid #d1d5db;border-radius:4px;font-size:.85rem;">
                 </div>
             </div>

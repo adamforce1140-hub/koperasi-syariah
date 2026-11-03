@@ -139,10 +139,31 @@ class SuperAdminHakAksesTerkunciTest extends TestCase
         // `terminasi.eksekusi` hanya menempel pada aksi POST
         // (`/member-terminations/{id}/eksekusi|tolak|batalkan`); halaman
         // daftar yang menampilkan tombolnya dijaga `terminasi.pengajuan`.
+        //
+        // `buku_besar.tulis` (K-1) hanya menempel pada grup TULIS routes/api.php
+        // (`/api/jurnal`, `/api/rekening`, `/api/transaksi`, ...). Izin ini
+        // sengaja memuat super_admin agar peran teknis tertinggi tidak terkunci
+        // dari operasi tulis; halaman baca buku besar di menu dijaga
+        // `laporan.buku_besar`.
+        //
+        // `pembiayaan.kontrak` (K-1) hanya menempel pada grup TULIS pembiayaan
+        // routes/api.php. Super Admin tidak memegang `pembiayaan.approve`
+        // (persetujuan sengaja dikecualikan dari peran teknis ini), melainkan
+        // `manajer.operasional` — menu "Antrean Approval Pembiayaan" yang
+        // memuat berkas akad pembiayaan.
+        //
+        // `kas.loket.eksekusi` (K-2) hanya menempel pada grup TULIS
+        // /api/deposito (pembukaan deposito), yang sengaja dipersempit ke
+        // pemegang laci. Aksi yang sama tersedia di WEB pada formulir
+        // `teller.deposito` (izin `teller.loket`), sehingga Super Admin
+        // mencapainya lewat menu "Deposito — Form".
         $terjangkauLewatInduk = [
             'anggota.edit' => 'teller.loket',
             'ckpn.posting' => 'ckpn.lihat',
             'terminasi.eksekusi' => 'terminasi.pengajuan',
+            'buku_besar.tulis' => 'laporan.buku_besar',
+            'pembiayaan.kontrak' => 'manajer.operasional',
+            'kas.loket.eksekusi' => 'teller.loket',
         ];
 
         $terjangkau = [];

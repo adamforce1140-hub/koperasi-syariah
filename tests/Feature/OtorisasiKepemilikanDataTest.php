@@ -23,6 +23,8 @@ use Tests\TestCase;
  *  1. `POST /api/transaksi/setor` & `/tarik` — IDOR (OWASP A01). Anggota wajib
  *     hanya dapat bertransaksi atas rekening MILIKNYA; peran wali data
  *     (teller/pengurus/admin/manajer) tetap boleh melayani rekening siapa pun.
+ *     Sejak T-2 kanal ini KHUSUS personel: peran `anggota`/`nasabah` ditolak
+ *     403 sebelum kepemilikan rekening dinilai (lihat `KebijakanTokenApiTest`).
  *  2. `GET nasabah/deposito/{deposito}/bagi-hasil` — bilyet deposito milik
  *     anggota lain tidak boleh dibuka (kebocoran pokok, nisbah, dan riwayat
  *     bagi hasil).
@@ -195,7 +197,7 @@ class OtorisasiKepemilikanDataTest extends TestCase
         );
     }
 
-    public function test_anggota_dapat_setor_ke_rekening_miliknya_sendiri(): void
+    public function test_anggota_tidak_dapat_setor_ke_rekening_miliknya_sendiri(): void
     {
         $pemilik = $this->pengguna('pemilik.setor');
         $anggota = $this->anggota($pemilik);
@@ -203,15 +205,19 @@ class OtorisasiKepemilikanDataTest extends TestCase
 
         Sanctum::actingAs($pemilik);
 
+        // T-2: kanal kas mobile khusus personel. `anggota`/`nasabah` tidak
+        // terdaftar pada `role_hierarki.batas`, sehingga `limit_per_transaksi`
+        // = NULL yang berarti "tanpa batas" dan seluruh penjaga batas peran
+        // tak pernah menyala. Kanal ditutup untuk mereka.
         $this->postJson('/api/transaksi/setor', [
             'rekening_id' => $rekening->id,
             'jumlah' => 50000,
-        ])->assertOk();
+        ])->assertForbidden();
 
         $this->assertSame(
-            1,
+            0,
             Transaksi::where('rekening_id', $rekening->id)->count(),
-            'Transaksi atas rekening sendiri harus tetap diproses.'
+            'Setoran lewat kanal personel tidak boleh tercatat untuk peran anggota.'
         );
     }
 

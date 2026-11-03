@@ -405,10 +405,10 @@
         });
 
         return '<tr style="background:#e0e7ff;">'
-             + '<th style="padding:0.35rem 0.5rem;text-align:left;font-size:0.68rem;color:#3730a3;">KODE</th>'
-             + '<th style="padding:0.35rem 0.5rem;text-align:left;font-size:0.68rem;color:#3730a3;">AKUN</th>'
-             + '<th style="padding:0.35rem 0.5rem;text-align:right;font-size:0.68rem;color:#3730a3;">DEBET</th>'
-             + '<th style="padding:0.35rem 0.5rem;text-align:right;font-size:0.68rem;color:#3730a3;">KREDIT</th>'
+             + '<th style="padding:0.35rem 0.5rem;text-align:left;font-size:0.7rem;color:#3730a3;">KODE</th>'
+             + '<th style="padding:0.35rem 0.5rem;text-align:left;font-size:0.7rem;color:#3730a3;">AKUN</th>'
+             + '<th style="padding:0.35rem 0.5rem;text-align:right;font-size:0.7rem;color:#3730a3;">DEBET</th>'
+             + '<th style="padding:0.35rem 0.5rem;text-align:right;font-size:0.7rem;color:#3730a3;">KREDIT</th>'
              + '</tr>' + html;
     }
 

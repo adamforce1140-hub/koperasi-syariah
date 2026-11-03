@@ -61,10 +61,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="mandatory_principal_savings">
                         Simpanan Pokok — Setoran Awal (Rp)
                     </label>
-                    <input type="text" name="mandatory_principal_savings" inputmode="numeric"
+                    <input id="mandatory_principal_savings" type="text" name="mandatory_principal_savings" inputmode="numeric"
                         value="{{ old('mandatory_principal_savings', number_format((float) ($kebijakan->mandatory_principal_savings ?? 100000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -74,10 +74,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="mandatory_monthly_savings">
                         Simpanan Wajib — Per Bulan (Rp)
                     </label>
-                    <input type="text" name="mandatory_monthly_savings" inputmode="numeric"
+                    <input id="mandatory_monthly_savings" type="text" name="mandatory_monthly_savings" inputmode="numeric"
                         value="{{ old('mandatory_monthly_savings', number_format((float) ($kebijakan->mandatory_monthly_savings ?? 50000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -146,10 +146,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="jam_posting_simpanan_wajib">
                         Simpanan Wajib — Jam Posting Auto-Debit
                     </label>
-                    <input type="text" name="jam_posting_simpanan_wajib" placeholder="00:01"
+                    <input id="jam_posting_simpanan_wajib" type="text" name="jam_posting_simpanan_wajib" placeholder="00:01"
                         pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$"
                         title="Format HH:MM 24 jam, contoh 00:01 atau 08:30"
                         value="{{ old('jam_posting_simpanan_wajib', \App\Support\Setting::jamPostingSimpananWajib()) }}"
@@ -216,40 +216,40 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:0.75rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="shu_pct_cadangan_modal">
                         Cadangan Modal (%)
                     </label>
-                    <input type="number" class="input-shu" name="shu_pct_cadangan_modal" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_cadangan_modal') }}"
+                    <input id="shu_pct_cadangan_modal" type="number" class="input-shu" name="shu_pct_cadangan_modal" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_cadangan_modal') }}"
                         value="{{ old('shu_pct_cadangan_modal', (float) ($kebijakan->shu_pct_cadangan_modal ?? $shuKebijakan['cadangan_modal'])) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="shu_pct_jasa_anggota">
                         Jasa Anggota (%)
                     </label>
-                    <input type="number" class="input-shu" name="shu_pct_jasa_anggota" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_jasa_anggota') }}"
+                    <input id="shu_pct_jasa_anggota" type="number" class="input-shu" name="shu_pct_jasa_anggota" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_jasa_anggota') }}"
                         value="{{ old('shu_pct_jasa_anggota', (float) ($kebijakan->shu_pct_jasa_anggota ?? $shuKebijakan['jasa_anggota'])) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="shu_pct_jasa_modal">
                         Jasa Modal (%)
                     </label>
-                    <input type="number" class="input-shu" name="shu_pct_jasa_modal" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_jasa_modal') }}"
+                    <input id="shu_pct_jasa_modal" type="number" class="input-shu" name="shu_pct_jasa_modal" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_jasa_modal') }}"
                         value="{{ old('shu_pct_jasa_modal', (float) ($kebijakan->shu_pct_jasa_modal ?? $shuKebijakan['jasa_modal'])) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="shu_pct_dana_pendidikan">
                         Dana Pendidikan (%)
                     </label>
-                    <input type="number" class="input-shu" name="shu_pct_dana_pendidikan" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_dana_pendidikan') }}"
+                    <input id="shu_pct_dana_pendidikan" type="number" class="input-shu" name="shu_pct_dana_pendidikan" min="0" max="100" step="{{ \App\Support\Setting::langkah('shu_pct_dana_pendidikan') }}"
                         value="{{ old('shu_pct_dana_pendidikan', (float) ($kebijakan->shu_pct_dana_pendidikan ?? $shuKebijakan['dana_pendidikan'])) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -289,10 +289,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="minimum_pembukaan_rekening">
                         Batas Minimum Nominal Pembukaan Rekening (Rp)
                     </label>
-                    <input type="text" name="minimum_pembukaan_rekening" inputmode="numeric"
+                    <input id="minimum_pembukaan_rekening" type="text" name="minimum_pembukaan_rekening" inputmode="numeric"
                         value="{{ old('minimum_pembukaan_rekening', number_format((float) ($kebijakan->minimum_pembukaan_rekening ?? 10000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -302,10 +302,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="maksimum_pembukaan_rekening">
                         Batas Maksimum Nominal Pembukaan Rekening (Rp)
                     </label>
-                    <input type="text" name="maksimum_pembukaan_rekening" inputmode="numeric"
+                    <input id="maksimum_pembukaan_rekening" type="text" name="maksimum_pembukaan_rekening" inputmode="numeric"
                         value="{{ old('maksimum_pembukaan_rekening', number_format((float) ($kebijakan->maksimum_pembukaan_rekening ?? 50000000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -327,10 +327,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:1.75rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="prefix_nomor_transaksi">
                         Nomor Transaksi
                     </label>
-                    <input type="text" name="prefix_nomor_transaksi" maxlength="8" autocomplete="off"
+                    <input id="prefix_nomor_transaksi" type="text" name="prefix_nomor_transaksi" maxlength="8" autocomplete="off"
                         value="{{ old('prefix_nomor_transaksi', $kebijakan->prefix_nomor_transaksi ?? '') }}"
                         placeholder="TRX"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;text-transform:uppercase;">
@@ -340,10 +340,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="prefix_nomor_rekening">
                         Nomor Rekening
                     </label>
-                    <input type="text" name="prefix_nomor_rekening" maxlength="8" autocomplete="off"
+                    <input id="prefix_nomor_rekening" type="text" name="prefix_nomor_rekening" maxlength="8" autocomplete="off"
                         value="{{ old('prefix_nomor_rekening', $kebijakan->prefix_nomor_rekening ?? '') }}"
                         placeholder="RKN"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;text-transform:uppercase;">
@@ -353,10 +353,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="prefix_nomor_jurnal">
                         Nomor Jurnal
                     </label>
-                    <input type="text" name="prefix_nomor_jurnal" maxlength="8" autocomplete="off"
+                    <input id="prefix_nomor_jurnal" type="text" name="prefix_nomor_jurnal" maxlength="8" autocomplete="off"
                         value="{{ old('prefix_nomor_jurnal', $kebijakan->prefix_nomor_jurnal ?? '') }}"
                         placeholder="JRN"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;text-transform:uppercase;">
@@ -366,10 +366,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="prefix_nomor_pengeluaran_beban">
                         Bukti Kas/Bank Keluar
                     </label>
-                    <input type="text" name="prefix_nomor_pengeluaran_beban" maxlength="8" autocomplete="off"
+                    <input id="prefix_nomor_pengeluaran_beban" type="text" name="prefix_nomor_pengeluaran_beban" maxlength="8" autocomplete="off"
                         value="{{ old('prefix_nomor_pengeluaran_beban', $kebijakan->prefix_nomor_pengeluaran_beban ?? '') }}"
                         placeholder="BBK"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;text-transform:uppercase;">
@@ -379,10 +379,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="prefix_nomor_terminasi">
                         Nomor Terminasi Anggota
                     </label>
-                    <input type="text" name="prefix_nomor_terminasi" maxlength="8" autocomplete="off"
+                    <input id="prefix_nomor_terminasi" type="text" name="prefix_nomor_terminasi" maxlength="8" autocomplete="off"
                         value="{{ old('prefix_nomor_terminasi', $kebijakan->prefix_nomor_terminasi ?? '') }}"
                         placeholder="TRM"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;text-transform:uppercase;">
@@ -392,10 +392,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="prefix_nomor_deposito">
                         Nomor Bilyet Deposito
                     </label>
-                    <input type="text" name="prefix_nomor_deposito" maxlength="8" autocomplete="off"
+                    <input id="prefix_nomor_deposito" type="text" name="prefix_nomor_deposito" maxlength="8" autocomplete="off"
                         value="{{ old('prefix_nomor_deposito', $kebijakan->prefix_nomor_deposito ?? '') }}"
                         placeholder="DEP"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;text-transform:uppercase;">
@@ -417,10 +417,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tanggal_jatuh_tempo_default">
                         Tanggal Jatuh Tempo Bulanan
                     </label>
-                    <input type="number" name="tanggal_jatuh_tempo_default"
+                    <input id="tanggal_jatuh_tempo_default" type="number" name="tanggal_jatuh_tempo_default"
                         value="{{ old('tanggal_jatuh_tempo_default', (int) ($kebijakan->tanggal_jatuh_tempo_default ?? \App\Support\Setting::tanggalJatuhTempoDefault())) }}"
                         min="1" max="28" step="{{ \App\Support\Setting::langkah('tanggal_jatuh_tempo_default') }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
@@ -476,10 +476,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="backup_retensi_hari">
                         Retensi Berkas Cadangan (Hari)
                     </label>
-                    <input type="number" name="backup_retensi_hari"
+                    <input id="backup_retensi_hari" type="number" name="backup_retensi_hari"
                         value="{{ old('backup_retensi_hari', (int) ($kebijakan->backup_retensi_hari ?? \App\Support\Setting::backupRetensiHari())) }}"
                         min="1" max="365" step="{{ \App\Support\Setting::langkah('backup_retensi_hari') }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
@@ -495,7 +495,7 @@
             </h4>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-bottom:1.75rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="limit_manajer">
                         Limit Kewenangan Manajer (Max)
                     </label>
                     <input type="text"
@@ -509,7 +509,7 @@
                     </span>
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="limit_pembiayaan_manajer">
                         Limit Pembiayaan Skala Besar (Pengurus)
                     </label>
                     <input type="text"
@@ -537,7 +537,7 @@
             {{-- ── Limit Otorisasi Berjenjang: Teller → Manajer ── --}}
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="limit_penarikan_teller">
                         Limit Penarikan Tunai Teller (Rp)
                     </label>
                     <input type="text"
@@ -566,7 +566,7 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="limit_setoran_teller">
                         Limit Setoran Tunai Teller (Rp)
                     </label>
                     <input type="text"
@@ -598,10 +598,10 @@
             {{-- ── Kontrol Kas Laci & Batas Minimum ── --}}
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-bottom:1.75rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="teller_max_cash_limit">
                         Batas Maksimum Kas Laci Teller (Rp)
                     </label>
-                    <input type="text" name="teller_max_cash_limit" inputmode="numeric"
+                    <input id="teller_max_cash_limit" type="text" name="teller_max_cash_limit" inputmode="numeric"
                         value="{{ old('teller_max_cash_limit', number_format((float) ($kebijakan->teller_max_cash_limit ?? \App\Support\Setting::tellerMaxCashLimit()), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -610,10 +610,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="minimum_transaksi_teller">
                         Minimum Transaksi Tunai Teller (Rp)
                     </label>
-                    <input type="text" name="minimum_transaksi_teller" inputmode="numeric"
+                    <input id="minimum_transaksi_teller" type="text" name="minimum_transaksi_teller" inputmode="numeric"
                         value="{{ old('minimum_transaksi_teller', number_format((float) ($kebijakan->minimum_transaksi_teller ?? \App\Support\Setting::minimumTransaksiTeller()), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -633,10 +633,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-bottom:1.75rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="limit_approval_beban">
                         Limit Approval Beban Operasional (Rp)
                     </label>
-                    <input type="text" name="limit_approval_beban" inputmode="numeric"
+                    <input id="limit_approval_beban" type="text" name="limit_approval_beban" inputmode="numeric"
                         value="{{ old('limit_approval_beban', number_format((float) ($kebijakan->limit_approval_beban ?? 1000000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -646,10 +646,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="minimal_pengajuan_pembiayaan">
                         Nominal Minimum Pengajuan Pembiayaan (Rp)
                     </label>
-                    <input type="text" name="minimal_pengajuan_pembiayaan" inputmode="numeric"
+                    <input id="minimal_pengajuan_pembiayaan" type="text" name="minimal_pengajuan_pembiayaan" inputmode="numeric"
                         value="{{ old('minimal_pengajuan_pembiayaan', number_format((float) ($kebijakan->minimal_pengajuan_pembiayaan ?? 1000000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -658,10 +658,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kolektibilitas_kol1_hari">
                         Ambang Kol-1 — Lancar (hari)
                     </label>
-                    <input type="number" name="kolektibilitas_kol1_hari" min="0" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol1_hari') }}"
+                    <input id="kolektibilitas_kol1_hari" type="number" name="kolektibilitas_kol1_hari" min="0" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol1_hari') }}"
                         value="{{ old('kolektibilitas_kol1_hari', (int) ($kebijakan->kolektibilitas_kol1_hari ?? 10)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -671,10 +671,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kolektibilitas_kol2_hari">
                         Ambang Kol-2 — Dalam Perhatian Khusus (hari)
                     </label>
-                    <input type="number" name="kolektibilitas_kol2_hari" min="1" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol2_hari') }}"
+                    <input id="kolektibilitas_kol2_hari" type="number" name="kolektibilitas_kol2_hari" min="1" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol2_hari') }}"
                         value="{{ old('kolektibilitas_kol2_hari', (int) ($kebijakan->kolektibilitas_kol2_hari ?? 90)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -684,10 +684,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kolektibilitas_kol3_hari">
                         Ambang Kol-3 — Kurang Lancar (hari)
                     </label>
-                    <input type="number" name="kolektibilitas_kol3_hari" min="1" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol3_hari') }}"
+                    <input id="kolektibilitas_kol3_hari" type="number" name="kolektibilitas_kol3_hari" min="1" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol3_hari') }}"
                         value="{{ old('kolektibilitas_kol3_hari', (int) ($kebijakan->kolektibilitas_kol3_hari ?? 120)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -697,10 +697,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="kolektibilitas_kol4_hari">
                         Ambang Kol-4 — Diragukan (hari)
                     </label>
-                    <input type="number" name="kolektibilitas_kol4_hari" min="1" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol4_hari') }}"
+                    <input id="kolektibilitas_kol4_hari" type="number" name="kolektibilitas_kol4_hari" min="1" max="3650" step="{{ \App\Support\Setting::langkah('kolektibilitas_kol4_hari') }}"
                         value="{{ old('kolektibilitas_kol4_hari', (int) ($kebijakan->kolektibilitas_kol4_hari ?? 180)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;"
                         required>
@@ -744,10 +744,10 @@
 
                 {{-- Tarif Ta'zir --}}
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tazir_rate">
                         Tarif / Rate (Rp)
                     </label>
-                    <input type="number" name="tazir_rate" min="0" step="100"
+                    <input id="tazir_rate" type="number" name="tazir_rate" min="0" step="100"
                         value="{{ old('tazir_rate', (float) ($kebijakan->tazir_rate ?? 2000)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -758,10 +758,10 @@
                 {{-- Tarif Denda Keterlambatan Angsuran Pembiayaan per Hari
                      (saklar tunggal fitur Ta'zir — PSAK 108/109, zero-hardcoding) --}}
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="financing_late_fee_per_day">
                         Denda Keterlambatan per Hari (Rp)
                     </label>
-                    <input type="text" inputmode="numeric" name="financing_late_fee_per_day"
+                    <input id="financing_late_fee_per_day" type="text" inputmode="numeric" name="financing_late_fee_per_day"
                         value="{{ old('financing_late_fee_per_day', number_format((float) ($kebijakan->financing_late_fee_per_day ?? \App\Support\Setting::financingLateFeePerDay()), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -772,10 +772,10 @@
 
                 {{-- Grace Period --}}
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tazir_grace_period_days">
                         Grace Period (hari)
                     </label>
-                    <input type="number" name="tazir_grace_period_days" min="0" step="{{ \App\Support\Setting::langkah('tazir_grace_period_days') }}"
+                    <input id="tazir_grace_period_days" type="number" name="tazir_grace_period_days" min="0" step="{{ \App\Support\Setting::langkah('tazir_grace_period_days') }}"
                         value="{{ old('tazir_grace_period_days', (int) ($kebijakan->tazir_grace_period_days ?? 0)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -785,10 +785,10 @@
 
                 {{-- Nominal Default Ta'zir (zero-hardcoding: pengganti ?? 250000) --}}
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tazir_default_nominal">
                         Nominal Default Ta'zir (Rp)
                     </label>
-                    <input type="text" inputmode="numeric" name="tazir_default_nominal"
+                    <input id="tazir_default_nominal" type="text" inputmode="numeric" name="tazir_default_nominal"
                         value="{{ old('tazir_default_nominal', number_format((float) ($kebijakan->tazir_default_nominal ?? \App\Support\Setting::nominalTazirDefault()), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -834,10 +834,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="deposito_rate_pa">
                         Asumsi Rate Bagi Hasil Deposito (desimal)
                     </label>
-                    <input type="number" name="deposito_rate_pa" min="0" max="1" step="{{ \App\Support\Setting::langkah('deposito_rate_pa') }}"
+                    <input id="deposito_rate_pa" type="number" name="deposito_rate_pa" min="0" max="1" step="{{ \App\Support\Setting::langkah('deposito_rate_pa') }}"
                         value="{{ old('deposito_rate_pa', (float) ($kebijakan->deposito_rate_pa ?? 0.08)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -846,10 +846,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="nisbah_default_persen">
                         Nisbah Bagi Hasil Default Anggota (%)
                     </label>
-                    <input type="number" name="nisbah_default_persen" min="0" max="100" step="{{ \App\Support\Setting::langkah('nisbah_default_persen') }}"
+                    <input id="nisbah_default_persen" type="number" name="nisbah_default_persen" min="0" max="100" step="{{ \App\Support\Setting::langkah('nisbah_default_persen') }}"
                         value="{{ old('nisbah_default_persen', (float) ($kebijakan->nisbah_default_persen ?? 60)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -858,10 +858,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="margin_default_persen">
                         Margin / Ujrah Default (% p.a.)
                     </label>
-                    <input type="number" name="margin_default_persen" min="0" max="100" step="{{ \App\Support\Setting::langkah('margin_default_persen') }}"
+                    <input id="margin_default_persen" type="number" name="margin_default_persen" min="0" max="100" step="{{ \App\Support\Setting::langkah('margin_default_persen') }}"
                         value="{{ old('margin_default_persen', (float) ($kebijakan->margin_default_persen ?? 12)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -870,10 +870,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="aml_threshold">
                         Ambang Transaksi Mencurigakan / AML (Rp)
                     </label>
-                    <input type="text" name="aml_threshold" inputmode="numeric"
+                    <input id="aml_threshold" type="text" name="aml_threshold" inputmode="numeric"
                         value="{{ old('aml_threshold', number_format((float) ($kebijakan->aml_threshold ?? 100000000), 0, ',', '.')) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -882,10 +882,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="pembulatan_desimal">
                         Pembulatan Nominal Jurnal (jumlah desimal)
                     </label>
-                    <input type="number" name="pembulatan_desimal" min="0" max="4" step="{{ \App\Support\Setting::langkah('pembulatan_desimal') }}"
+                    <input id="pembulatan_desimal" type="number" name="pembulatan_desimal" min="0" max="4" step="{{ \App\Support\Setting::langkah('pembulatan_desimal') }}"
                         value="{{ old('pembulatan_desimal', (int) ($kebijakan->pembulatan_desimal ?? 0)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -894,10 +894,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="toleransi_selisih_jurnal">
                         Toleransi Selisih Jurnal (Rp)
                     </label>
-                    <input type="number" name="toleransi_selisih_jurnal" min="0" max="999999.99" step="{{ \App\Support\Setting::langkah('toleransi_selisih_jurnal') }}"
+                    <input id="toleransi_selisih_jurnal" type="number" name="toleransi_selisih_jurnal" min="0" max="999999.99" step="{{ \App\Support\Setting::langkah('toleransi_selisih_jurnal') }}"
                         value="{{ old('toleransi_selisih_jurnal', (float) ($kebijakan->toleransi_selisih_jurnal ?? 0.01)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -919,10 +919,10 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="tahun_buku_mulai_bulan">
                         Bulan Awal Tahun Buku (1-12)
                     </label>
-                    <input type="number" name="tahun_buku_mulai_bulan" min="1" max="12" step="{{ \App\Support\Setting::langkah('tahun_buku_mulai_bulan') }}"
+                    <input id="tahun_buku_mulai_bulan" type="number" name="tahun_buku_mulai_bulan" min="1" max="12" step="{{ \App\Support\Setting::langkah('tahun_buku_mulai_bulan') }}"
                         value="{{ old('tahun_buku_mulai_bulan', (int) ($kebijakan->tahun_buku_mulai_bulan ?? 1)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -931,10 +931,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="jumlah_bulan_tahun_buku">
                         Jumlah Bulan dalam Tahun Buku (1-12)
                     </label>
-                    <input type="number" name="jumlah_bulan_tahun_buku" min="1" max="12" step="{{ \App\Support\Setting::langkah('jumlah_bulan_tahun_buku') }}"
+                    <input id="jumlah_bulan_tahun_buku" type="number" name="jumlah_bulan_tahun_buku" min="1" max="12" step="{{ \App\Support\Setting::langkah('jumlah_bulan_tahun_buku') }}"
                         value="{{ old('jumlah_bulan_tahun_buku', (int) ($kebijakan->jumlah_bulan_tahun_buku ?? 12)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -970,37 +970,37 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="akad_margin">
                         Akad Margin (jual-beli)
                     </label>
-                    <input type="text" name="akad_margin"
+                    <input id="akad_margin" type="text" name="akad_margin"
                         value="{{ old('akad_margin', $kebijakan->akad_margin ?? 'Murabahah,Ijarah Muntahia Bittamlik,Istishna,Salam') }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="akad_bagi_hasil">
                         Akad Bagi Hasil (kerja sama usaha)
                     </label>
-                    <input type="text" name="akad_bagi_hasil"
+                    <input id="akad_bagi_hasil" type="text" name="akad_bagi_hasil"
                         value="{{ old('akad_bagi_hasil', $kebijakan->akad_bagi_hasil ?? 'Mudharabah,Musyarakah') }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="akad_ujroh">
                         Akad Ujroh (sewa/jasa)
                     </label>
-                    <input type="text" name="akad_ujroh"
+                    <input id="akad_ujroh" type="text" name="akad_ujroh"
                         value="{{ old('akad_ujroh', $kebijakan->akad_ujroh ?? 'Ijarah') }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="shu_jenis_partisipasi">
                         Jenis Transaksi Partisipasi SHU
                     </label>
-                    <input type="text" name="shu_jenis_partisipasi"
+                    <input id="shu_jenis_partisipasi" type="text" name="shu_jenis_partisipasi"
                         value="{{ old('shu_jenis_partisipasi', $kebijakan->shu_jenis_partisipasi ?? 'Pembayaran Angsuran,Bayar Angsuran,Bagi Hasil Simpanan Berjangka,Bagi Hasil') }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
@@ -1029,42 +1029,42 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.25rem;margin-bottom:1.5rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="ckpn_persen_kol1">
                         Kol-1 — Lancar (%)
                     </label>
-                    <input type="number" name="ckpn_persen_kol1" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol1') }}"
+                    <input id="ckpn_persen_kol1" type="number" name="ckpn_persen_kol1" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol1') }}"
                         value="{{ old('ckpn_persen_kol1', (float) ($kebijakan->ckpn_persen_kol1 ?? 0.5)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="ckpn_persen_kol2">
                         Kol-2 — Perhatian Khusus (%)
                     </label>
-                    <input type="number" name="ckpn_persen_kol2" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol2') }}"
+                    <input id="ckpn_persen_kol2" type="number" name="ckpn_persen_kol2" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol2') }}"
                         value="{{ old('ckpn_persen_kol2', (float) ($kebijakan->ckpn_persen_kol2 ?? 10)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="ckpn_persen_kol3">
                         Kol-3 — Kurang Lancar (%)
                     </label>
-                    <input type="number" name="ckpn_persen_kol3" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol3') }}"
+                    <input id="ckpn_persen_kol3" type="number" name="ckpn_persen_kol3" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol3') }}"
                         value="{{ old('ckpn_persen_kol3', (float) ($kebijakan->ckpn_persen_kol3 ?? 50)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="ckpn_persen_kol4">
                         Kol-4 — Diragukan (%)
                     </label>
-                    <input type="number" name="ckpn_persen_kol4" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol4') }}"
+                    <input id="ckpn_persen_kol4" type="number" name="ckpn_persen_kol4" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol4') }}"
                         value="{{ old('ckpn_persen_kol4', (float) ($kebijakan->ckpn_persen_kol4 ?? 75)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="ckpn_persen_kol5">
                         Kol-5 — Macet (%)
                     </label>
-                    <input type="number" name="ckpn_persen_kol5" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol5') }}"
+                    <input id="ckpn_persen_kol5" type="number" name="ckpn_persen_kol5" min="0" max="100" step="{{ \App\Support\Setting::langkah('ckpn_persen_kol5') }}"
                         value="{{ old('ckpn_persen_kol5', (float) ($kebijakan->ckpn_persen_kol5 ?? 100)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                 </div>
@@ -1083,10 +1083,10 @@
             </p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-bottom:1.25rem;">
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="closure_admin_fee">
                         Biaya Administrasi Penutupan (Rp)
                     </label>
-                    <input type="number" name="closure_admin_fee" min="0" step="{{ \App\Support\Setting::langkah('closure_admin_fee') }}"
+                    <input id="closure_admin_fee" type="number" name="closure_admin_fee" min="0" step="{{ \App\Support\Setting::langkah('closure_admin_fee') }}"
                         value="{{ old('closure_admin_fee', (float) ($kebijakan->closure_admin_fee ?? 0)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1096,10 +1096,10 @@
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="high_value_withdrawal_limit">
                         Ambang Persetujuan Pencairan Exit (Rp)
                     </label>
-                    <input type="number" name="high_value_withdrawal_limit" min="0" step="{{ \App\Support\Setting::langkah('high_value_withdrawal_limit') }}"
+                    <input id="high_value_withdrawal_limit" type="number" name="high_value_withdrawal_limit" min="0" step="{{ \App\Support\Setting::langkah('high_value_withdrawal_limit') }}"
                         value="{{ old('high_value_withdrawal_limit', (float) ($kebijakan->high_value_withdrawal_limit ?? 0)) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1200,10 +1200,10 @@
                      umumnya maksimum 1/8 (12,5%). Dipakai merekap hak amil pada
                      laporan; penyaluran ke amil tetap dicatat manual ber-asnaf Amil. --}}
                 <div>
-                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                    <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="zakat_porsi_amil_persen">
                         Porsi Hak Amil atas Dana Zakat (%)
                     </label>
-                    <input type="number" name="zakat_porsi_amil_persen" step="{{ \App\Support\Setting::langkah('zakat_porsi_amil_persen') }}" min="0" max="100"
+                    <input id="zakat_porsi_amil_persen" type="number" name="zakat_porsi_amil_persen" step="{{ \App\Support\Setting::langkah('zakat_porsi_amil_persen') }}" min="0" max="100"
                         value="{{ old('zakat_porsi_amil_persen', $kebijakan->zakat_porsi_amil_persen ?? 12.50) }}"
                         style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                     <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1224,10 +1224,10 @@
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
                     <div>
-                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="zakat_rate">
                             Kadar Zakat Maal (%)
                         </label>
-                        <input type="number" name="zakat_rate" step="{{ \App\Support\Setting::langkah('zakat_rate') }}" min="0" max="100"
+                        <input id="zakat_rate" type="number" name="zakat_rate" step="{{ \App\Support\Setting::langkah('zakat_rate') }}" min="0" max="100"
                             value="{{ old('zakat_rate', $kebijakan->zakat_rate ?? 2.50) }}"
                             style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                         <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1236,10 +1236,10 @@
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="zakat_nisab_gram">
                             Nishab Zakat (gram emas)
                         </label>
-                        <input type="number" name="zakat_nisab_gram" step="{{ \App\Support\Setting::langkah('zakat_nisab_gram') }}" min="0"
+                        <input id="zakat_nisab_gram" type="number" name="zakat_nisab_gram" step="{{ \App\Support\Setting::langkah('zakat_nisab_gram') }}" min="0"
                             value="{{ old('zakat_nisab_gram', $kebijakan->zakat_nisab_gram ?? 85.00) }}"
                             style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                         <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1248,10 +1248,10 @@
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="harga_emas_per_gram">
                             Harga Emas per Gram (Rp)
                         </label>
-                        <input type="number" name="harga_emas_per_gram" step="{{ \App\Support\Setting::langkah('harga_emas_per_gram') }}" min="0"
+                        <input id="harga_emas_per_gram" type="number" name="harga_emas_per_gram" step="{{ \App\Support\Setting::langkah('harga_emas_per_gram') }}" min="0"
                             value="{{ old('harga_emas_per_gram', $kebijakan->harga_emas_per_gram ?? 1500000.00) }}"
                             style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                         <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1260,10 +1260,10 @@
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="zakat_minimal_tarik">
                             Minimum Penyaluran Zakat (Rp)
                         </label>
-                        <input type="number" name="zakat_minimal_tarik" step="{{ \App\Support\Setting::langkah('zakat_minimal_tarik') }}" min="0"
+                        <input id="zakat_minimal_tarik" type="number" name="zakat_minimal_tarik" step="{{ \App\Support\Setting::langkah('zakat_minimal_tarik') }}" min="0"
                             value="{{ old('zakat_minimal_tarik', $kebijakan->zakat_minimal_tarik ?? 10000.00) }}"
                             style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                         <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1272,10 +1272,10 @@
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="zakat_ambang_persetujuan">
                             Ambang Persetujuan Penyaluran (Rp)
                         </label>
-                        <input type="number" name="zakat_ambang_persetujuan" step="{{ \App\Support\Setting::langkah('zakat_ambang_persetujuan') }}" min="0"
+                        <input id="zakat_ambang_persetujuan" type="number" name="zakat_ambang_persetujuan" step="{{ \App\Support\Setting::langkah('zakat_ambang_persetujuan') }}" min="0"
                             value="{{ old('zakat_ambang_persetujuan', $kebijakan->zakat_ambang_persetujuan ?? 0) }}"
                             style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                         <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1284,10 +1284,10 @@
                     </div>
 
                     <div>
-                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;">
+                        <label style="display:block;font-size:0.825rem;font-weight:600;color:#475569;margin-bottom:0.35rem;" for="zakat_haul_hari">
                             Panjang Haul (hari)
                         </label>
-                        <input type="number" name="zakat_haul_hari" step="{{ \App\Support\Setting::langkah('zakat_haul_hari') }}" min="1" max="1000"
+                        <input id="zakat_haul_hari" type="number" name="zakat_haul_hari" step="{{ \App\Support\Setting::langkah('zakat_haul_hari') }}" min="1" max="1000"
                             value="{{ old('zakat_haul_hari', $kebijakan->zakat_haul_hari ?? 354) }}"
                             style="width:100%;padding:0.55rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.85rem;background:#fff;">
                         <span style="font-size:0.75rem;color:#64748b;margin-top:0.25rem;display:block;">
@@ -1571,7 +1571,7 @@
                                 </td>
                                 <td style="padding:0.6rem 0.75rem;font-weight:600;color:#1e293b;">
                                     {{ \App\Models\KebijakanKoperasi::LABEL_KOLOM[$log->kolom] ?? $log->kolom }}
-                                    <span style="display:inline-block;font-size:0.68rem;font-weight:700;padding:0.1rem 0.35rem;border-radius:0.25rem;margin-left:0.35rem;{{ $log->aksi === 'CREATE' ? 'background:#dbeafe;color:#1d4ed8;' : 'background:#fef3c7;color:#92400e;' }}">
+                                    <span style="display:inline-block;font-size:0.7rem;font-weight:700;padding:0.1rem 0.35rem;border-radius:0.25rem;margin-left:0.35rem;{{ $log->aksi === 'CREATE' ? 'background:#dbeafe;color:#1d4ed8;' : 'background:#fef3c7;color:#92400e;' }}">
                                         {{ $log->aksi }}
                                     </span>
                                 </td>

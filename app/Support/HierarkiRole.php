@@ -372,6 +372,26 @@ class HierarkiRole
     }
 
     /**
+     * Apakah peran tunduk pada kebijakan batas operasional (`batas`),
+     * yaitu peran PERSONEL koperasi.
+     *
+     * T-2 — `anggota` dan `nasabah` adalah peran PEMAKAI JASA, bukan personel,
+     * sehingga sengaja tidak tercantum pada `role_hierarki.batas`. Akibat
+     * sampingnya `batas()` mengembalikan `limit_per_transaksi = NULL` yang
+     * berarti "tanpa batas", sedangkan `frekuensi()` dan `aksesData()`
+     * mengembalikan NULL yang juga berarti "tanpa batas" — penjaga di
+     * `TransactionLimitService` dan `ambilDenganBatas()` tak pernah menyala
+     * untuk mereka. Kanal yang hanya boleh dilayani personel (mis. API kas
+     * mobile) wajib memakai pemeriksaan ini LEBIH DULU.
+     */
+    public static function tundukBatasOperasional(?string $peran): bool
+    {
+        return $peran !== null
+            && $peran !== ''
+            && array_key_exists($peran, (array) (static::konfigurasi()['batas'] ?? []));
+    }
+
+    /**
      * Peran apa saja yang berwenang menyetujui pengajuan dari $peranPengaju.
      *
      * @return list<string>

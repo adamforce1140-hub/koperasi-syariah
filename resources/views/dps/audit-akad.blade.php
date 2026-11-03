@@ -129,7 +129,7 @@
                              style="position:absolute;left:0.625rem;top:50%;transform:translateY(-50%);pointer-events:none;">
                             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                         </svg>
-                        <input type="text" name="search" value="{{ $search }}"
+                        <input type="text" name="search" value="{{ $search }}" aria-label="Cari pembiayaan atau anggota"
                                placeholder="Contoh: PBY-001 atau Ahmad..."
                                style="width:100%;padding:0.5rem 0.75rem 0.5rem 2rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;
@@ -144,13 +144,13 @@
                         Tanggal Pengajuan
                     </label>
                     <div style="display:flex;align-items:center;gap:0.375rem;">
-                        <input type="date" name="tgl_mulai" value="{{ $tglMulai }}"
+                        <input type="date" name="tgl_mulai" aria-label="Tanggal pengajuan mulai" value="{{ $tglMulai }}"
                                style="flex:1;padding:0.5rem 0.625rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.8rem;color:#1e293b;outline:none;
                                       transition:border-color .15s;"
                                onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='#cbd5e1'">
                         <span style="font-size:0.75rem;color:#94a3b8;flex-shrink:0;">s/d</span>
-                        <input type="date" name="tgl_selesai" value="{{ $tglSelesai }}"
+                        <input type="date" name="tgl_selesai" aria-label="Tanggal pengajuan selesai" value="{{ $tglSelesai }}"
                                style="flex:1;padding:0.5rem 0.625rem;border:1px solid #cbd5e1;
                                       border-radius:0.5rem;font-size:0.8rem;color:#1e293b;outline:none;
                                       transition:border-color .15s;"
@@ -390,7 +390,7 @@
                                 <div style="font-size:0.75rem;color:#1e40af;font-weight:600;">
                                     Margin {{ $pb->margin_nisbah ?? '—' }}%
                                 </div>
-                                <div style="font-size:0.68rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
+                                <div style="font-size:0.7rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
                             @elseif(in_array($pb->akad_pembiayaan, ['Mudharabah', 'Musyarakah']))
                                 <div style="font-size:0.72rem;color:#065f46;font-weight:600;line-height:1.4;">
                                     Pengelola {{ $pb->nisbah_pengelola ?? '—' }}%
@@ -402,22 +402,22 @@
                                 <div style="font-size:0.75rem;color:#155e75;font-weight:600;">
                                     Ujroh Rp {{ number_format($pb->total_ujroh ?? 0, 0, ',', '.') }}
                                 </div>
-                                <div style="font-size:0.68rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
+                                <div style="font-size:0.7rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
                             @elseif($pb->akad_pembiayaan === 'Ijarah Muntahia Bittamlik')
                                 <div style="font-size:0.72rem;color:#115e59;font-weight:600;">
                                     Ujroh Rp {{ number_format($pb->total_ujroh ?? 0, 0, ',', '.') }}
                                 </div>
-                                <div style="font-size:0.68rem;color:#64748b;">Hibah di akhir {{ $pb->tenor ?? '—' }} bln</div>
+                                <div style="font-size:0.7rem;color:#64748b;">Hibah di akhir {{ $pb->tenor ?? '—' }} bln</div>
                             @elseif(in_array($pb->akad_pembiayaan, ['Istishna', 'Salam']))
                                 <div style="font-size:0.75rem;color:#5b21b6;font-weight:600;">
                                     Margin {{ $pb->margin_nisbah ?? '—' }}%
                                 </div>
-                                <div style="font-size:0.68rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
+                                <div style="font-size:0.7rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
                             @elseif($pb->akad_pembiayaan === 'Qardh')
                                 <div style="font-size:0.75rem;color:#991b1b;font-weight:600;">
                                     Tanpa Imbal Hasil
                                 </div>
-                                <div style="font-size:0.68rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
+                                <div style="font-size:0.7rem;color:#64748b;">{{ $pb->tenor ?? '—' }} bln</div>
                             @else
                                 <span style="color:#94a3b8;font-size:0.75rem;">—</span>
                             @endif
@@ -429,7 +429,7 @@
                                 <div style="font-size:0.8rem;font-weight:600;color:#1e293b;">
                                     {{ $pb->tanggal_cair->format('d/m/Y') }}
                                 </div>
-                                <div style="font-size:0.68rem;color:#94a3b8;">
+                                <div style="font-size:0.7rem;color:#94a3b8;">
                                     {{ $pb->tanggal_cair->locale('id')->diffForHumans() }}
                                 </div>
                             @else
@@ -607,7 +607,7 @@
 
                     @foreach($fields as $f)
                     <div style="background:#f8fafc;border-radius:0.5rem;padding:0.625rem 0.875rem;">
-                        <div style="font-size:0.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;
+                        <div style="font-size:0.7rem;font-weight:600;color:#94a3b8;text-transform:uppercase;
                                     letter-spacing:.05em;margin-bottom:0.2rem;">{{ $f['label'] }}</div>
                         <div style="font-size:0.825rem;font-weight:600;color:#1e293b;">{{ $f['val'] }}</div>
                     </div>
@@ -616,7 +616,7 @@
                     {{-- Status --}}
                     @php $stStyle = $stMap[\App\Models\Pembiayaan::normalizeStatus($pb->status_pembiayaan)] ?? ['bg'=>'#f1f5f9','color'=>'#475569','dot'=>'#94a3b8']; @endphp
                     <div style="background:#f8fafc;border-radius:0.5rem;padding:0.625rem 0.875rem;">
-                        <div style="font-size:0.68rem;font-weight:600;color:#94a3b8;text-transform:uppercase;
+                        <div style="font-size:0.7rem;font-weight:600;color:#94a3b8;text-transform:uppercase;
                                     letter-spacing:.05em;margin-bottom:0.35rem;">Status Audit</div>
                         <span style="display:inline-flex;align-items:center;gap:0.3rem;padding:0.2rem 0.6rem;
                                      border-radius:9999px;font-size:0.75rem;font-weight:700;
@@ -647,19 +647,19 @@
                         @csrf
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
                             <div>
-                                <label style="display:block;font-size:0.72rem;font-weight:600;color:#374151;margin-bottom:0.3rem;">
+                                <label style="display:block;font-size:0.72rem;font-weight:600;color:#374151;margin-bottom:0.3rem;" for="tgl_pencairan">
                                     Tgl. Rencana Cair <span style="color:#dc2626;">*</span>
                                 </label>
-                                <input type="date" name="tgl_pencairan"
+                                <input id="tgl_pencairan" type="date" name="tgl_pencairan"
                                        value="{{ $todayDate }}" required
                                        style="width:100%;padding:0.45rem 0.6rem;border:1px solid #d1d5db;
                                               border-radius:0.4rem;font-size:0.8rem;box-sizing:border-box;">
                             </div>
                             <div>
-                                <label style="display:block;font-size:0.72rem;font-weight:600;color:#374151;margin-bottom:0.3rem;">
+                                <label style="display:block;font-size:0.72rem;font-weight:600;color:#374151;margin-bottom:0.3rem;" for="catatan_dps">
                                     Opini Syariah
                                 </label>
-                                <input type="text" name="catatan_dps"
+                                <input id="catatan_dps" type="text" name="catatan_dps"
                                        placeholder="Misal: Rukun terpenuhi..."
                                        style="width:100%;padding:0.45rem 0.6rem;border:1px solid #d1d5db;
                                               border-radius:0.4rem;font-size:0.8rem;box-sizing:border-box;">
@@ -684,7 +684,7 @@
                                 <label style="display:block;font-size:0.72rem;font-weight:600;color:#374151;margin-bottom:0.3rem;">
                                     Alasan Penolakan <span style="color:#dc2626;">*</span>
                                 </label>
-                                <textarea name="catatan_dps" rows="3" required
+                                <textarea name="catatan_dps" rows="3" required aria-label="Alasan penolakan"
                                           placeholder="Tuliskan alasan penolakan secara syariah..."
                                           style="width:100%;padding:0.5rem 0.65rem;border:1px solid #fca5a5;
                                                  border-radius:0.4rem;font-size:0.8rem;resize:vertical;box-sizing:border-box;"></textarea>

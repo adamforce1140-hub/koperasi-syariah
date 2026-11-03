@@ -238,7 +238,7 @@
 
             {{-- Tanggal Rencana Pencairan --}}
                     <div style="margin-bottom:1rem;">
-                        <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.375rem;">
+                        <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.375rem;" for="input-tgl-pencairan">
                             Tanggal Rencana Pencairan <span style="color:#e11d48;">*</span>
                         </label>
                         <input type="date" name="tgl_pencairan" id="input-tgl-pencairan"
@@ -254,7 +254,7 @@
 
             {{-- Catatan DPS --}}
             <div style="margin-bottom:1.25rem;">
-                <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.375rem;">
+                <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.375rem;" for="input-catatan-dps">
                     Catatan / Rekomendasi DPS
                 </label>
                 <textarea name="catatan_dps" id="input-catatan-dps" rows="3"

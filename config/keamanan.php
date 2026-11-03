@@ -119,6 +119,22 @@ return [
         'rate_limit_per_menit' => (int) env('HEALTH_RATE_LIMIT_PER_MINUTE', 60),
     ],
 
+    /*
+    |----------------------------------------------------------------------
+    | Pembatas laju kanal API mobile (T-2)
+    |----------------------------------------------------------------------
+    | Rute `transaksi/setor`, `transaksi/tarik`, dan `approval/status`
+    | sebelumnya tidak mendapat `throttle:*` sama sekali. Nilai di bawah
+    | adalah batas per MENIT per pengguna (jatuh ke IP bila anonim).
+    */
+    'throttle' => [
+        // Setor/tarik tunai — menggerakkan uang fisik, jadi dibatasi ketat.
+        'transaksi' => (int) env('API_THROTTLE_TRANSAKSI', 30),
+
+        // Pembacaan status approval — boleh lebih longgar namun tetap terbatas.
+        'baca-api' => (int) env('API_THROTTLE_BACA', 60),
+    ],
+
     'password' => (function () {
         $lokal = in_array((string) env('APP_ENV', 'production'), ['local', 'testing'], true);
 

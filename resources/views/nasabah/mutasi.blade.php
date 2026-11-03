@@ -26,15 +26,15 @@
 
             {{-- Dari --}}
             <div>
-                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;">Dari</label>
-                <input type="date" name="dari" value="{{ request('dari') }}"
+                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;" for="dari">Dari</label>
+                <input id="dari" type="date" name="dari" value="{{ request('dari') }}"
                     style="width: 100%; padding: 0.5rem 0.75rem; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; color: #334155; outline: none; font-family: inherit;">
             </div>
 
             {{-- Sampai --}}
             <div>
-                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;">Sampai</label>
-                <input type="date" name="sampai" value="{{ request('sampai') }}"
+                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;" for="sampai">Sampai</label>
+                <input id="sampai" type="date" name="sampai" value="{{ request('sampai') }}"
                     style="width: 100%; padding: 0.5rem 0.75rem; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; color: #334155; outline: none; font-family: inherit;">
             </div>
 

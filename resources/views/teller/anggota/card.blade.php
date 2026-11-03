@@ -111,7 +111,7 @@
     margin-bottom: 1.1rem;
 }
 .card-detail-label {
-    font-size: .65rem;
+    font-size: 0.7rem;
     opacity: .65;
     text-transform: uppercase;
     letter-spacing: .06em;
@@ -253,7 +253,7 @@
             <div class="card-footer">
                 <div>
                     <span class="card-badge">&#10003; {{ $anggota->status_anggota }}</span>
-                    <div style="font-size:.65rem;opacity:.65;margin-top:.3rem;">
+                    <div style="font-size:0.7rem;opacity:.65;margin-top:.3rem;">
                         Bergabung: {{ $anggota->tanggal_gabung ? $anggota->tanggal_gabung->format('d M Y') : '-' }}<br>
                         Berlaku: Seumur Hidup
                     </div>

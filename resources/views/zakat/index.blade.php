@@ -83,12 +83,12 @@
 <div class="card">
     <form method="GET" style="display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
         <div>
-            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Dari Tanggal</label>
-            <input type="date" name="dari" value="{{ $dari }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="dari">Dari Tanggal</label>
+            <input id="dari" type="date" name="dari" value="{{ $dari }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
         </div>
         <div>
-            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Sampai Tanggal</label>
-            <input type="date" name="sampai" value="{{ $sampai }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="sampai">Sampai Tanggal</label>
+            <input id="sampai" type="date" name="sampai" value="{{ $sampai }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
         </div>
         <button type="submit" class="btn btn-primary">Terapkan</button>
         <a href="{{ route($routeLaporan, ['dari' => $dari, 'sampai' => $sampai]) }}" class="btn" style="background:#f1f5f9;color:#334155;">
@@ -121,7 +121,7 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Muzakki / Munfiq</label>
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="terima-pihak">Muzakki / Munfiq</label>
                     <input type="text" name="pihak" id="terima-pihak" maxlength="150" placeholder="Nama pihak (boleh kosong bila memilih anggota)" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 {{-- R-08 (Z-07) — relasi OPSIONAL ke master anggota; `pihak` tetap fallback teks --}}
@@ -136,7 +136,7 @@
                     <div style="font-size:.7rem;color:#94a3b8;margin-top:.25rem;">Bila anggota dipilih, nama teks boleh dikosongkan.</div>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Jumlah (Rp)</label>
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="terima-jumlah">Jumlah (Rp)</label>
                     <input type="number" name="jumlah" id="terima-jumlah" required min="0.01" step="0.01" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 <div>
@@ -152,12 +152,12 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Tanggal</label>
-                    <input type="date" name="tanggal" required value="{{ now()->toDateString() }}" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="tanggal">Tanggal</label>
+                    <input id="tanggal" type="date" name="tanggal" required value="{{ now()->toDateString() }}" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Keterangan</label>
-                    <input type="text" name="keterangan" maxlength="500" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="keterangan">Keterangan</label>
+                    <input id="keterangan" type="text" name="keterangan" maxlength="500" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 <button type="submit" class="btn btn-primary">Posting Penerimaan</button>
             </div>
@@ -194,7 +194,7 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Mustahik / Penerima</label>
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="salur-pihak">Mustahik / Penerima</label>
                     <input type="text" name="pihak" id="salur-pihak" maxlength="150" placeholder="Nama pihak (boleh kosong bila memilih anggota)" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 {{-- R-08 (Z-07) — relasi OPSIONAL ke master anggota; `pihak` tetap fallback teks --}}
@@ -209,8 +209,8 @@
                     <div style="font-size:.7rem;color:#94a3b8;margin-top:.25rem;">Bila anggota dipilih, nama teks boleh dikosongkan.</div>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Jumlah (Rp)</label>
-                    <input type="number" name="jumlah" required min="0.01" step="0.01" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="jumlah">Jumlah (Rp)</label>
+                    <input id="jumlah" type="number" name="jumlah" required min="0.01" step="0.01" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 <div>
                     <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Kas / Bank Penyaluran</label>
@@ -225,12 +225,12 @@
                     </select>
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Tanggal</label>
-                    <input type="date" name="tanggal" required value="{{ now()->toDateString() }}" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="tanggal-salur">Tanggal</label>
+                    <input id="tanggal-salur" type="date" name="tanggal" required value="{{ now()->toDateString() }}" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 <div>
-                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Keterangan</label>
-                    <input type="text" name="keterangan" maxlength="500" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+                    <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="keterangan-salur">Keterangan</label>
+                    <input id="keterangan-salur" type="text" name="keterangan" maxlength="500" style="width:100%;padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
                 </div>
                 <button type="submit" class="btn btn-primary">Posting Penyaluran</button>
             </div>

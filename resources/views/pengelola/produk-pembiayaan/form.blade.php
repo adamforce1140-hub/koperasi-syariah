@@ -19,8 +19,8 @@
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;">
             <div style="grid-column:1/-1;">
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Nama Produk *</label>
-                <input type="text" name="nama_produk" value="{{ old('nama_produk', $produk->nama_produk ?? '') }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="nama_produk">Nama Produk *</label>
+                <input id="nama_produk" type="text" name="nama_produk" value="{{ old('nama_produk', $produk->nama_produk ?? '') }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
@@ -33,50 +33,50 @@
                 </select>
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Margin (%) *</label>
-                <input type="number" name="margin_persen" step="0.01" min="0" max="100" value="{{ old('margin_persen', $produk->margin_persen ?? 12) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="margin_persen">Margin (%) *</label>
+                <input id="margin_persen" type="number" name="margin_persen" step="0.01" min="0" max="100" value="{{ old('margin_persen', $produk->margin_persen ?? 12) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Nisbah Anggota (%)</label>
-                <input type="number" name="nisbah_anggota" step="0.001" min="0" max="100" value="{{ old('nisbah_anggota', $produk->nisbah_anggota ?? '') }}"
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="nisbah_anggota">Nisbah Anggota (%)</label>
+                <input id="nisbah_anggota" type="number" name="nisbah_anggota" step="0.001" min="0" max="100" value="{{ old('nisbah_anggota', $produk->nisbah_anggota ?? '') }}"
                        placeholder="cth. 40 (wajib untuk Mudharabah/Musyarakah)"
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Nisbah Koperasi (%)</label>
-                <input type="number" name="nisbah_koperasi" step="0.001" min="0" max="100" value="{{ old('nisbah_koperasi', $produk->nisbah_koperasi ?? '') }}"
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="nisbah_koperasi">Nisbah Koperasi (%)</label>
+                <input id="nisbah_koperasi" type="number" name="nisbah_koperasi" step="0.001" min="0" max="100" value="{{ old('nisbah_koperasi', $produk->nisbah_koperasi ?? '') }}"
                        placeholder="cth. 60 (anggota + koperasi = 100)"
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Min Plafon (Rp) *</label>
-                <input type="number" name="min_plafon" min="100000" value="{{ old('min_plafon', $produk->min_plafon ?? 1000000) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="min_plafon">Min Plafon (Rp) *</label>
+                <input id="min_plafon" type="number" name="min_plafon" min="100000" value="{{ old('min_plafon', $produk->min_plafon ?? 1000000) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Max Plafon (Rp) *</label>
-                <input type="number" name="max_plafon" min="100000" value="{{ old('max_plafon', $produk->max_plafon ?? 50000000) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="max_plafon">Max Plafon (Rp) *</label>
+                <input id="max_plafon" type="number" name="max_plafon" min="100000" value="{{ old('max_plafon', $produk->max_plafon ?? 50000000) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Biaya Admin (Rp) *</label>
-                <input type="number" name="biaya_admin" min="0" value="{{ old('biaya_admin', $produk->biaya_admin ?? 50000) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="biaya_admin">Biaya Admin (Rp) *</label>
+                <input id="biaya_admin" type="number" name="biaya_admin" min="0" value="{{ old('biaya_admin', $produk->biaya_admin ?? 50000) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Min Lama Menjadi Anggota (bulan) *</label>
-                <input type="number" name="min_bulan_anggota" min="0" value="{{ old('min_bulan_anggota', $produk->min_bulan_anggota ?? 3) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="min_bulan_anggota">Min Lama Menjadi Anggota (bulan) *</label>
+                <input id="min_bulan_anggota" type="number" name="min_bulan_anggota" min="0" value="{{ old('min_bulan_anggota', $produk->min_bulan_anggota ?? 3) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Min Tenor (bulan) *</label>
-                <input type="number" name="min_tenor_bulan" min="1" value="{{ old('min_tenor_bulan', $produk->min_tenor_bulan ?? 3) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="min_tenor_bulan">Min Tenor (bulan) *</label>
+                <input id="min_tenor_bulan" type="number" name="min_tenor_bulan" min="1" value="{{ old('min_tenor_bulan', $produk->min_tenor_bulan ?? 3) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div>
-                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;">Max Tenor (bulan) *</label>
-                <input type="number" name="max_tenor_bulan" min="1" value="{{ old('max_tenor_bulan', $produk->max_tenor_bulan ?? 36) }}" required
+                <label style="display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.35rem;" for="max_tenor_bulan">Max Tenor (bulan) *</label>
+                <input id="max_tenor_bulan" type="number" name="max_tenor_bulan" min="1" value="{{ old('max_tenor_bulan', $produk->max_tenor_bulan ?? 36) }}" required
                        style="width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
             </div>
             <div style="display:flex;align-items:center;gap:.5rem;">
@@ -91,7 +91,7 @@
         <div id="syarat-wrap">
             @foreach(old('syarat', $produk?->syaratDokumen->pluck('nama_dokumen')->toArray() ?? []) as $i => $nama)
             <div class="syarat-row" style="display:flex;gap:.75rem;align-items:center;margin-bottom:.5rem;">
-                <input type="text" name="syarat[{{ $i }}]" value="{{ $nama }}" placeholder="Nama dokumen"
+                <input type="text" name="syarat[{{ $i }}]" value="{{ $nama }}" aria-label="Nama dokumen syarat {{ $loop->iteration }}" placeholder="Nama dokumen"
                        style="flex:1;padding:.55rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
                 <label style="font-size:.8rem;color:#94a3b8;display:flex;gap:.35rem;align-items:center;white-space:nowrap;">
                     <input type="hidden" name="syarat_required[{{ $i }}]" value="0">
@@ -118,7 +118,7 @@ function tambahSyarat() {
     row.className = 'syarat-row';
     row.style.cssText = 'display:flex;gap:.75rem;align-items:center;margin-bottom:.5rem;';
     row.innerHTML = `
-        <input type="text" name="syarat[\${syaratIdx}]" placeholder="Nama dokumen"
+        <input type="text" name="syarat[\${syaratIdx}]" aria-label="Nama dokumen syarat baru" placeholder="Nama dokumen"
                style="flex:1;padding:.55rem .75rem;border-radius:8px;border:1px solid #334155;background:rgba(255,255,255,.05);color:white;">
         <label style="font-size:.8rem;color:#94a3b8;display:flex;gap:.35rem;align-items:center;white-space:nowrap;">
             <input type="hidden" name="syarat_required[\${syaratIdx}]" value="0">

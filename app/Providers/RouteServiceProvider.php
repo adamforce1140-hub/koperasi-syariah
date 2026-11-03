@@ -33,6 +33,23 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute($batas)->by($request->ip());
         });
 
+        /*
+         * T-2 — pembatas laju kanal API mobile. Keduanya dibatasi per
+         * PENGGUNA (jatuh ke IP bila anonim) agar satu akun tidak dapat
+         * menghujani basis data; angkanya diatur di `keamanan.throttle`.
+         */
+        RateLimiter::for('transaksi', function (Request $request) {
+            $batas = max(1, (int) config('keamanan.throttle.transaksi', 30));
+
+            return Limit::perMinute($batas)->by($request->user()?->id ?: $request->ip());
+        });
+
+        RateLimiter::for('baca-api', function (Request $request) {
+            $batas = max(1, (int) config('keamanan.throttle.baca-api', 60));
+
+            return Limit::perMinute($batas)->by($request->user()?->id ?: $request->ip());
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

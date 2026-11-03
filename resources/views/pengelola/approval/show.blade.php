@@ -142,7 +142,7 @@
                 <form method="POST" action="{{ route('pengelola.approval.approve', $approval) }}">
                     @csrf
                     <div style="margin-bottom:.5rem;">
-                        <input type="text" name="catatan" placeholder="Catatan (opsional)"
+                        <input type="text" name="catatan" aria-label="Catatan persetujuan (opsional)" placeholder="Catatan (opsional)"
                             style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;width:280px;">
                     </div>
                     <button type="submit" onclick="return confirm('Setujui transaksi ini?')"
@@ -153,7 +153,7 @@
                 <form method="POST" action="{{ route('pengelola.approval.reject', $approval) }}">
                     @csrf
                     <div style="margin-bottom:.5rem;">
-                        <input type="text" name="catatan" placeholder="Alasan penolakan (wajib)" required
+                        <input type="text" name="catatan" aria-label="Alasan penolakan (wajib)" placeholder="Alasan penolakan (wajib)" required
                             style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;width:280px;">
                     </div>
                     <button type="submit" onclick="return confirm('Tolak transaksi ini?')"

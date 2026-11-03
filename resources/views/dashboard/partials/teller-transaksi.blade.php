@@ -83,10 +83,10 @@
             <td style="white-space:nowrap;color:#64748b;font-size:0.85rem;">
                 @if($tidakAdaMutasi)
                     <span style="color:#94a3b8;">—</span>
-                    <div style="font-size:0.68rem;color:#94a3b8;">Tidak Ada Mutasi</div>
+                    <div style="font-size:0.7rem;color:#94a3b8;">Tidak Ada Mutasi</div>
                 @elseif($saldoSetelah !== null)
                     <div style="font-weight:600;color:#334155;">Rp {{ number_format($saldoSetelah, 0, ',', '.') }}</div>
-                    <div style="font-size:0.68rem;color:#94a3b8;">{{ $labelSaldo }}</div>
+                    <div style="font-size:0.7rem;color:#94a3b8;">{{ $labelSaldo }}</div>
                 @else
                     -
                 @endif

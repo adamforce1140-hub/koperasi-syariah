@@ -24,20 +24,20 @@
                 </select>
             </div>
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Jumlah Pembiayaan (Rp)</label>
-                <input type="number" name="jumlah" min="1000000" step="100000"
+                <label for="jumlah" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Jumlah Pembiayaan (Rp)</label>
+                <input type="number" name="jumlah" id="jumlah" min="1000000" step="100000"
                     value="{{ request('jumlah', $hasil['jumlah'] ?? '') }}" required
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Margin / Nisbah (% per tahun)</label>
-                <input type="number" name="margin" min="0" max="100" step="0.01"
+                <label for="margin" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Margin / Nisbah (% per tahun)</label>
+                <input type="number" name="margin" id="margin" min="0" max="100" step="0.01"
                     value="{{ request('margin', $hasil['margin'] ?? '') }}" required
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Tenor (bulan)</label>
-                <input type="number" name="tenor" min="1" max="360"
+                <label for="tenor" style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Tenor (bulan)</label>
+                <input type="number" name="tenor" id="tenor" min="1" max="360"
                     value="{{ request('tenor', $hasil['tenor'] ?? '') }}" required
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>

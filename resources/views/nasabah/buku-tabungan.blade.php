@@ -47,13 +47,13 @@
     <form method="GET" action="{{ route('nasabah.buku-tabungan.index', $rekening) }}">
         <div style="display: grid; grid-template-columns: 1fr 1fr auto auto auto; gap: 0.75rem; align-items: flex-end; flex-wrap: wrap;">
             <div>
-                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;">Dari Tanggal</label>
-                <input type="date" name="dari" value="{{ request('dari') }}"
+                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;" for="dari">Dari Tanggal</label>
+                <input id="dari" type="date" name="dari" value="{{ request('dari') }}"
                     style="width: 100%; padding: 0.5rem 0.75rem; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; color: #334155; outline: none; font-family: inherit;">
             </div>
             <div>
-                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;">Sampai Tanggal</label>
-                <input type="date" name="sampai" value="{{ request('sampai') }}"
+                <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #64748b; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;" for="sampai">Sampai Tanggal</label>
+                <input id="sampai" type="date" name="sampai" value="{{ request('sampai') }}"
                     style="width: 100%; padding: 0.5rem 0.75rem; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; color: #334155; outline: none; font-family: inherit;">
             </div>
             <div style="padding-top: 1.45rem;">

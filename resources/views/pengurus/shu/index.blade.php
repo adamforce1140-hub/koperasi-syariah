@@ -451,7 +451,7 @@
     }
     .shu-modal-table thead th.sortable { cursor: pointer; user-select: none; }
     .shu-modal-table thead th.sortable:hover { background: #e2e8f0; color: #0f172a; }
-    .shu-modal-table thead th .sort-ind { opacity: 0.35; font-size: 0.65rem; margin-left: 0.2rem; }
+    .shu-modal-table thead th .sort-ind { opacity: 0.35; font-size: 0.7rem; margin-left: 0.2rem; }
     .shu-modal-table thead th.sort-aktif .sort-ind { opacity: 1; color: #059669; }
     .shu-modal-table tbody td {
         padding: 0.55rem 0.75rem;
@@ -661,7 +661,7 @@
                     <p class="form-section-title">&#128197; Informasi Dasar</p>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.85rem; margin-bottom:1.1rem;">
                         <div>
-                            <label class="form-label">Tahun Buku <span style="color:#ef4444;">*</span></label>
+                            <label class="form-label" for="tahunBuku">Tahun Buku <span style="color:#ef4444;">*</span></label>
                             <input type="text" name="tahun_buku" id="tahunBuku"
                                    class="form-control{{ $errors->has('tahun_buku') ? ' is-invalid' : '' }}"
                                    placeholder="Contoh: 2025"
@@ -671,7 +671,7 @@
                             @enderror
                         </div>
                         <div>
-                            <label class="form-label">Total SHU Bersih (Rp) <span style="color:#ef4444;">*</span></label>
+                            <label class="form-label" for="totalShu">Total SHU Bersih (Rp) <span style="color:#ef4444;">*</span></label>
                             <input type="number" name="total_shu_bersih" id="totalShu"
                                    class="form-control{{ $errors->has('total_shu_bersih') ? ' is-invalid' : '' }}"
                                    placeholder="0" min="1" step="1"
@@ -717,6 +717,7 @@
                             <div class="input-group input-group-sm">
                                 <input type="number"
                                        name="{{ $a['name'] }}"
+                                       aria-label="{{ $a['label'] }}"
                                        class="form-control persen-input{{ $errors->has($a['name']) ? ' is-invalid' : '' }}"
                                        value="{{ old($a['name'], $a['default']) }}"
                                        min="0" max="100" step="0.01" required
@@ -837,7 +838,7 @@
                                         <span style="background:#f1f5f9;color:#475569;padding:0.2rem 0.6rem;border-radius:9999px;font-size:0.72rem;font-weight:600;">&#128196; Draft</span>
                                     @endif
                                     @if($p->is_distributed)
-                                        <br><span style="background:#dbeafe;color:#1e40af;padding:0.15rem 0.5rem;border-radius:9999px;font-size:0.68rem;font-weight:600;margin-top:0.25rem;display:inline-block;">&#10004;&#10004; Terdistribusi</span>
+                                        <br><span style="background:#dbeafe;color:#1e40af;padding:0.15rem 0.5rem;border-radius:9999px;font-size:0.7rem;font-weight:600;margin-top:0.25rem;display:inline-block;">&#10004;&#10004; Terdistribusi</span>
                                     @endif
                                 </td>
                                 <td style="padding:0.85rem 1rem;text-align:right;">

@@ -225,7 +225,7 @@
                         <div style="flex:1;height:{{ $hK }}px;background:#dc2626;border-radius:2px 2px 0 0;
                                     min-height:2px;" title="Pengeluaran: Rp {{ number_format($t->pengeluaran,0,',','.') }}"></div>
                     </div>
-                    <span style="font-size:0.6rem;color:#94a3b8;">{{ $namaBulan }}</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;">{{ $namaBulan }}</span>
                 </div>
                 @endforeach
             </div>

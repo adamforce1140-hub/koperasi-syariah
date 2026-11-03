@@ -171,6 +171,7 @@
                             <td style="padding:0.5rem 0.75rem;text-align:center;">
                                 <input type="number"
                                     name="denominasi[{{ $nilai }}]"
+                                    aria-label="Jumlah lembar pecahan Rp {{ number_format($nilai, 0, ',', '.') }}"
                                     min="0" value="0"
                                     class="denominasi-input"
                                     data-nilai="{{ $nilai }}"
@@ -216,8 +217,8 @@
             </div>
 
             <div style="margin-bottom:1.25rem;">
-                <label style="display:block;font-weight:600;font-size:0.875rem;color:#374151;margin-bottom:0.5rem;">Catatan Closing</label>
-                <textarea name="catatan" rows="2"
+                <label style="display:block;font-weight:600;font-size:0.875rem;color:#374151;margin-bottom:0.5rem;" for="catatan">Catatan Closing</label>
+                <textarea id="catatan" name="catatan" rows="2"
                     style="width:100%;padding:0.625rem 0.75rem;border:1px solid #d1d5db;border-radius:8px;font-size:0.875rem;box-sizing:border-box;resize:none;"
                     placeholder="Keterangan serah terima kas..."></textarea>
             </div>

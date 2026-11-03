@@ -110,7 +110,7 @@
                         @endphp
                         <tr style="border-top:1px solid #f1f5f9;">
                             <td style="padding:0.6rem 0.75rem;">
-                                <input type="radio" name="deposito_id" value="{{ $d->id }}" required
+                                <input type="radio" name="deposito_id" value="{{ $d->id }}" aria-label="Pilih deposito {{ $d->deposito_number }}" required
                                        {{ $sudahDiajukan || $keringananSiap ? 'disabled' : '' }}>
                             </td>
                             <td style="padding:0.6rem 0.75rem;font-weight:600;color:#1e293b;">{{ $d->deposito_number }}</td>

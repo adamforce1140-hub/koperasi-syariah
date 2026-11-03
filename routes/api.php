@@ -41,8 +41,10 @@ Route::get('/', function () {
  | pengguna anonim diarahkan ke login dan peran yang tidak berhak menerima 403.
  |
  | Segregation of duties: peran `ao` (analis pembiayaan) dan `dps` (Dewan
- | Pengawas Syariah) hanya diberi akses BACA; hanya petugas akuntansi
- | (admin, manajer, pengurus, teller) yang boleh menulis/memutasi.
+ | Pengawas Syariah) hanya diberi akses BACA; hanya pemegang operasi dan
+ | akuntansi (teller, manajer, pengurus) yang boleh menulis/memutasi lewat
+ | izin bernama `buku_besar.tulis` / `pembiayaan.kontrak`. `admin` — peran
+ | administratif — hanya membaca (K-1).
  */
 Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao,dps'])->group(function () {
     Route::apiResource('anggota', ApiAnggotaController::class)->only(['index', 'show']);
@@ -68,9 +70,15 @@ Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao,dps,sup
 
 /*
  * Mutasi buku besar (create/update/delete, posting, void) dibatasi pada
- * petugas akuntansi. Role `ao` dan `dps` DILARANG menulis jurnal.
+ * petugas akuntansi. Role `ao`, `dps`, dan `admin` DILARANG menulis jurnal.
+ *
+ * K-1 — sebelumnya grup ini memakai `role:admin,manajer,pengurus,teller`
+ * sehingga `admin` dapat membuat/mengubah/menghapus rekening, transaksi,
+ * angsuran, dan jurnal, padahal `config/izin.php` hanya memberinya wewenang
+ * administratif. Kini gerbangnya memakai izin bernama agar satu sumber
+ * kebenaran (config/izin.php) tegas.
  */
-Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller'])->group(function () {
+Route::middleware(['web', 'auth', 'izin:buku_besar.tulis'])->group(function () {
     // `anggota` TIDAK punya endpoint tulis di sini: pembuatan/penghapusan
     // anggota wajib lewat alur resmi (CIF, setoran awal, exit keanggotaan)
     // agar nomor anggota, NIK terenkripsi, dan jurnal simpanan konsisten.
@@ -104,8 +112,11 @@ Route::middleware(['web', 'auth', 'izin:coa.kelola'])->group(function () {
  * nilai keuangan yang menjadi dasar pencatatan piutang/margin. Ini BUKAN
  * kewenangan loket: `teller` hanya memutasi kas/angsuran. Karena itu menulis
  * kontrak pembiayaan dibatasi pada pejabat yang berwenang atas akad.
+ *
+ * K-1 — `admin` juga dicabut: peran administratif tidak memegang akad.
+ * Gerbang memakai izin bernama `pembiayaan.kontrak` (config/izin.php).
  */
-Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus'])->group(function () {
+Route::middleware(['web', 'auth', 'izin:pembiayaan.kontrak'])->group(function () {
     Route::apiResource('pembiayaan', PembiayaanController::class)->only(['store', 'update', 'destroy']);
 });
 
@@ -135,11 +146,22 @@ Route::prefix('deposito')->group(function () {
 
     /*
      * TULIS — pembukaan deposito memindahkan dana nasabah dari Simpanan
-     * Sukarela ke Simpanan Berjangka dan membentuk jurnal. Role `ao` diberi
-     * wewenang membuka deposito (bagian dari proses layanan anggota),
-     * sedangkan `dps` DILARANG memutasi (hanya pengawas syariah).
+     * Sukarela ke Simpanan Berjangka dan membentuk jurnal.
+     *
+     * K-2 — ini TRANSAKSI LOKET yang MENGEKSEKUSI KAS. Tiga gerbang wajib:
+     *   1. `izin:kas.loket.eksekusi` — hanya pemegang laci (teller) dan
+     *      super_admin. `teller.loket` (dipakai grup baca di atas maupun
+     *      jalur web) terlalu LEBAR di sini: isinya juga manajer/pengurus
+     *      yang berwenang menyetujui, bukan mengeluarkan dana anggota.
+     *      `admin`, `manajer`, `pengurus`, `dps`, dan `ao` DITOLAK — AO
+     *      hanya berwenang atas analisis & pengajuan pembiayaan.
+     *   2. `kas.terbuka` — dana anggota tidak boleh berpindah produk sebelum
+     *      Buka Kas, agar angka fisik penutupan kas mencerminkan mutasi.
+     *      Middleware ini hanya menegakkan aturan bagi pemegang laci;
+     *      pembatasan peran sepenuhnya ditegakkan gerbang (1).
+     * Otorisasi per-baris ditegakkan ulang di Api\DepositoController::store.
      */
-    Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao'])
+    Route::middleware(['web', 'auth', 'izin:kas.loket.eksekusi', 'kas.terbuka'])
         ->post('store', [ApiDepositoController::class, 'store']);
 
     /*
@@ -186,11 +208,16 @@ Route::prefix('deposito')->group(function () {
      * secara PROPORSIONAL ke seluruh deposito aktif dan memposting jurnal.
      * Nominal pendapatan TIDAK diterima dari pengguna — dihitung sistem.
      *
-     * SEGREGATION OF DUTIES — HANYA pengelola (`admin,manajer,pengurus`).
+     * SEGREGATION OF DUTIES — HANYA pengelola (`manajer,pengurus`).
      * Endpoint ini membentuk jurnal beban bagi hasil secara massal sehingga
      * berada di luar wewenang teller/AO (eksekusi transaksi harian).
+     *
+     * K-2 — `admin` DICABUT (sebelumnya `role:admin,manajer,pengurus`):
+     * peran administratif tidak memutuskan/memposting distribusi laba.
+     * Gerbang memakai izin bernama `pembiayaan.approve` yang pada matriks
+     * berisi manajer + pengurus (super_admin dikecualikan: bukan pemutus).
      */
-    Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus'])
+    Route::middleware(['web', 'auth', 'izin:pembiayaan.approve'])
         ->post('distribusi-bagi-hasil', [ApiDepositoController::class, 'distribusiBagiHasil'])
         ->name('deposito.distribusi-bagi-hasil');
 });
@@ -208,10 +235,11 @@ Route::prefix('deposito')->group(function () {
  * peran non-teller — termasuk anggota yang bertransaksi atas rekeningnya
  * sendiri — tetap diloloskan.
  */
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'token.menganggur'])->group(function () {
     Route::post('transaksi/setor', [TransaksiMobileController::class, 'setor'])
-        ->middleware('kas.terbuka')->name('api.transaksi.setor');
+        ->middleware(['throttle:transaksi', 'kas.terbuka'])->name('api.transaksi.setor');
     Route::post('transaksi/tarik', [TransaksiMobileController::class, 'tarik'])
-        ->middleware('kas.terbuka')->name('api.transaksi.tarik');
-    Route::get('approval/status', [ApprovalTransaksiController::class, 'apiStatus'])->name('api.approval.status');
+        ->middleware(['throttle:transaksi', 'kas.terbuka'])->name('api.transaksi.tarik');
+    Route::get('approval/status', [ApprovalTransaksiController::class, 'apiStatus'])
+        ->middleware('throttle:baca-api')->name('api.approval.status');
 });

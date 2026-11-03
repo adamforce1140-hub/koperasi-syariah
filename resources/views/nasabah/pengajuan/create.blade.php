@@ -69,7 +69,7 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="jumlah_pengajuan">
                     Jumlah Pengajuan (Rp) <span style="color:#ef4444">*</span>
                 </label>
                 <input type="number" name="jumlah_pengajuan" id="jumlah_pengajuan"
@@ -80,7 +80,7 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="tenor">
                     Tenor (bulan) <span style="color:#ef4444">*</span>
                 </label>
                 <input type="number" name="tenor" id="tenor"
@@ -91,48 +91,48 @@
             </div>
 
             <div style="grid-column:span 2;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="tujuan">
                     Tujuan Penggunaan Dana <span style="color:#ef4444">*</span>
                 </label>
-                <input type="text" name="tujuan" value="{{ old('tujuan') }}" required
+                <input id="tujuan" type="text" name="tujuan" value="{{ old('tujuan') }}" required
                     placeholder="Contoh: Modal usaha warung makan"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div style="grid-column:span 2;">
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="agunan">
                     Agunan / Jaminan
                 </label>
-                <input type="text" name="agunan" value="{{ old('agunan') }}"
+                <input id="agunan" type="text" name="agunan" value="{{ old('agunan') }}"
                     placeholder="Contoh: BPKB Motor Honda Beat 2022"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="penghasilan_bulanan">
                     Penghasilan Bulanan (Rp)
                 </label>
-                <input type="number" name="penghasilan_bulanan" min="0" step="100000"
+                <input id="penghasilan_bulanan" type="number" name="penghasilan_bulanan" min="0" step="100000"
                     value="{{ old('penghasilan_bulanan') }}"
                     placeholder="Contoh: 3000000"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="pengeluaran_bulanan">
                     Pengeluaran Bulanan (Rp)
                 </label>
-                <input type="number" name="pengeluaran_bulanan" min="0" step="100000"
+                <input id="pengeluaran_bulanan" type="number" name="pengeluaran_bulanan" min="0" step="100000"
                     value="{{ old('pengeluaran_bulanan') }}"
                     placeholder="Contoh: 1500000"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="jumlah_tanggungan">
                     Jumlah Tanggungan
                 </label>
-                <input type="number" name="jumlah_tanggungan" min="0"
+                <input id="jumlah_tanggungan" type="number" name="jumlah_tanggungan" min="0"
                     value="{{ old('jumlah_tanggungan', 0) }}"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>

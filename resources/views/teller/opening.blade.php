@@ -203,10 +203,10 @@
         <form action="{{ route('teller.kas.tambah-modal') }}" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="nominal_tambah">
                     Nominal Tambahan (Rp) <span style="color:#ef4444;">*</span>
                 </label>
-                <input type="number" name="nominal_tambah" min="{{ (int) \App\Support\Setting::minimumTransaksiTeller() }}" step="1000" required
+                <input id="nominal_tambah" type="number" name="nominal_tambah" min="{{ (int) \App\Support\Setting::minimumTransaksiTeller() }}" step="1000" required
                        value="{{ old('nominal_tambah') }}"
                        placeholder="Contoh: 5000000"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('nominal_tambah') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;">
@@ -219,10 +219,10 @@
                 </div>
             </div>
             <div style="margin-bottom:1.4rem;">
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="keterangan">
                     Keterangan
                 </label>
-                <input type="text" name="keterangan" maxlength="255"
+                <input id="keterangan" type="text" name="keterangan" maxlength="255"
                        value="{{ old('keterangan') }}"
                        placeholder="Contoh: Suntikan dari brankas utama"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('keterangan') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;">
@@ -256,10 +256,10 @@
         <form action="{{ route('teller.kas.setor-brankas') }}" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="nominal_setor">
                     Nominal Setoran (Rp) <span style="color:#ef4444;">*</span>
                 </label>
-                <input type="number" name="nominal_setor" min="{{ (int) \App\Support\Setting::minimumTransaksiTeller() }}" step="1000" required
+                <input id="nominal_setor" type="number" name="nominal_setor" min="{{ (int) \App\Support\Setting::minimumTransaksiTeller() }}" step="1000" required
                        value="{{ old('nominal_setor') }}"
                        placeholder="Contoh: 3000000"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('nominal_setor') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;">
@@ -272,10 +272,10 @@
                 </div>
             </div>
             <div style="margin-bottom:1.4rem;">
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="keterangan-setor">
                     Keterangan
                 </label>
-                <input type="text" name="keterangan" maxlength="255"
+                <input id="keterangan-setor" type="text" name="keterangan" maxlength="255"
                        value="{{ old('keterangan') }}"
                        placeholder="Contoh: Setoran hasil kas harian"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('keterangan') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;">
@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', bukaModalSetorBrankas);
         <form method="POST" action="{{ route('teller.kas.opening.store') }}">
             @csrf
             <div class="form-group" style="margin-bottom:1.25rem;">
-                <label class="form-label" style="display:block;font-weight:600;font-size:0.875rem;color:#374151;margin-bottom:0.5rem;">
+                <label for="modal_awal" class="form-label" style="display:block;font-weight:600;font-size:0.875rem;color:#374151;margin-bottom:0.5rem;">
                     Modal Awal (Float Cash) <span style="color:#ef4444;">*</span>
                 </label>
                 <div style="position:relative;">
@@ -479,10 +479,10 @@ document.addEventListener('DOMContentLoaded', bukaModalSetorBrankas);
             </div>
 
             <div class="form-group" style="margin-bottom:1.5rem;">
-                <label class="form-label" style="display:block;font-weight:600;font-size:0.875rem;color:#374151;margin-bottom:0.5rem;">
+                <label class="form-label" style="display:block;font-weight:600;font-size:0.875rem;color:#374151;margin-bottom:0.5rem;" for="catatan">
                     Catatan (Opsional)
                 </label>
-                <textarea name="catatan" rows="2"
+                <textarea id="catatan" name="catatan" rows="2"
                     class="form-input"
                     style="width:100%;padding:0.625rem 0.75rem;border:1px solid #d1d5db;border-radius:8px;font-size:0.95rem;box-sizing:border-box;resize:none;"
                     placeholder="Catatan tambahan...">{{ old('catatan') }}</textarea>

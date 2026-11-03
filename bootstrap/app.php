@@ -2,6 +2,7 @@
 
 use App\Exceptions\JournalPostingException;
 use App\Http\Controllers\HealthController;
+use App\Http\Middleware\BatasMenganggurToken;
 use App\Http\Middleware\CekIzin;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\KeamananHeader;
@@ -44,6 +45,42 @@ $app = Application::configure(basePath: dirname(__DIR__))
                 Route::get('/health', [HealthController::class, 'live'])->name('health.live');
                 Route::get('/readyz', [HealthController::class, 'ready'])->name('health.ready');
             });
+
+            /*
+             * T-1 — parameter ID wajib numerik.
+             *
+             * Audit menemukan 130 kombinasi peran×rute membalas 500 ketika
+             * parameter `{id}` diisi string non-numerik: controller bertipe
+             * `int $id` menerima string dari URL lalu PHP melempar TypeError.
+             * Masukan pengguna tidak boleh menjatuhkan sistem.
+             *
+             * Aturan global ini menambahkan pola numerik HANYA pada parameter
+             * bernama `id` atau berakhiran `_id`. Batasan milik rute (mis.
+             * `whereNumber('memberId')`, `whereUuid('token')`) tetap menang
+             * karena `wheres` rute diperiksa lebih dulu oleh router; parameter
+             * non-ID seperti `{token}`, `{path}`, dan `{relief}` tidak
+             * disentuh. Nilai tidak sah ditolak router sebagai 404 — jauh
+             * sebelum controller menyentuh basis data.
+             *
+             * `Route::pattern()` hanya menerima nama parameter LITERAL (tanpa
+             * wildcard), jadi `*_id` tidak bisa didaftarkan sekaligus: nama
+             * parameter aktual dikumpulkan dari tabel rute. Rute yang
+             * didaftarkan SESUDAH blok ini tetap terlindungi karena pola
+             * dicocokkan saat rute di-resolve, bukan saat didaftarkan.
+             */
+            $parameterNumerik = ['id'];
+
+            foreach (Route::getRoutes()->getRoutes() as $rute) {
+                foreach ($rute->parameterNames() as $nama) {
+                    if (str_ends_with($nama, '_id')) {
+                        $parameterNumerik[] = $nama;
+                    }
+                }
+            }
+
+            foreach (array_unique($parameterNumerik) as $nama) {
+                Route::pattern($nama, '[0-9]+');
+            }
         },
     )
 
@@ -60,6 +97,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
             // Guard sesi kas: transaksi tunai hanya sah bila laci teller
             // (kas_harian) berstatus OPEN pada tanggal bisnis berjalan.
             'kas.terbuka' => PastikanKasTerbuka::class,
+            // T-2: token Sanctum hanya sah bila dipakai dalam masa menganggur
+            // yang diizinkan (config `sanctum.masa_menganggur_menit`).
+            'token.menganggur' => BatasMenganggurToken::class,
         ]);
         // Amankan sesi (S-01): invalidasi sesi lama saat password berubah.
         // Tanpa ini, sesi yang masih aktif tetap sah meski kredensial sudah

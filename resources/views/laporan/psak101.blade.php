@@ -103,7 +103,7 @@
                 &ndash; {{ $sampai->translatedFormat('d F Y') }}
                 &mdash; Standar PSAK 101
                 @if($mode === 'akhir_bulan')
-                    <span class="badge bg-secondary ms-1" style="font-size:.68rem;">Akhir Bulan</span>
+                    <span class="badge bg-secondary ms-1" style="font-size:0.7rem;">Akhir Bulan</span>
                 @endif
             </p>
         </div>
@@ -285,7 +285,7 @@
                                     <td><code>{{ $d->kode_akun }}</code></td>
                                     <td>
                                         {{ $d->nama_akun }}
-                                        <span class="badge ms-1" style="background:#ccfbf1;color:#0f766e;font-size:.68rem;"
+                                        <span class="badge ms-1" style="background:#ccfbf1;color:#0f766e;font-size:0.7rem;"
                                               title="Dana investasi pemilik dana — disajikan terpisah dari Kewajiban (PSAK 101).">
                                             Dana Investasi
                                         </span>
@@ -327,7 +327,7 @@
                                 <td><code>&mdash;</code></td>
                                 <td>
                                     Laba/Rugi Berjalan
-                                    <span class="badge ms-1" style="background:{{ $badgeLaba['bg'] }};color:{{ $badgeLaba['fg'] }};border:1px solid {{ $badgeLaba['border'] }};font-size:.68rem;">
+                                    <span class="badge ms-1" style="background:{{ $badgeLaba['bg'] }};color:{{ $badgeLaba['fg'] }};border:1px solid {{ $badgeLaba['border'] }};font-size:0.7rem;">
                                         {{ $badgeLaba['label'] }}
                                     </span>
                                     <div class="text-muted" style="font-size:.72rem;">
@@ -376,9 +376,9 @@
                     </div>
                     <div class="small">
                         @if($p['seimbang'])
-                            <span class="badge bg-success" style="font-size:.68rem;">SEIMBANG</span>
+                            <span class="badge bg-success" style="font-size:0.7rem;">SEIMBANG</span>
                         @else
-                            <span class="badge bg-danger" style="font-size:.68rem;">TIDAK SEIMBANG</span>
+                            <span class="badge bg-danger" style="font-size:0.7rem;">TIDAK SEIMBANG</span>
                         @endif
                     </div>
                 </div>
@@ -531,7 +531,7 @@
                         <tr class="baris-total-utama">
                             <td colspan="2">
                                 LABA (RUGI) BERSIH
-                                <span class="badge ms-1" style="background:{{ $badgeLaba['bg'] }};color:{{ $badgeLaba['fg'] }};border:1px solid {{ $badgeLaba['border'] }};font-size:.68rem;">
+                                <span class="badge ms-1" style="background:{{ $badgeLaba['bg'] }};color:{{ $badgeLaba['fg'] }};border:1px solid {{ $badgeLaba['border'] }};font-size:0.7rem;">
                                     {{ $badgeLaba['label'] }}
                                 </span>
                             </td>
@@ -589,7 +589,7 @@
                             <td>
                                 {{ $r['nama'] }}
                                 @if($r['klasifikasi'])
-                                    <span class="badge bg-light text-dark border ms-1" style="font-size:.66rem;">{{ $r['klasifikasi'] }}</span>
+                                    <span class="badge bg-light text-dark border ms-1" style="font-size:0.7rem;">{{ $r['klasifikasi'] }}</span>
                                 @endif
                             </td>
                             <td class="text-end">{{ $fmt($r['saldoAwal']) }}</td>
@@ -720,9 +720,9 @@
                             </td>
                             <td class="text-end">
                                 @if($ak['rekonsiliasiCocok'])
-                                    <span class="badge bg-success" style="font-size:.68rem;">COCOK</span>
+                                    <span class="badge bg-success" style="font-size:0.7rem;">COCOK</span>
                                 @else
-                                    <span class="badge bg-danger" style="font-size:.68rem;">SELISIH {{ $fmt($ak['selisihRekonsiliasi'], 2) }}</span>
+                                    <span class="badge bg-danger" style="font-size:0.7rem;">SELISIH {{ $fmt($ak['selisihRekonsiliasi'], 2) }}</span>
                                 @endif
                             </td>
                         </tr>
@@ -778,7 +778,7 @@
                             <td>
                                 {{ $r['label'] }}
                                 @unless($r['akunTersedia'])
-                                    <span class="badge bg-warning text-dark ms-1" style="font-size:.66rem;">Akun tidak ditemukan</span>
+                                    <span class="badge bg-warning text-dark ms-1" style="font-size:0.7rem;">Akun tidak ditemukan</span>
                                 @endunless
                             </td>
                             <td><code>{{ $r['kode'] }}</code></td>
@@ -800,10 +800,10 @@
                         <tr class="small">
                             <td colspan="6">
                                 @if($dit['mutasiSeimbang'])
-                                    <span class="badge bg-success" style="font-size:.68rem;">MUTASI SEIMBANG</span>
+                                    <span class="badge bg-success" style="font-size:0.7rem;">MUTASI SEIMBANG</span>
                                     <span class="text-muted ms-1">Saldo Awal + Penerimaan &minus; Penyaluran = Saldo Akhir.</span>
                                 @else
-                                    <span class="badge bg-danger" style="font-size:.68rem;">MUTASI TIDAK SEIMBANG</span>
+                                    <span class="badge bg-danger" style="font-size:0.7rem;">MUTASI TIDAK SEIMBANG</span>
                                     <span class="text-muted ms-1">Periksa jurnal dana titipan yang belum diposting.</span>
                                 @endif
                             </td>
@@ -998,7 +998,7 @@
                                 <td class="text-end small">
                                     {{ $jumlah }}
                                     @if($jumlah === 0)
-                                        <span class="badge bg-light text-secondary border ms-1" style="font-size:.64rem;">kosong</span>
+                                        <span class="badge bg-light text-secondary border ms-1" style="font-size:0.7rem;">kosong</span>
                                     @endif
                                 </td>
                             </tr>
@@ -1017,9 +1017,9 @@
                                 <th class="text-muted fw-semibold small">Status</th>
                                 <td class="small">
                                     @if($calk['mutasi']['seimbang'])
-                                        <span class="badge bg-success" style="font-size:.68rem;">SEIMBANG</span>
+                                        <span class="badge bg-success" style="font-size:0.7rem;">SEIMBANG</span>
                                     @else
-                                        <span class="badge bg-danger" style="font-size:.68rem;">SELISIH {{ $fmt($calk['mutasi']['selisih'], 2) }}</span>
+                                        <span class="badge bg-danger" style="font-size:0.7rem;">SELISIH {{ $fmt($calk['mutasi']['selisih'], 2) }}</span>
                                     @endif
                                 </td>
                             </tr>
@@ -1119,7 +1119,7 @@
                                 <td class="small">
                                     {{ $r['label'] }}
                                     @if($r['kode'] === '__lainnya')
-                                        <span class="badge bg-warning text-dark ms-1" style="font-size:.62rem;">di luar daftar baku</span>
+                                        <span class="badge bg-warning text-dark ms-1" style="font-size:0.7rem;">di luar daftar baku</span>
                                     @endif
                                 </td>
                                 <td class="text-end small">{{ $fmt($r['jumlah'], 2) }}</td>
@@ -1150,7 +1150,7 @@
                                 <td class="small">
                                     {{ $r['label'] }}
                                     @if($r['kode'] === '__lainnya')
-                                        <span class="badge bg-warning text-dark ms-1" style="font-size:.62rem;">di luar 8 asnaf</span>
+                                        <span class="badge bg-warning text-dark ms-1" style="font-size:0.7rem;">di luar 8 asnaf</span>
                                     @endif
                                 </td>
                                 <td class="text-end small">{{ $fmt($r['jumlah'], 2) }}</td>
@@ -1186,7 +1186,7 @@
                                 <td class="text-end small">
                                     {{ $fmt($zkt['amil']['sisa'], 2) }}
                                     @if(! $zkt['amil']['terpakai'])
-                                        <span class="badge bg-light text-secondary border ms-1" style="font-size:.62rem;">belum dipakai</span>
+                                        <span class="badge bg-light text-secondary border ms-1" style="font-size:0.7rem;">belum dipakai</span>
                                     @endif
                                 </td>
                             </tr>
@@ -1206,14 +1206,14 @@
                                 <th class="text-muted fw-semibold small">Status</th>
                                 <td class="text-end small">
                                     @if($zkt['kontrol']['selaras'])
-                                        <span class="badge bg-success" style="font-size:.68rem;">SELARAS</span>
+                                        <span class="badge bg-success" style="font-size:0.7rem;">SELARAS</span>
                                     @else
-                                        <span class="badge bg-danger" style="font-size:.68rem;">SELISIH</span>
+                                        <span class="badge bg-danger" style="font-size:0.7rem;">SELISIH</span>
                                     @endif
                                     @if($zkt['mutasiSeimbang'])
-                                        <span class="badge bg-success" style="font-size:.68rem;">MUTASI SEIMBANG</span>
+                                        <span class="badge bg-success" style="font-size:0.7rem;">MUTASI SEIMBANG</span>
                                     @else
-                                        <span class="badge bg-danger" style="font-size:.68rem;">MUTASI TIDAK SEIMBANG</span>
+                                        <span class="badge bg-danger" style="font-size:0.7rem;">MUTASI TIDAK SEIMBANG</span>
                                     @endif
                                 </td>
                             </tr>

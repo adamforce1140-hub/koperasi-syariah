@@ -37,20 +37,20 @@
 
         {{-- Nama Lengkap --}}
         <div style="margin-bottom:1.1rem;">
-            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="nama_lengkap">
                 Nama Lengkap <span style="color:#ef4444;">*</span>
             </label>
-            <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $anggota->nama_lengkap) }}"
+            <input id="nama_lengkap" type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $anggota->nama_lengkap) }}"
                    style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('nama_lengkap') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;"
                    placeholder="Nama lengkap sesuai KTP">
         </div>
 
         {{-- NIK --}}
         <div style="margin-bottom:1.1rem;">
-            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="nik">
                 NIK (16 Digit) <span style="color:#ef4444;">*</span>
             </label>
-            <input type="text" name="nik" value="{{ old('nik', $anggota->nik) }}" maxlength="16"
+            <input id="nik" type="text" name="nik" value="{{ old('nik', $anggota->nik) }}" maxlength="16"
                    style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('nik') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;font-family:monospace;box-sizing:border-box;"
                    placeholder="16 digit NIK">
         </div>
@@ -58,18 +58,18 @@
         {{-- Tempat & Tanggal Lahir --}}
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-bottom:1.1rem;">
             <div>
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="tempat_lahir">
                     Tempat Lahir
                 </label>
-                <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir', $anggota->tempat_lahir) }}"
+                <input id="tempat_lahir" type="text" name="tempat_lahir" value="{{ old('tempat_lahir', $anggota->tempat_lahir) }}"
                        style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:8px;font-size:.9rem;box-sizing:border-box;"
                        placeholder="Kota tempat lahir">
             </div>
             <div>
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="tanggal_lahir">
                     Tanggal Lahir
                 </label>
-                <input type="date" name="tanggal_lahir"
+                <input id="tanggal_lahir" type="date" name="tanggal_lahir"
                        value="{{ old('tanggal_lahir', $anggota->tanggal_lahir ? $anggota->tanggal_lahir->format('Y-m-d') : '') }}"
                        style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:8px;font-size:.9rem;box-sizing:border-box;">
             </div>
@@ -89,10 +89,10 @@
                 </select>
             </div>
             <div>
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="no_hp">
                     No. HP <span style="color:#ef4444;">*</span>
                 </label>
-                <input type="text" name="no_hp" value="{{ old('no_hp', $anggota->no_hp) }}"
+                <input id="no_hp" type="text" name="no_hp" value="{{ old('no_hp', $anggota->no_hp) }}"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('no_hp') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;"
                        placeholder="Contoh: 08123456789">
             </div>
@@ -100,20 +100,20 @@
 
         {{-- Pekerjaan --}}
         <div style="margin-bottom:1.1rem;">
-            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="pekerjaan">
                 Pekerjaan / Profesi
             </label>
-            <input type="text" name="pekerjaan" value="{{ old('pekerjaan', $anggota->pekerjaan) }}"
+            <input id="pekerjaan" type="text" name="pekerjaan" value="{{ old('pekerjaan', $anggota->pekerjaan) }}"
                    style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:8px;font-size:.9rem;box-sizing:border-box;"
                    placeholder="Contoh: Wiraswasta, PNS, dsb.">
         </div>
 
         {{-- Alamat --}}
         <div style="margin-bottom:1.1rem;">
-            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+            <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="alamat">
                 Alamat Domisili <span style="color:#ef4444;">*</span>
             </label>
-            <textarea name="alamat" rows="3"
+            <textarea id="alamat" name="alamat" rows="3"
                       style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('alamat') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;resize:vertical;"
                       placeholder="Jalan, RT/RW, Kelurahan, Kecamatan">{{ old('alamat', $anggota->alamat) }}</textarea>
         </div>
@@ -121,18 +121,18 @@
         {{-- Kota & Provinsi --}}
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-bottom:1.1rem;">
             <div>
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="kota">
                     Kota / Kabupaten <span style="color:#ef4444;">*</span>
                 </label>
-                <input type="text" name="kota" value="{{ old('kota', $anggota->kota) }}"
+                <input id="kota" type="text" name="kota" value="{{ old('kota', $anggota->kota) }}"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('kota') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;"
                        placeholder="Contoh: Jakarta Selatan">
             </div>
             <div>
-                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                <label style="display:block;font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="provinsi">
                     Provinsi <span style="color:#ef4444;">*</span>
                 </label>
-                <input type="text" name="provinsi" value="{{ old('provinsi', $anggota->provinsi) }}"
+                <input id="provinsi" type="text" name="provinsi" value="{{ old('provinsi', $anggota->provinsi) }}"
                        style="width:100%;padding:.6rem .8rem;border:1px solid {{ $errors->has('provinsi') ? '#ef4444' : '#d1d5db' }};border-radius:8px;font-size:.9rem;box-sizing:border-box;"
                        placeholder="Contoh: DKI Jakarta">
             </div>

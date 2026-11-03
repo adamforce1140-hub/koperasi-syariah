@@ -54,7 +54,7 @@
     {{-- ── FILTER ───────────────────────────────────────── --}}
     <form method="GET" action="{{ route('manajer.keringanan-tazir.index') }}"
           style="display:flex;gap:0.625rem;flex-wrap:wrap;align-items:flex-end;">
-        <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama / no anggota / no pembiayaan…"
+        <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama / no anggota / no pembiayaan" placeholder="Cari nama / no anggota / no pembiayaan…"
                style="flex:1;min-width:220px;padding:0.5rem 0.75rem;border:1px solid #cbd5e1;
                       border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;"
                onfocus="this.style.borderColor='#047857'" onblur="this.style.borderColor='#cbd5e1'">
@@ -210,10 +210,10 @@
         <form id="form-approve" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="font-size:0.825rem;font-weight:600;color:#374151;display:block;margin-bottom:0.35rem;">
+                <label style="font-size:0.825rem;font-weight:600;color:#374151;display:block;margin-bottom:0.35rem;" for="catatan_manajer">
                     Catatan Manajer <span style="font-weight:400;color:#94a3b8;">(opsional)</span>
                 </label>
-                <textarea name="catatan_manajer" rows="3" placeholder="Misal: disetujui karena musibah kesehatan…"
+                <textarea id="catatan_manajer" name="catatan_manajer" rows="3" placeholder="Misal: disetujui karena musibah kesehatan…"
                           style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;
                                  font-size:0.825rem;resize:vertical;outline:none;box-sizing:border-box;"
                           onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'"></textarea>
@@ -247,10 +247,10 @@
         <form id="form-reject" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="font-size:0.825rem;font-weight:600;color:#374151;display:block;margin-bottom:0.35rem;">
+                <label style="font-size:0.825rem;font-weight:600;color:#374151;display:block;margin-bottom:0.35rem;" for="catatan_manajer_tolak">
                     Alasan Penolakan <span style="color:#dc2626;">*</span>
                 </label>
-                <textarea name="catatan_manajer" rows="3" required placeholder="Jelaskan alasan penolakan…"
+                <textarea id="catatan_manajer_tolak" name="catatan_manajer" rows="3" required placeholder="Jelaskan alasan penolakan…"
                           style="width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;
                                  font-size:0.825rem;resize:vertical;outline:none;box-sizing:border-box;"
                           onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#cbd5e1'"></textarea>

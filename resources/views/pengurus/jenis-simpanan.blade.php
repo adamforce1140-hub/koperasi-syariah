@@ -232,7 +232,7 @@
                                 </td>
                                 <td style="padding:0.6rem 0.75rem;color:#1e293b;">
                                     <strong>{{ $log->nama_jenis ?? '—' }}</strong>
-                                    <span style="display:inline-block;font-size:0.68rem;font-weight:700;padding:0.1rem 0.35rem;border-radius:0.25rem;margin-left:0.35rem;{{ $warna }}">
+                                    <span style="display:inline-block;font-size:0.7rem;font-weight:700;padding:0.1rem 0.35rem;border-radius:0.25rem;margin-left:0.35rem;{{ $warna }}">
                                         {{ $log->aksi }}
                                     </span>
                                 </td>
@@ -251,7 +251,7 @@
                                         <span style="font-size:0.72rem;color:#94a3b8;">({{ strtoupper($log->role_user) }})</span>
                                     @endif
                                     @if($log->ip_address)
-                                        <span style="display:block;font-size:0.68rem;color:#cbd5e1;font-family:monospace;">{{ $log->ip_address }}</span>
+                                        <span style="display:block;font-size:0.7rem;color:#cbd5e1;font-family:monospace;">{{ $log->ip_address }}</span>
                                     @endif
                                 </td>
                             </tr>

@@ -62,7 +62,7 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Jumlah Pengajuan (Rp) <span style="color:#ef4444">*</span></label>
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="jumlah_pengajuan">Jumlah Pengajuan (Rp) <span style="color:#ef4444">*</span></label>
                 <input type="number" name="jumlah_pengajuan" id="jumlah_pengajuan" min="{{ \App\Support\Setting::minimalPengajuanPembiayaan() }}" step="100000"
                     value="{{ old('jumlah_pengajuan') }}" required
                     placeholder="Contoh: 5000000"
@@ -71,7 +71,7 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Tenor (bulan) <span style="color:#ef4444">*</span></label>
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="tenor">Tenor (bulan) <span style="color:#ef4444">*</span></label>
                 <input type="number" name="tenor" id="tenor" min="1" max="360"
                     value="{{ old('tenor') }}" required
                     placeholder="Contoh: 12"
@@ -80,15 +80,15 @@
             </div>
 
             <div>
-                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Tujuan Penggunaan Dana <span style="color:#ef4444">*</span></label>
-                <input type="text" name="tujuan" value="{{ old('tujuan') }}" required
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="tujuan">Tujuan Penggunaan Dana <span style="color:#ef4444">*</span></label>
+                <input id="tujuan" type="text" name="tujuan" value="{{ old('tujuan') }}" required
                     placeholder="Contoh: Modal usaha warung makan"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>
 
             <div style="grid-column:span 2;">
-                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Agunan / Jaminan</label>
-                <input type="text" name="agunan" value="{{ old('agunan') }}"
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:#374151;margin-bottom:.4rem;" for="agunan">Agunan / Jaminan</label>
+                <input id="agunan" type="text" name="agunan" value="{{ old('agunan') }}"
                     placeholder="Contoh: BPKB Motor Honda Beat 2022"
                     style="width:100%;padding:.6rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
             </div>

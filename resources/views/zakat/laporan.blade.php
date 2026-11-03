@@ -22,12 +22,12 @@
 <div class="card">
     <form method="GET" style="display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
         <div>
-            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Dari Tanggal</label>
-            <input type="date" name="dari" value="{{ $dari }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="dari">Dari Tanggal</label>
+            <input id="dari" type="date" name="dari" value="{{ $dari }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
         </div>
         <div>
-            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;">Sampai Tanggal</label>
-            <input type="date" name="sampai" value="{{ $sampai }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
+            <label style="display:block;font-size:.75rem;color:#64748b;margin-bottom:.25rem;" for="sampai">Sampai Tanggal</label>
+            <input id="sampai" type="date" name="sampai" value="{{ $sampai }}" style="padding:.5rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;">
         </div>
         <button type="submit" class="btn btn-primary">Terapkan</button>
         <a href="{{ route($routeBukuBesar) }}" class="btn" style="background:#f1f5f9;color:#334155;">Kembali ke Buku Besar</a>

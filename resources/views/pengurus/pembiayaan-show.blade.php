@@ -77,7 +77,7 @@
                     {{ $idx < $currentIdx ? 'background:#10b981;color:#fff;' : ($idx === $currentIdx ? 'background:#7c3aed;color:#fff;' : 'background:#e2e8f0;color:#94a3b8;') }}">
             {{ $idx < $currentIdx ? '✓' : ($idx + 1) }}
         </div>
-        <span style="font-size:0.68rem;color:{{ $idx <= $currentIdx ? '#1e293b' : '#94a3b8' }};font-weight:{{ $idx === $currentIdx ? '700' : '500' }};">
+        <span style="font-size:0.7rem;color:{{ $idx <= $currentIdx ? '#1e293b' : '#94a3b8' }};font-weight:{{ $idx === $currentIdx ? '700' : '500' }};">
             {{ $label }}
         </span>
     </div>
@@ -197,7 +197,7 @@
           onsubmit="return confirm('Setujui pengajuan ini dan teruskan ke DPS?')">
         @csrf
         <div style="margin-bottom:0.5rem;">
-            <input type="text" name="catatan" placeholder="Catatan (opsional)"
+            <input type="text" name="catatan" aria-label="Catatan persetujuan (opsional)" placeholder="Catatan (opsional)"
                 style="padding:0.5rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.45rem;font-size:0.825rem;width:220px;">
         </div>
         <button type="submit"
@@ -223,10 +223,10 @@
         <form action="{{ route('pengurus.pembiayaan.reject', $item->id) }}" method="POST">
             @csrf
             <div style="margin-bottom:1rem;">
-                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">
+                <label style="display:block;font-size:0.825rem;font-weight:600;color:#374151;margin-bottom:0.4rem;" for="catatan_tolak">
                     Alasan Penolakan <span style="color:#dc2626;">*</span>
                 </label>
-                <textarea name="catatan_tolak" rows="4" required placeholder="Tuliskan alasan penolakan..."
+                <textarea id="catatan_tolak" name="catatan_tolak" rows="4" required placeholder="Tuliskan alasan penolakan..."
                     style="width:100%;padding:0.65rem 0.85rem;border:1px solid #d1d5db;border-radius:0.5rem;
                            font-size:0.875rem;resize:vertical;box-sizing:border-box;"></textarea>
             </div>

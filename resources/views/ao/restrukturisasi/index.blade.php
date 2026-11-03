@@ -28,7 +28,7 @@
     }
     .days-badge {
         display:inline-block; margin-left:.35rem; padding:.08rem .5rem; border-radius:9999px;
-        font-size:.68rem; font-weight:700; background:#fee2e2; color:#b91c1c;
+        font-size:0.7rem; font-weight:700; background:#fee2e2; color:#b91c1c;
     }
 
     /* Modal pengajuan */
@@ -74,7 +74,7 @@
     }
     .rs-info div { text-align:center; }
     .rs-info .v { font-size:.95rem; font-weight:800; color:#065f46; }
-    .rs-info .k { font-size:.66rem; font-weight:700; color:#047857; text-transform:uppercase; letter-spacing:.03em; }
+    .rs-info .k { font-size:0.7rem; font-weight:700; color:#047857; text-transform:uppercase; letter-spacing:.03em; }
 
     .svc-note {
         display:flex; gap:.55rem; align-items:flex-start;
@@ -140,7 +140,7 @@
     <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
         <span class="card-title">Daftar Pembiayaan Aktif — Layak Restrukturisasi</span>
         <form method="GET" style="display:flex;gap:.5rem;">
-            <input type="text" name="search" value="{{ $search }}"
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari nama / no. anggota"
                 placeholder="Cari nama / no. anggota..."
                 style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:240px;">
             <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Cari</button>
@@ -261,7 +261,7 @@
                 <td>
                     <span class="kol-badge" style="{{ $statusStyle }}">{{ $r->status }}</span>
                     @if($r->status === 'PENDING_APPROVAL')
-                    <div style="font-size:.68rem;color:#64748b;">{{ $r->created_at?->diffForHumans() }}</div>
+                    <div style="font-size:0.7rem;color:#64748b;">{{ $r->created_at?->diffForHumans() }}</div>
                     @endif
                 </td>
                 <td style="font-size:.8rem;color:#475569;max-width:220px;">
@@ -305,19 +305,19 @@
                     </div>
 
                     <div class="form-group" id="rsGroupTenor">
-                        <label>Tenor Baru (bulan) *</label>
-                        <input type="number" name="tenor_baru" id="rsTenor" min="1" max="240" placeholder="cth: 24">
+                        <label for="rsTenor">Tenor Baru (bulan) *</label>
+                        <input type="number" name="tenor_baru" id="rsTenor" min="1" max="240" placeholder="cth: 24"
                         <span class="hint" id="rsTenorHint">Angsuran baru = Sisa Piutang ÷ Tenor Baru (tanpa margin tambahan).</span>
                     </div>
 
                     <div class="form-group" id="rsGroupGrace">
-                        <label>Grace Period (bulan)</label>
+                        <label for="rsGrace">Grace Period (bulan)</label>
                         <input type="number" name="grace_period" id="rsGrace" min="1" max="24" placeholder="cth: 3">
                         <span class="hint">Penundaan bayar pokok (opsional, Reconditioning).</span>
                     </div>
 
                     <div class="form-group" id="rsGroupTanggal">
-                        <label>Tanggal Jatuh Tempo Baru</label>
+                        <label for="rsTglJatuhTempo">Tanggal Jatuh Tempo Baru</label>
                         <input type="date" name="tanggal_jatuh_tempo_baru" id="rsTglJatuhTempo">
                         <span class="hint">Perubahan tanggal jatuh tempo (opsional).</span>
                     </div>
@@ -336,15 +336,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kemampuan Bayar Baru (Rp/bln) *</label>
+                        <label for="rsMampu">Kemampuan Bayar Baru (Rp/bln) *</label>
                         <input type="text" name="kemampuan_bayar_baru" id="rsMampu" inputmode="numeric" autocomplete="off"
                             required placeholder="cth: 200.000" oninput="formatMampu(this)">
                         <span class="hint">Ketik angka saja — otomatis diformat rupiah (cth: 200.000).</span>
                     </div>
 
                     <div class="form-group full">
-                        <label>Catatan Analisis AO</label>
-                        <textarea name="catatan_ao" rows="3" placeholder="Ringkasan analisa ulang AO ..."></textarea>
+                        <label for="catatan_ao">Catatan Analisis AO</label>
+                        <textarea name="catatan_ao" id="catatan_ao" rows="3" placeholder="Ringkasan analisa ulang AO ..."></textarea>
                     </div>
                 </div>
 

@@ -214,7 +214,7 @@
                                 {{ $t->status }}
                             </span>
                             @if($t->isPendingConfirmation())
-                            <div style="font-size:.68rem;color:#7c3aed;margin-top:.3rem;line-height:1.35;">
+                            <div style="font-size:0.7rem;color:#7c3aed;margin-top:.3rem;line-height:1.35;">
                                 Alasan: {{ $t->deferred_reason ?? '—' }}
                                 @if($t->deferred_at)<br>{{ $t->deferred_at->format('d/m/Y H:i') }}@endif
                             </div>
@@ -255,7 +255,7 @@
                                     <form method="POST" action="{{ route('teller.simpanan-wajib.konfirmasi', $t->id) }}" style="margin:0 0 .35rem;"
                                           onsubmit="return confirm('Konfirmasi & jalankan setoran otomatis periode {{ $t->nama_periode }}?');">
                                         @csrf
-                                        <input type="text" name="catatan" maxlength="500" placeholder="Catatan konfirmasi (opsional)"
+                                        <input type="text" name="catatan" maxlength="500" aria-label="Catatan konfirmasi (opsional)" placeholder="Catatan konfirmasi (opsional)"
                                                style="width:100%;padding:.3rem .45rem;border:1px solid #cbd5e1;border-radius:.375rem;font-size:.72rem;box-sizing:border-box;margin-bottom:.3rem;">
                                         <button type="submit"
                                                 style="width:100%;padding:.35rem .6rem;background:#7c3aed;color:#fff;font-size:.74rem;font-weight:600;border:none;border-radius:.375rem;cursor:pointer;">

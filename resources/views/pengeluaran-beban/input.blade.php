@@ -55,16 +55,16 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-bottom:1rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:.35rem;">Tanggal Transaksi <span style="color:#dc2626;">*</span></label>
-                    <input type="date" name="tanggal" value="{{ old('tanggal', now()->toDateString()) }}" max="{{ now()->toDateString() }}" required
+                    <x-label-berkas for="tanggal">Tanggal Transaksi <span style="color:#dc2626;">*</span></x-label-berkas>
+                    <input type="date" id="tanggal" name="tanggal" value="{{ old('tanggal', now()->toDateString()) }}" max="{{ now()->toDateString() }}" required
                         style="width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;">
                     @error('tanggal')<p style="color:#dc2626;font-size:.75rem;margin:.25rem 0 0;">{{ $message }}</p>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:.35rem;">Nominal Pengeluaran <span style="color:#dc2626;">*</span></label>
+                    <x-label-berkas for="nominal">Nominal Pengeluaran <span style="color:#dc2626;">*</span></x-label-berkas>
                     <div style="position:relative;">
-                        <span style="position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.875rem;color:#64748b;">Rp</span>
-                        <input type="number" name="nominal" value="{{ old('nominal') }}" min="1000" step="any" placeholder="0" required
+                        <span aria-hidden="true" style="position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.875rem;color:#64748b;">Rp</span>
+                        <input type="number" id="nominal" name="nominal" value="{{ old('nominal') }}" min="1000" step="any" placeholder="0" required
                             style="width:100%;padding:.6rem .75rem .6rem 2.25rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;">
                     </div>
                     @error('nominal')<p style="color:#dc2626;font-size:.75rem;margin:.25rem 0 0;">{{ $message }}</p>@enderror
@@ -73,7 +73,7 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-bottom:1rem;">
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:.35rem;">Jenis Beban Operasional <span style="color:#dc2626;">*</span></label>
+                    <x-label-berkas for="jenis_beban">Jenis Beban Operasional <span style="color:#dc2626;">*</span></x-label-berkas>
                     <select name="jenis_beban" id="jenis_beban" required style="width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;background:#fff;">
                         <option value="">-- Pilih Jenis Beban --</option>
                         @foreach($jenisBebanList as $kode => $jenis)
@@ -86,7 +86,7 @@
                     <p style="font-size:.7rem;color:#64748b;margin:.3rem 0 0;">Akun CoA beban terisi otomatis sesuai jenis yang dipilih.</p>
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:.35rem;">Akun Beban (CoA 5-XXXX) <span style="color:#dc2626;">*</span></label>
+                    <x-label-berkas for="coa_beban">Akun Beban (CoA 5-XXXX) <span style="color:#dc2626;">*</span></x-label-berkas>
                     <select name="coa_beban" id="coa_beban" required style="width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;background:#f1f5f9;">
                         <option value="">-- Pilih Jenis Beban Dulu --</option>
                         @foreach($akunBebanList as $akun)
@@ -101,8 +101,8 @@
                     @error('coa_beban')<p style="color:#dc2626;font-size:.75rem;margin:.25rem 0 0;">{{ $message }}</p>@enderror
                 </div>
                 <div>
-                    <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:.35rem;">Sumber Uang / Kas <span style="color:#dc2626;">*</span></label>
-                    <select name="coa_kas" required style="width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;background:#fff;">
+                    <x-label-berkas for="coa_kas">Sumber Uang / Kas <span style="color:#dc2626;">*</span></x-label-berkas>
+                    <select name="coa_kas" id="coa_kas" required style="width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;background:#fff;">
                         <option value="">-- Pilih Sumber Uang --</option>
                         @foreach($akunKasList as $akun)
                             <option value="{{ $akun->id }}" {{ old('coa_kas') == $akun->id ? 'selected' : '' }}>
@@ -115,8 +115,8 @@
             </div>
 
             <div style="margin-bottom:1.25rem;">
-                <label style="display:block;font-size:0.78rem;font-weight:600;color:#475569;margin-bottom:.35rem;">Keterangan Transaksi <span style="color:#dc2626;">*</span></label>
-                <input type="text" name="keterangan" value="{{ old('keterangan') }}" placeholder="Contoh: Bayar Listrik & ATK Kantor" required
+                <x-label-berkas for="keterangan">Keterangan Transaksi <span style="color:#dc2626;">*</span></x-label-berkas>
+                <input type="text" id="keterangan" name="keterangan" value="{{ old('keterangan') }}" placeholder="Contoh: Bayar Listrik & ATK Kantor" required
                     style="width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:.875rem;">
                 @error('keterangan')<p style="color:#dc2626;font-size:.75rem;margin:.25rem 0 0;">{{ $message }}</p>@enderror
             </div>
@@ -197,7 +197,7 @@
                             @endphp
                             <span style="padding:.25rem .75rem;border-radius:9999px;font-size:.7rem;font-weight:700;background:{{ $badge[0] }};color:{{ $badge[1] }};">{{ $badge[2] }}</span>
                             @if($item->jurnal)
-                                <div style="font-size:.68rem;color:#64748b;margin-top:.25rem;">{{ $item->jurnal->no_jurnal }}</div>
+                                <div style="font-size:0.7rem;color:#64748b;margin-top:.25rem;">{{ $item->jurnal->no_jurnal }}</div>
                             @endif
                         </td>
                     </tr>

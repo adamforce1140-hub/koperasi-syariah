@@ -70,9 +70,9 @@
                         <td style="padding:0.55rem 1rem;font-size:0.78rem;color:#64748b;">{{ optional($mutasi->jurnal?->tanggal_jurnal)->format('d M Y') ?? '-' }}</td>
                         <td style="padding:0.55rem 1rem;">
                             @if($isTazir)
-                                <span style="font-size:0.68rem;font-weight:600;background:#fde68a;color:#92400e;padding:0.2rem 0.55rem;border-radius:9999px;">Ta'zir</span>
+                                <span style="font-size:0.7rem;font-weight:600;background:#fde68a;color:#92400e;padding:0.2rem 0.55rem;border-radius:9999px;">Ta'zir</span>
                             @else
-                                <span style="font-size:0.68rem;font-weight:600;background:#f1f5f9;color:#475569;padding:0.2rem 0.55rem;border-radius:9999px;">{{ $mutasi->jurnal?->sumber ?? '-' }}</span>
+                                <span style="font-size:0.7rem;font-weight:600;background:#f1f5f9;color:#475569;padding:0.2rem 0.55rem;border-radius:9999px;">{{ $mutasi->jurnal?->sumber ?? '-' }}</span>
                             @endif
                         </td>
                         {{-- Narasi transaksi sebenarnya (bukan nama akun statis), dipotong
@@ -104,8 +104,8 @@
     {{-- Filter --}}
     <form method="GET" action="{{ route('dps.jurnal-umum') }}" style="padding:1rem 1.25rem;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;flex-wrap:wrap;gap:0.75rem;align-items:flex-end;">
         <div>
-            <label style="display:block;font-size:0.7rem;font-weight:600;color:#475569;text-transform:uppercase;margin-bottom:0.3rem;">No. Anggota / CIF</label>
-            <input type="text" name="no_anggota" value="{{ request('no_anggota') }}" placeholder="ANG-2026-0001 atau nama…"
+            <label style="display:block;font-size:0.7rem;font-weight:600;color:#475569;text-transform:uppercase;margin-bottom:0.3rem;" for="no_anggota">No. Anggota / CIF</label>
+            <input id="no_anggota" type="text" name="no_anggota" value="{{ request('no_anggota') }}" placeholder="ANG-2026-0001 atau nama…"
                    style="padding:0.45rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.375rem;font-size:0.8rem;min-width:200px;">
         </div>
         <div>
@@ -118,12 +118,12 @@
             </select>
         </div>
         <div>
-            <label style="display:block;font-size:0.7rem;font-weight:600;color:#475569;text-transform:uppercase;margin-bottom:0.3rem;">Dari Tanggal</label>
-            <input type="date" name="dari" value="{{ request('dari') }}" style="padding:0.45rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.375rem;font-size:0.8rem;">
+            <label style="display:block;font-size:0.7rem;font-weight:600;color:#475569;text-transform:uppercase;margin-bottom:0.3rem;" for="dari">Dari Tanggal</label>
+            <input id="dari" type="date" name="dari" value="{{ request('dari') }}" style="padding:0.45rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.375rem;font-size:0.8rem;">
         </div>
         <div>
-            <label style="display:block;font-size:0.7rem;font-weight:600;color:#475569;text-transform:uppercase;margin-bottom:0.3rem;">Sampai Tanggal</label>
-            <input type="date" name="sampai" value="{{ request('sampai') }}" style="padding:0.45rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.375rem;font-size:0.8rem;">
+            <label style="display:block;font-size:0.7rem;font-weight:600;color:#475569;text-transform:uppercase;margin-bottom:0.3rem;" for="sampai">Sampai Tanggal</label>
+            <input id="sampai" type="date" name="sampai" value="{{ request('sampai') }}" style="padding:0.45rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.375rem;font-size:0.8rem;">
         </div>
         <button type="submit" style="padding:0.5rem 1.1rem;background:#0f766e;color:#ffffff;border:none;border-radius:0.375rem;font-size:0.8rem;font-weight:600;cursor:pointer;">Terapkan Filter</button>
         <a href="{{ route('dps.jurnal-umum') }}" style="padding:0.5rem 1.1rem;background:#e2e8f0;color:#475569;border-radius:0.375rem;font-size:0.8rem;font-weight:600;text-decoration:none;">Reset</a>
@@ -152,16 +152,16 @@
                         </td>
                         <td style="padding:0.65rem 1rem;">
                             @if($isTazir)
-                                <span style="font-size:0.68rem;font-weight:600;background:#fde68a;color:#92400e;padding:0.2rem 0.55rem;border-radius:9999px;">Ta'zir</span>
+                                <span style="font-size:0.7rem;font-weight:600;background:#fde68a;color:#92400e;padding:0.2rem 0.55rem;border-radius:9999px;">Ta'zir</span>
                             @else
-                                <span style="font-size:0.68rem;font-weight:600;background:#f1f5f9;color:#475569;padding:0.2rem 0.55rem;border-radius:9999px;">{{ $jurnal->sumber ?? '-' }}</span>
+                                <span style="font-size:0.7rem;font-weight:600;background:#f1f5f9;color:#475569;padding:0.2rem 0.55rem;border-radius:9999px;">{{ $jurnal->sumber ?? '-' }}</span>
                             @endif
                         </td>
                         <td style="padding:0.65rem 1rem;font-size:0.78rem;color:#334155;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ $jurnal->keterangan }}">{{ $jurnal->keterangan ?? '—' }}</td>
                         <td style="padding:0.65rem 1rem;font-size:0.78rem;text-align:right;font-weight:600;color:#1e293b;">Rp {{ number_format($jurnal->total_debet, 2, ',', '.') }}</td>
                         <td style="padding:0.65rem 1rem;font-size:0.78rem;text-align:right;font-weight:600;color:#1e293b;">Rp {{ number_format($jurnal->total_kredit, 2, ',', '.') }}</td>
                         <td style="padding:0.65rem 1rem;text-align:center;">
-                            <span style="font-size:0.68rem;font-weight:600;{{ $jurnal->is_balance ? 'background:#dcfce7;color:#166534;' : 'background:#fee2e2;color:#991b1b;' }}padding:0.2rem 0.55rem;border-radius:9999px;">
+                            <span style="font-size:0.7rem;font-weight:600;{{ $jurnal->is_balance ? 'background:#dcfce7;color:#166534;' : 'background:#fee2e2;color:#991b1b;' }}padding:0.2rem 0.55rem;border-radius:9999px;">
                                 {{ $jurnal->is_balance ? 'Balanced' : 'Unbalanced' }}
                             </span>
                         </td>
@@ -174,9 +174,9 @@
                                     <div style="display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0;font-size:0.76rem;border-bottom:1px dotted #e2e8f0;{{ $loop->last ? 'border-bottom:none;' : '' }}">
                                         <div style="display:flex;align-items:center;gap:0.6rem;">
                                             @if($detail->debet > 0)
-                                                <span style="font-size:0.62rem;font-weight:700;background:#fee2e2;color:#991b1b;padding:0.15rem 0.5rem;border-radius:0.25rem;min-width:46px;text-align:center;">DEBET</span>
+                                                <span style="font-size:0.7rem;font-weight:700;background:#fee2e2;color:#991b1b;padding:0.15rem 0.5rem;border-radius:0.25rem;min-width:46px;text-align:center;">DEBET</span>
                                             @else
-                                                <span style="font-size:0.62rem;font-weight:700;background:#dcfce7;color:#166534;padding:0.15rem 0.5rem;border-radius:0.25rem;min-width:46px;text-align:center;">KREDIT</span>
+                                                <span style="font-size:0.7rem;font-weight:700;background:#dcfce7;color:#166534;padding:0.15rem 0.5rem;border-radius:0.25rem;min-width:46px;text-align:center;">KREDIT</span>
                                             @endif
                                             <span style="font-weight:700;color:#475569;">{{ $detail->coa?->kode_akun ?? '?' }}</span>
                                             <span style="color:#334155;">{{ $detail->coa?->nama_akun ?? '(Akun tidak ditemukan)' }}</span>

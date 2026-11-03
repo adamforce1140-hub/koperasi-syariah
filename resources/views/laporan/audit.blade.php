@@ -7,11 +7,11 @@
 <style>
     .badge-aktivitas {
         display: inline-block; padding: .2rem .55rem; border-radius: 999px;
-        font-size: .68rem; font-weight: 600; color: #fff; white-space: nowrap;
+        font-size: 0.7rem; font-weight: 600; color: #fff; white-space: nowrap;
     }
     .badge-peran {
         display: inline-block; padding: .15rem .5rem; border-radius: 4px;
-        font-size: .68rem; font-weight: 600;
+        font-size: 0.7rem; font-weight: 600;
         background: #eef2ff; color: #3730a3; white-space: nowrap;
     }
     .tabel-audit { font-size: .8rem; }
@@ -23,14 +23,14 @@
     .uraian { max-width: 340px; }
     .uraian-detail {
         font-family: ui-monospace, Menlo, Consolas, monospace;
-        font-size: .68rem; color: #475569; word-break: break-all;
+        font-size: 0.7rem; color: #475569; word-break: break-all;
     }
     .gagal { background: #fef2f2 !important; }
     /* Badge Matriks Hak Akses — standar seragam: radius pil .badge global,
        warna mengikuti makna hak (Lihat hijau, Unduh biru, Edit amber,
        Hapus merah, Ekspor teal, Verifikasi ungu, tanpa hak abu). */
     .matriks-hak {
-        font-size: .68rem; display: inline-block; padding: .15rem .5rem;
+        font-size: 0.7rem; display: inline-block; padding: .15rem .5rem;
         border-radius: 9999px; margin: 0 .15rem .15rem 0;
         background: #dcfce7; color: #166534; font-weight: 600; white-space: nowrap;
     }
@@ -141,13 +141,13 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label mb-1 small fw-semibold text-muted">Dari Tanggal</label>
-                    <input type="date" name="dari" class="form-control form-control-sm"
+                    <label class="form-label mb-1 small fw-semibold text-muted" for="dari">Dari Tanggal</label>
+                    <input id="dari" type="date" name="dari" class="form-control form-control-sm"
                            value="{{ $filter['dari'] }}">
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label mb-1 small fw-semibold text-muted">Sampai Tanggal</label>
-                    <input type="date" name="sampai" class="form-control form-control-sm"
+                    <label class="form-label mb-1 small fw-semibold text-muted" for="sampai">Sampai Tanggal</label>
+                    <input id="sampai" type="date" name="sampai" class="form-control form-control-sm"
                            value="{{ $filter['sampai'] }}">
                 </div>
                 <div class="col-md-2">
@@ -159,8 +159,8 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label mb-1 small fw-semibold text-muted">Pencarian</label>
-                    <input type="text" name="cari" class="form-control form-control-sm"
+                    <label class="form-label mb-1 small fw-semibold text-muted" for="cari">Pencarian</label>
+                    <input id="cari" type="text" name="cari" class="form-control form-control-sm"
                            placeholder="Nama pengguna, deskripsi, URL, atau IP…"
                            value="{{ $filter['cari'] }}">
                 </div>
@@ -278,7 +278,7 @@
          data-refresh-url="{{ route('audit.laporan.matriks') }}">
         <div class="card-header bg-white py-2 d-flex align-items-center justify-content-between flex-wrap gap-2">
             <span class="fw-semibold small">Matriks Hak Akses Modul Laporan Keuangan</span>
-            <span class="text-muted" style="font-size:.68rem;">
+            <span class="text-muted" style="font-size:0.7rem;">
                 sinkron dengan middleware
                 <span id="statusMatriks" class="ms-1">•</span>
             </span>

@@ -494,11 +494,14 @@ class NominalPembukaanRekeningParameterTest extends TestCase
         $kodeCoa = JenisSimpanan::coaKode($jenis);
         $nominal = 250000.0;
 
+        // `user_posted`/`user_id` pada tabel `jurnal` berkunci asing ke
+        // `users.id`; memakai literal `1` membuat test bergantung pada basis
+        // data yang kebetulan memiliki user ber-id 1.
         $jurnal = app(AutoJournalingService::class)->jurnalSetorSimpanan(
             $nominal,
             'Uji nominal pembukaan rekening',
             $jenis,
-            1,
+            $this->pengurus->id,
             null,
             null,
             $anggota->id

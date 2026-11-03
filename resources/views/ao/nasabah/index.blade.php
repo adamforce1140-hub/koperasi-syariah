@@ -13,7 +13,7 @@
     <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
         <span class="card-title">Daftar Nasabah ({{ $nasabah->total() }})</span>
         <form method="GET" style="display:flex;gap:.5rem;">
-            <input type="text" name="search" value="{{ $search }}"
+            <input type="text" name="search" value="{{ $search }}" aria-label="Cari nasabah"
                 placeholder="Cari nama / no. anggota / HP..."
                 style="padding:.5rem .8rem;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:260px;">
             <button type="submit" class="btn btn-secondary" style="font-size:.85rem;padding:.5rem .9rem;">Cari</button>

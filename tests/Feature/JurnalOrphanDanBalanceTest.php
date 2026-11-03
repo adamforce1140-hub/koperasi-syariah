@@ -40,7 +40,9 @@ class JurnalOrphanDanBalanceTest extends TestCase
 
     /**
      * Endpoint API jurnal kini WAJIB terautentikasi (RBAC). Test ini
-     * memakai peran `admin` — peran akuntansi yang berwenang menulis jurnal.
+     * memakai peran `teller` — salah satu pemegang izin tulis buku besar
+     * (`buku_besar.tulis`). K-1 mencabut wewenang ini dari `admin`, sehingga
+     * test yang dulu memakai `admin` akan ditolak 403 secara sah.
      */
     private function loginSebagaiAdmin(): void
     {
@@ -49,7 +51,7 @@ class JurnalOrphanDanBalanceTest extends TestCase
             [
                 'name' => 'Uji Orphan Admin',
                 'password' => Hash::make('password'),
-                'role' => 'admin',
+                'role' => 'teller',
                 'is_active' => true,
             ]
         );
@@ -512,7 +514,11 @@ class JurnalOrphanDanBalanceTest extends TestCase
      | D. VOID JURNAL MANUAL → JURNAL PEMBALIK (T-2 & S-1)
      ================================================================== */
 
-    /** Membuat user berperan admin yang berbeda dari pemosting jurnal. */
+    /**
+     * Membuat user pemegang `buku_besar.tulis` (peran `teller`) yang berbeda
+     * dari pemosting jurnal. K-1: `admin` tidak lagi berwenang menulis buku
+     * besar lewat API, jadi fixture ini tidak boleh memakai peran tersebut.
+     */
     private function adminPemutus(string $suffix): User
     {
         return User::firstOrCreate(
@@ -520,7 +526,7 @@ class JurnalOrphanDanBalanceTest extends TestCase
             [
                 'name' => 'Uji Void '.$suffix,
                 'password' => Hash::make('password'),
-                'role' => 'admin',
+                'role' => 'teller',
                 'is_active' => true,
             ]
         );

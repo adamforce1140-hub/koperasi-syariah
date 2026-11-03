@@ -118,8 +118,8 @@
             @csrf
             @method('POST')
             <div style="margin-bottom:1rem;">
-                <label style="display:block;color:#94a3b8;font-size:.85rem;margin-bottom:.4rem;">Alasan Penolakan <span style="color:#ef4444;">*</span></label>
-                <textarea name="catatan" rows="3" required
+                <label style="display:block;color:#94a3b8;font-size:.85rem;margin-bottom:.4rem;" for="catatan">Alasan Penolakan <span style="color:#ef4444;">*</span></label>
+                <textarea id="catatan" name="catatan" rows="3" required
                     style="width:100%;padding:.6rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#f1f5f9;font-size:.9rem;resize:vertical;"
                     placeholder="Masukkan alasan penolakan..."></textarea>
             </div>

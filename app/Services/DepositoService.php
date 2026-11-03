@@ -12,6 +12,7 @@ use App\Models\JenisSimpanan;
 use App\Models\Jurnal;
 use App\Models\Rekening;
 use App\Models\Transaksi;
+use App\Support\JenisTransaksi;
 use App\Support\NomorDokumen;
 use App\Support\Setting;
 use Barryvdh\DomPDF\PDF;
@@ -427,7 +428,7 @@ class DepositoService
                 'no_transaksi' => $this->generateNoTransaksi(),
                 'rekening_id' => $sumber->id,
                 'anggota_id' => $memberId,
-                'jenis_transaksi' => 'Pembukaan Deposito Mudharabah',
+                'jenis_transaksi' => JenisTransaksi::PEMBUKAAN_DEPOSITO,
                 'posisi' => 'Kredit',
                 'jumlah' => $principal,
                 'saldo_setelah' => $saldoSumberSetelah,

@@ -192,7 +192,7 @@
                         <span id="tazir-info-text"></span>
                     </div>
 
-                    <input type="number" name="nominal_tazir" id="input_nominal_tazir"
+                    <input type="number" name="nominal_tazir" id="input_nominal_tazir" aria-label="Nominal ta'zir"
                         min="0" step="1" placeholder="0 (kosongkan jika tidak ada denda)"
                         style="width:100%;padding:.6rem .8rem;border:1px solid #fcd34d;border-radius:6px;font-size:1rem;background:#fffbeb;">
 
@@ -212,7 +212,7 @@
 
                     {{-- Alasan Keringanan (muncul jika mengajukan keringanan) --}}
                     <div id="wrap_alasan" style="display:none;margin-top:.75rem;">
-                        <label style="display:block;font-weight:600;margin-bottom:.3rem;font-size:.9rem;color:#374151;">
+                        <label style="display:block;font-weight:600;margin-bottom:.3rem;font-size:.9rem;color:#374151;" for="input_alasan">
                             Alasan Keringanan (Musibah / Kesulitan Keuangan) <span style="color:#dc2626;">*</span>
                         </label>
                         <textarea name="alasan_keringanan" id="input_alasan" rows="2"

@@ -142,10 +142,10 @@ class CakupanAntreanApprovalTest extends TestCase
     }
 
     /* ═══════════════════════════════════════════════════════════════════
-     * 3. API approval/status — hanya auth:sanctum, tanpa izin peran
+     * 3. API approval/status — auth:sanctum + kanal khusus personel (T-2)
      * ═══════════════════════════════════════════════════════════════════ */
 
-    public function test_api_status_tidak_membocorkan_antrean_ke_peran_di_luar_rantai(): void
+    public function test_api_status_ditolak_untuk_peran_pemakai_jasa(): void
     {
         $teller = $this->pengguna('teller', 'pengaju');
         $manajer = $this->pengguna('manajer', 'manajer');
@@ -154,11 +154,14 @@ class CakupanAntreanApprovalTest extends TestCase
         $this->approval('APR-UJI-MJ-0004', 'PENDING_MANAJER', $teller);
         $this->approval('APR-UJI-PG-0004', 'PENDING_PENGURUS', $manajer);
 
+        // T-2: cabang `diajukan_oleh` membuat anggota tetap dapat memindai ID
+        // approval (ada/tidak ada membocorkan keberadaan antrean pihak lain),
+        // sementara peran anggota/nasabah tidak tunduk pada `frekuensi` dan
+        // `akses_data` sehingga pembatas laju berbasis kebijakan ikut mati.
+        // Kanal ini kini khusus personel.
         Sanctum::actingAs($anggota);
-        $this->getJson('/api/approval/status')
-            ->assertOk()
-            ->assertJsonPath('data.pending_count', 0)
-            ->assertJsonCount(0, 'data.approvals');
+
+        $this->getJson('/api/approval/status')->assertForbidden();
     }
 
     public function test_api_status_manajer_hanya_memuat_antrean_manajer(): void

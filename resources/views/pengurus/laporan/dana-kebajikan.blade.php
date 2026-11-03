@@ -38,13 +38,13 @@
     {{-- Filter Periode --}}
     <form method="GET" style="display:flex;gap:.75rem;align-items:flex-end;margin-bottom:1.5rem;flex-wrap:wrap;">
         <div>
-            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:#374151;">Dari Tanggal</label>
-            <input type="date" name="dari" value="{{ $dari }}"
+            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:#374151;" for="dari">Dari Tanggal</label>
+            <input id="dari" type="date" name="dari" value="{{ $dari }}"
                 style="padding:.5rem .75rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
         </div>
         <div>
-            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:#374151;">Sampai Tanggal</label>
-            <input type="date" name="sampai" value="{{ $sampai }}"
+            <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:#374151;" for="sampai">Sampai Tanggal</label>
+            <input id="sampai" type="date" name="sampai" value="{{ $sampai }}"
                 style="padding:.5rem .75rem;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;">
         </div>
         <button type="submit"

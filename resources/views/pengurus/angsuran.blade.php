@@ -175,7 +175,7 @@
                          style="position:absolute;left:0.625rem;top:50%;transform:translateY(-50%);pointer-events:none;">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input type="text" name="search" value="{{ $search }}" placeholder="No. Pembiayaan atau nama nasabah…"
+                    <input type="text" name="search" value="{{ $search }}" aria-label="Cari no. pembiayaan atau nama nasabah" placeholder="No. Pembiayaan atau nama nasabah…"
                            style="width:100%;padding:0.5rem 0.75rem 0.5rem 2rem;border:1px solid #cbd5e1;
                                   border-radius:0.5rem;font-size:0.825rem;color:#1e293b;outline:none;"
                            onfocus="this.style.borderColor='#059669'" onblur="this.style.borderColor='#cbd5e1'">
@@ -414,7 +414,7 @@
                                                     {{ $statusDinamis }}
                                                 </span>
                                                 @if($statusDinamis === 'Terlambat' && $ang->tanggal_jatuh_tempo)
-                                                <div style="font-size:0.68rem;color:#dc2626;margin-top:0.1rem;">
+                                                <div style="font-size:0.7rem;color:#dc2626;margin-top:0.1rem;">
                                                     {{ \Carbon\Carbon::parse($ang->tanggal_jatuh_tempo)->diffInDays(\Carbon\Carbon::today()) }} hari
                                                 </div>
                                                 @endif

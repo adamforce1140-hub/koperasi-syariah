@@ -76,7 +76,7 @@
     }
     .card-info-item {}
     .card-info-label {
-        font-size: 0.6rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.06em;
         opacity: 0.7;
@@ -131,7 +131,7 @@
         color: #374151;
     }
     .form-label .readonly-tag {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
         background: #f1f5f9;
         color: #64748b;
         border-radius: 4px;
