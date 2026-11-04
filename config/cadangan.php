@@ -21,4 +21,32 @@ return [
 
     'kunci' => env('BACKUP_ENCRYPTION_KEY'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Direktori Cadangan Lokal
+    |--------------------------------------------------------------------------
+    |
+    | Satu sumber untuk pembuat cadangan (`db:cadangkan`) dan pemeriksa
+    | kesegaran cadangan (`denyut:pemeriksaan`). Bila keduanya membaca lokasi
+    | berbeda, pemantauan dapat melaporkan "tidak ada cadangan" padahal
+    | cadangan dibuat setiap hari.
+    |
+    */
+
+    'direktori' => env('BACKUP_DIREKTORI', storage_path('app/backups')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Direktori Salinan Offsite
+    |--------------------------------------------------------------------------
+    |
+    | Cadangan yang hanya ada di satu disk tidak melindungi dari kerusakan
+    | disk itu sendiri. Isi dengan jalur disk kedua, USB, atau share jaringan
+    | pada host cadangan. Kosongkan bila belum tersedia — cadangan lokal tetap
+    | dibuat, hanya tanpa salinan kedua. Berkas yang disalin sudah terenkripsi.
+    |
+    */
+
+    'salinan_direktori' => env('BACKUP_SALINAN_DIREKTORI'),
+
 ];

@@ -253,13 +253,18 @@ Schedule::command('denyut:kesehatan')
 | `backup_retensi_hari` (menu Kebijakan Koperasi → Pemeliharaan & Cadangan
 | Basis Data), default 14 hari. Nilai dibaca saat `schedule:run` sehingga
 | perubahan pengurus langsung berlaku tanpa mengubah kode. Berkas disimpan
-| di storage/app/backups (di luar public/).
+| di storage/app/backups (di luar public/), atau di `BACKUP_DIREKTORI`.
+|
+| Salinan offsite: setel `BACKUP_SALINAN_DIREKTORI` pada .env (misalnya
+| E:\backup-koperasi atau share jaringan host cadangan) agar berkas yang
+| sudah terenkripsi ikut disalin ke lokasi kedua. Bila kosong, hanya cadangan
+| lokal yang dibuat. Kegagalan menyalin dicatat sebagai kegagalan command.
 |
 | Pemulihan:
 |   gunzip -c storage/app/backups/koperasi_syariah-YYYYmmdd-His.sql.gz |
 |     mysql -u root -p koperasi_syariah
 */
-Schedule::command('db:cadangkan --simpan-hari='.Setting::backupRetensiHari().' --lewati-bila-hari-ini-ada')
+Schedule::command(trim('db:cadangkan --simpan-hari='.Setting::backupRetensiHari().' --lewati-bila-hari-ini-ada'.(config('cadangan.salinan_direktori') ? ' --salinan-tujuan='.config('cadangan.salinan_direktori') : '')))
     ->hourly()
     ->between('01:00', '23:00')
     ->timezone('Asia/Jakarta')

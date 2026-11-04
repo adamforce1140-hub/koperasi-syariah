@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Notifications\CadanganKedaluwarsaNotification;
 use App\Services\JurnalReconciliationService;
+use App\Support\NotifikasiOperator;
 use App\Support\Setting;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
@@ -164,14 +166,17 @@ class PeriksaDenyutOperasional extends Command
 
     private function periksaCadangan(int $toleransiJam): int
     {
+        $direktori = (string) config('cadangan.direktori', storage_path('app/backups'));
+
         $berkas = array_merge(
-            File::glob(storage_path('app/backups/*.sql.gz')),
-            File::glob(storage_path('app/backups/*.sql.gz.enc'))
+            File::glob($direktori.DIRECTORY_SEPARATOR.'*.sql.gz'),
+            File::glob($direktori.DIRECTORY_SEPARATOR.'*.sql.gz.enc')
         );
 
         if ($berkas === []) {
-            $this->line('[GAGAL] Cadangan: belum ada satu berkas pun di storage/app/backups');
+            $this->line('[GAGAL] Cadangan: belum ada satu berkas pun di '.$direktori);
             $this->catat('pemantauan.cadangan', 'Tidak ada berkas cadangan basis data.', 'critical');
+            $this->peringatkan('Tidak ada satu pun berkas cadangan basis data. Data terbaru belum aman.');
 
             return 1;
         }
@@ -186,6 +191,12 @@ class PeriksaDenyutOperasional extends Command
                 'berkas' => basename($terbaru),
                 'umur_jam' => round($umurJam, 1),
             ]);
+            $this->peringatkan(sprintf(
+                'Cadangan terbaru %s berumur %.1f jam (ambang %d jam). Data terbaru belum aman.',
+                basename($terbaru),
+                $umurJam,
+                $toleransiJam
+            ), ['berkas' => basename($terbaru), 'umur_jam' => round($umurJam, 1)]);
 
             return 1;
         }
@@ -198,6 +209,25 @@ class PeriksaDenyutOperasional extends Command
         ));
 
         return 0;
+    }
+
+    /**
+     * Kirim peringatan cadangan ke pemegang `pengurus.operasional`.
+     *
+     * Berbeda dengan `catat()` yang hanya menulis berkas log, peringatan ini
+     * masuk tabel `notifications` sehingga terlihat di dalam aplikasi oleh
+     * orang yang bertanggung jawab. Dibatasi sekali per jam untuk kondisi
+     * yang sama agar pemeriksaan tiap jam tidak menumpuk pesan kembar.
+     *
+     * @param  array<string,mixed>  $rincian
+     */
+    private function peringatkan(string $pesan, array $rincian = []): void
+    {
+        NotifikasiOperator::kirim(
+            CadanganKedaluwarsaNotification::dari($pesan, $rincian),
+            'pengurus.operasional',
+            'pemantauan.cadangan'
+        );
     }
 
     /**

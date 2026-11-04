@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Notifications\CadanganGagalNotification;
 use App\Support\CadanganTerenkripsi;
+use App\Support\NotifikasiOperator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -27,10 +29,14 @@ use Throwable;
  *      `storage/app/backups`. Opsi `--single-transaction` membuat dump
  *      konsisten (InnoDB) TANPA mengunci tabel, sehingga teller tetap bisa
  *      bertransaksi selama pencadangan. Plaintext tidak pernah menyentuh disk.
- *   2. Berkas berumur lebih dari `--simpan-hari` dihapus (retensi).
- *   3. Kegagalan dicatat sebagai CRITICAL di log agar terlihat pada
- *      pemantauan; command mengembalikan exit code non-nol sehingga
- *      scheduler/operator dapat mendeteksinya.
+ *   2. Bila `--salinan-tujuan` diisi, berkas yang sudah terenkripsi disalin
+ *      ke lokasi kedua (disk lain/USB/host cadangan). Kegagalan menyalin
+ *      membuat command GAGAL agar operator tidak mengira salinan offsite ada.
+ *   3. Berkas berumur lebih dari `--simpan-hari` dihapus (retensi).
+ *   4. Kegagalan dicatat sebagai CRITICAL di log DAN dikirim sebagai
+ *      notifikasi ke pemegang `pengurus.operasional`, karena berkas log tidak
+ *      pernah dibaca siapa pun pada saat kejadian; command mengembalikan exit
+ *      code non-nol sehingga scheduler/operator dapat mendeteksinya.
  *
  * PENGEMBALIAN DATA
  * -----------------
@@ -44,7 +50,8 @@ class CadangkanBasisData extends Command
 {
     protected $signature = 'db:cadangkan
                             {--simpan-hari=14 : Jumlah hari retensi berkas cadangan}
-                            {--tujuan= : Direktori tujuan (default storage/app/backups)}
+                            {--tujuan= : Direktori tujuan (default dari config/cadangan.php)}
+                            {--salinan-tujuan= : Direktori salinan offsite (opsional, disk/USB/host lain)}
                             {--lewati-bila-hari-ini-ada : Lewati bila cadangan untuk tanggal hari ini sudah ada di direktori tujuan}';
 
     protected $description = 'Membuat cadangan basis data (mysqldump + gzip) dan membersihkan cadangan kedaluwarsa';
@@ -59,11 +66,9 @@ class CadangkanBasisData extends Command
             return self::FAILURE;
         }
 
-        $tujuan = $this->option('tujuan') ?: storage_path('app/backups');
+        $tujuan = $this->option('tujuan') ?: (string) config('cadangan.direktori', storage_path('app/backups'));
 
-        if (! File::isDirectory($tujuan) && ! File::makeDirectory($tujuan, 0700, true)) {
-            $this->error("Direktori cadangan tidak dapat dibuat: {$tujuan}");
-
+        if (! $this->siapkanDirektori($tujuan, 'Direktori cadangan')) {
             return self::FAILURE;
         }
 
@@ -81,7 +86,7 @@ class CadangkanBasisData extends Command
         try {
             $kunci = $enkripsi ? CadanganTerenkripsi::kunci() : null;
         } catch (Throwable $e) {
-            $this->error('Enkripsi cadangan tidak dapat disiapkan: '.$e->getMessage());
+            $this->gagalkan('Enkripsi cadangan tidak dapat disiapkan: '.$e->getMessage());
 
             return self::FAILURE;
         }
@@ -97,7 +102,7 @@ class CadangkanBasisData extends Command
         $dump = $this->lokasiMysqldump();
 
         if ($dump === null) {
-            $this->error('mysqldump tidak ditemukan. Setel DB_DUMP_BINARY pada .env.');
+            $this->gagalkan('mysqldump tidak ditemukan. Setel DB_DUMP_BINARY pada .env.');
 
             return self::FAILURE;
         }
@@ -120,7 +125,7 @@ class CadangkanBasisData extends Command
         $deflate = deflate_init(ZLIB_ENCODING_GZIP, ['level' => 6]);
 
         if ($deflate === false) {
-            $this->error('Kompresor gzip tidak tersedia pada PHP ini.');
+            $this->gagalkan('Kompresor gzip tidak tersedia pada PHP ini.');
 
             return self::FAILURE;
         }
@@ -235,7 +240,7 @@ class CadangkanBasisData extends Command
                 'error' => $e->getMessage(),
             ]);
 
-            $this->error('Cadangan gagal: '.$e->getMessage());
+            $this->gagalkan('Cadangan gagal: '.$e->getMessage());
 
             return self::FAILURE;
         }
@@ -247,6 +252,42 @@ class CadangkanBasisData extends Command
             $enkripsi ? ' [terenkripsi]' : ''
         ));
 
+        // Salinan offsite: menyalin berkas yang SUDAH terenkripsi apa adanya,
+        // sehingga kunci yang sama dapat memulihkannya. Kegagalan di sini
+        // membuat command GAGAL — cadangan yang hanya ada di satu disk tidak
+        // melindungi dari kerusakan disk itu sendiri.
+        $salinan = $this->option('salinan-tujuan');
+
+        if (is_string($salinan) && $salinan !== '') {
+            if (! $this->siapkanDirektori($salinan, 'Direktori salinan offsite')) {
+                return self::FAILURE;
+            }
+
+            $tujuanSalinan = rtrim($salinan, '\\/').DIRECTORY_SEPARATOR.$namaBerkas;
+
+            try {
+                if (! File::copy($jalur, $tujuanSalinan)) {
+                    throw new \RuntimeException("Berkas tidak dapat disalin ke {$tujuanSalinan}");
+                }
+
+                @chmod($tujuanSalinan, 0600);
+            } catch (Throwable $e) {
+                File::delete($tujuanSalinan);
+
+                Log::critical('Salinan offsite cadangan GAGAL — cadangan hanya ada di satu lokasi.', [
+                    'berkas' => $namaBerkas,
+                    'tujuan' => $salinan,
+                    'error' => $e->getMessage(),
+                ]);
+
+                $this->gagalkan('Cadangan lokal berhasil, tetapi salinan offsite GAGAL: '.$e->getMessage());
+
+                return self::FAILURE;
+            }
+
+            $this->info('Salinan offsite dibuat: '.$tujuanSalinan);
+        }
+
         Log::info('Cadangan basis data berhasil.', [
             'berkas' => $namaBerkas,
             'ukuran' => $ukuran,
@@ -257,6 +298,54 @@ class CadangkanBasisData extends Command
         $this->bersihkanCadanganLama($tujuan, (int) $this->option('simpan-hari'));
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Pastikan direktori tersedia; bila gagal, laporkan ke operator.
+     *
+     * `File::makeDirectory()` MELEMPAR exception (bukan mengembalikan false)
+     * ketika salah satu segmen jalur adalah berkas biasa atau induknya tidak
+     * dapat diakses. Tanpa penangkap ini, kegagalan paling awal justru lolos
+     * sebagai stack trace tanpa notifikasi ke pengurus.
+     */
+    private function siapkanDirektori(string $direktori, string $sebutan): bool
+    {
+        if (File::isDirectory($direktori)) {
+            return true;
+        }
+
+        try {
+            File::makeDirectory($direktori, 0700, true);
+        } catch (Throwable $e) {
+            $this->gagalkan("{$sebutan} tidak dapat dibuat: {$direktori} ({$e->getMessage()})");
+
+            return false;
+        }
+
+        if (! File::isDirectory($direktori)) {
+            $this->gagalkan("{$sebutan} tidak dapat dibuat: {$direktori}");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Laporkan kegagalan pencadangan ke layar, log, dan kotak masuk pengurus.
+     *
+     * Setiap kegagalan dikirim (tanpa pembatas per jam): penyebabnya bisa
+     * berbeda-beda, dan kegagalan berikutnya sering menjadi akibat dari
+     * kegagalan sebelumnya (misalnya disk penuh).
+     */
+    private function gagalkan(string $alasan): void
+    {
+        $this->error($alasan);
+
+        NotifikasiOperator::kirim(
+            CadanganGagalNotification::dari($alasan),
+            'pengurus.operasional'
+        );
     }
 
     /**
