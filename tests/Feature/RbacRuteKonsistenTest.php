@@ -15,7 +15,9 @@ use Tests\TestCase;
  * tersebut tidak pernah dibuka pengujian lain, dan di produksi tampil sebagai
  * 403 yang menyerupai masalah hak akses. Uji ini mengunci dua lapis:
  *
- *  1. Setiap `role:` pada seluruh rute terdaftar di `HierarkiRole::peran()`.
+ *  1. Setiap `role:` pada seluruh rute terdaftar di `HierarkiRole::peran()`,
+ *     dan tidak ada lagi rute yang memakai gerbang peran literal (seluruhnya
+ *     memakai izin bernama `izin:`).
  *  2. Perintah `rbac:periksa` melaporkan NOL temuan pada konfigurasi & rute
  *     (termasuk peta izin, konfigurasi hierarki, rute dasbor peran, dan rute
  *     pengalihan ramah).
@@ -25,10 +27,18 @@ use Tests\TestCase;
  */
 class RbacRuteKonsistenTest extends TestCase
 {
-    /** @return list<string> */
-    private function rolePadaRute(): array
+    /**
+     * DYN-18 — migrasi tuntas: tidak ada rute yang masih menyebut peran
+     * literal. Gerbang rute wajib memakai izin bernama (`izin:`) agar satu
+     * sumber kebenaran tetap `config/izin.php`.
+     *
+     * Bila kelak `role:` dipakai kembali, nama perannya tetap harus sah
+     * menurut `config/role_hierarki.php` — karena itu pemeriksaan nama
+     * dijalankan sebelum rute literal ditolak.
+     */
+    public function test_rute_tidak_lagi_memakai_gerbang_peran_literal(): void
     {
-        $nama = [];
+        $tersisa = [];
 
         foreach (Route::getRoutes() as $rute) {
             foreach ($rute->gatherMiddleware() as $mw) {
@@ -36,31 +46,26 @@ class RbacRuteKonsistenTest extends TestCase
                     continue;
                 }
 
-                foreach (explode(',', substr($mw, strlen('role:'))) as $satu) {
-                    $satu = trim($satu);
+                $tersisa[] = $rute->uri().' → '.$mw;
 
-                    if ($satu !== '') {
-                        $nama[$satu] = true;
+                foreach (explode(',', substr($mw, strlen('role:'))) as $peran) {
+                    $peran = trim($peran);
+
+                    if ($peran !== '') {
+                        $this->assertTrue(
+                            HierarkiRole::dikenal($peran),
+                            "Rute memakai peran '{$peran}' yang tidak terdaftar di config/role_hierarki.php."
+                        );
                     }
                 }
             }
         }
 
-        return array_keys($nama);
-    }
-
-    public function test_setiap_peran_pada_rute_dikenal_ssot_rbac(): void
-    {
-        $dipakai = $this->rolePadaRute();
-
-        $this->assertNotEmpty($dipakai, 'Tidak ada rute ber-middleware role: yang terbaca.');
-
-        foreach ($dipakai as $peran) {
-            $this->assertTrue(
-                HierarkiRole::dikenal($peran),
-                "Rute memakai peran '{$peran}' yang tidak terdaftar di config/role_hierarki.php."
-            );
-        }
+        $this->assertSame(
+            [],
+            $tersisa,
+            "Rute masih memakai peran literal:\n".implode("\n", $tersisa)
+        );
     }
 
     public function test_command_rbac_periksa_tidak_menemukan_temuan(): void

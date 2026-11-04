@@ -119,6 +119,23 @@ return [
         // operasi/akuntansi (teller, manajer, pengurus) plus super_admin.
         'buku_besar.tulis' => ['teller', 'manajer', 'pengurus', 'super_admin'],
 
+        // ─── Baca API operasional (migrasi `role:` pada routes/api.php) ───
+        // Pemindahan persis gerbang lama `role:admin,manajer,pengurus,teller,ao,dps`
+        // ditambah `super_admin` (aturan 5). `admin` memang berwenang MEMBACA
+        // daftar/laporan; menulis buku besar tetap di `buku_besar.tulis`.
+        'api.baca.operasional' => ['admin', 'manajer', 'pengurus', 'teller', 'ao', 'dps', 'super_admin'],
+
+        // ─── Deposito: wewenang fungsional ───
+        // Mencetak bilyet: pemindahan persis `role:admin,ao,manajer,pengurus,teller`
+        // ditambah `super_admin`. Batas "hanya bilyet milik sendiri" tetap
+        // ditegakkan controller lewat kelompok `pencetak_bilyet`.
+        'deposito.cetak_bilyet' => ['admin', 'ao', 'manajer', 'pengurus', 'teller', 'super_admin'],
+
+        // Pencairan dini mengeluarkan dana dari laci: hanya pemegang laci.
+        // `super_admin` sengaja DIKECUALIKAN (lihat `pewaris_puncak_kecuali`
+        // pada config/role_hierarki.php), sejalan dengan controller.
+        'deposito.pencairan_dini' => ['teller'],
+
         // Kontrak pembiayaan menyentuh AKAD, bukan kas loket: `teller` dan
         // `admin` tidak berwenang. Sejalan dengan penulis akad di web.
         // Endpoint API tulis pembiayaan juga berada di balik halaman

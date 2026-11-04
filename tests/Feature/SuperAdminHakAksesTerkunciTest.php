@@ -108,6 +108,10 @@ class SuperAdminHakAksesTerkunciTest extends TestCase
             'approval.transaksi', 'pembiayaan.approve', 'pembiayaan.persetujuan',
             'terminasi.approval',
             'nasabah.swalayan',
+            // `deposito.pencairan_dini` sengaja hanya `teller`: pencairan dini
+            // mengeluarkan dana laci. Sejalan dengan `pewaris_puncak_kecuali`
+            // pada config/role_hierarki.php dan Api\DepositoController.
+            'deposito.pencairan_dini',
         ];
 
         foreach (Izin::peta() as $nama => $peran) {
@@ -164,6 +168,14 @@ class SuperAdminHakAksesTerkunciTest extends TestCase
             'buku_besar.tulis' => 'laporan.buku_besar',
             'pembiayaan.kontrak' => 'manajer.operasional',
             'kas.loket.eksekusi' => 'teller.loket',
+            // `api.baca.operasional` hanya menempel pada grup BACA routes/api.php
+            // (anggota, rekening, transaksi, pembiayaan, angsuran, jurnal, akun,
+            // deposito). Padanan halamannya di menu dijaga `laporan.buku_besar`.
+            'api.baca.operasional' => 'laporan.buku_besar',
+            // `deposito.cetak_bilyet` hanya menempel pada GET
+            // /api/deposito/{id}/print-bilyet. Tombol cetak tersedia pada menu
+            // Deposito loket (`teller.loket`).
+            'deposito.cetak_bilyet' => 'teller.loket',
         ];
 
         $terjangkau = [];

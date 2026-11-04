@@ -7,7 +7,9 @@ use App\Models\KasHarian;
 use App\Models\Pembiayaan;
 use App\Models\Rekening;
 use App\Models\User;
+use App\Support\Izin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 /**
@@ -82,6 +84,87 @@ class PemisahanTugasApiKeuanganTest extends TestCase
             ->assertStatus(422);
     }
 
+    /* ───────────── K-3 — rute API memakai izin bernama ───────────── */
+
+    /**
+     * Tidak boleh ada lagi gerbang peran literal (`role:`) pada routes/api.php.
+     *
+     * Peran literal mengikat definisi rute ke nama peran, sehingga peran baru
+     * atau perubahan wewenang menuntut penyuntingan rute. Seluruh gerbang API
+     * wajib menyebut IZIN (`izin:`), dan pemetaannya hidup di config/izin.php.
+     */
+    public function test_rute_api_tidak_lagi_memakai_gerbang_peran_literal(): void
+    {
+        $tersisa = [];
+
+        foreach (Route::getRoutes() as $rute) {
+            if (! str_starts_with($rute->uri(), 'api/')) {
+                continue;
+            }
+
+            foreach ($rute->gatherMiddleware() as $mw) {
+                if (is_string($mw) && str_starts_with($mw, 'role:')) {
+                    $tersisa[] = $rute->uri().' → '.$mw;
+                }
+            }
+        }
+
+        $this->assertSame(
+            [],
+            $tersisa,
+            "Rute API masih memakai peran literal:\n".implode("\n", $tersisa)
+        );
+    }
+
+    /**
+     * Izin baca operasional memindahkan SELURUH peran yang sebelumnya dilayani
+     * `role:admin,manajer,pengurus,teller,ao,dps` — ditambah super_admin sebagai
+     * puncak administratif. Tidak ada peran yang dipersempit (pemindahan persis).
+     */
+    public function test_izin_baca_operasional_api_memuat_seluruh_peran_lama(): void
+    {
+        $this->assertPeranSama(
+            ['admin', 'manajer', 'pengurus', 'teller', 'ao', 'dps', 'super_admin'],
+            'api.baca.operasional'
+        );
+    }
+
+    /**
+     * Gerbang cetak bilyet sebelumnya `role:admin,ao,manajer,pengurus,teller`.
+     * `ao` WAJIB tetap lolos meski bukan penerbit bilyet: pemilik deposito
+     * berperan `ao` harus dapat mencetak bilyetnya sendiri (lihat
+     * DepositoSyariahTest::test_bilyet_tidak_dapat_diakses_anggota_lain...).
+     * Pembedaan "boleh mencetak milik sendiri" vs "milik siapa pun" tetap
+     * ditegakkan di controller lewat kelompok `pencetak_bilyet`.
+     */
+    public function test_izin_cetak_bilyet_tidak_mempersempit_gerbang_lama(): void
+    {
+        $this->assertPeranSama(
+            ['admin', 'ao', 'manajer', 'pengurus', 'teller', 'super_admin'],
+            'deposito.cetak_bilyet'
+        );
+    }
+
+    /**
+     * Pencairan dini mengeluarkan dana koperasi: tetap HANYA pemegang laci.
+     * `super_admin` sengaja tidak diikutkan karena kelompok `pencairan_dini`
+     * di role_hierarki pun mengecualikannya (pewaris_puncak_kecuali).
+     */
+    public function test_izin_pencairan_dini_hanya_untuk_pemegang_laci(): void
+    {
+        $this->assertSame(['teller'], Izin::peran('deposito.pencairan_dini'));
+    }
+
+    /** Migrasi gerbang tidak boleh mempersempit akses BACA yang sudah berjalan. */
+    public function test_peran_pembaca_api_tetap_diloloskan_setelah_migrasi(): void
+    {
+        foreach (['admin', 'manajer', 'pengurus', 'teller', 'ao', 'dps'] as $peran) {
+            $this->actingAs($this->pengguna($peran))
+                ->getJson('/api/deposito/products')
+                ->assertOk();
+        }
+    }
+
     /* ─────────────────────────── K-2 ─────────────────────────── */
 
     public function test_peran_penyetuju_dan_administratif_tidak_dapat_membuka_deposito(): void
@@ -145,6 +228,25 @@ class PemisahanTugasApiKeuanganTest extends TestCase
     }
 
     /* ────────────────────────── bantuan ────────────────────────── */
+
+    /**
+     * Bandingkan daftar peran sebuah izin tanpa memperhatikan urutan.
+     *
+     * @param  list<string>  $diharapkan
+     */
+    private function assertPeranSama(array $diharapkan, string $namaIzin): void
+    {
+        $aktual = Izin::peran($namaIzin);
+
+        sort($diharapkan);
+        sort($aktual);
+
+        $this->assertSame(
+            $diharapkan,
+            $aktual,
+            "Izin '{$namaIzin}' tidak memindahkan daftar peran secara persis."
+        );
+    }
 
     private function pengguna(string $peran): User
     {

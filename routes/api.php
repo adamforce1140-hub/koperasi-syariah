@@ -46,7 +46,7 @@ Route::get('/', function () {
  | izin bernama `buku_besar.tulis` / `pembiayaan.kontrak`. `admin` — peran
  | administratif — hanya membaca (K-1).
  */
-Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao,dps'])->group(function () {
+Route::middleware(['web', 'auth', 'izin:api.baca.operasional'])->group(function () {
     Route::apiResource('anggota', ApiAnggotaController::class)->only(['index', 'show']);
     Route::apiResource('rekening', RekeningController::class)->only(['index', 'show']);
     Route::apiResource('transaksi', TransaksiController::class)->only(['index', 'show']);
@@ -59,12 +59,12 @@ Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao,dps'])-
 });
 
 /*
- * Baca master akun memakai daftar peran operasional di atas DITAMBAH
- * `super_admin`. Pemegang `coa.kelola` (satu-satunya penulis CoA) harus mampu
+ * Baca master akun memakai izin operasional yang sama di atas; izin tersebut
+ * sudah memuat `super_admin`. Pemegang `coa.kelola` (satu-satunya penulis CoA) harus mampu
  * membaca apa yang baru dituliskannya; tanpa ini `POST /api/akun` menjawab 201
  * tetapi `GET /api/akun/{id}` 403 — wewenang baca lebih sempit daripada tulis.
  */
-Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao,dps,super_admin'])->group(function () {
+Route::middleware(['web', 'auth', 'izin:api.baca.operasional'])->group(function () {
     Route::apiResource('akun', AkunController::class)->only(['index', 'show']);
 });
 
@@ -137,7 +137,7 @@ Route::prefix('deposito')->group(function () {
      * BACA — master produk & parameter akun. Tidak memuat data nasabah.
      * Tetap WAJIB terautentikasi: role `ao` & `dps` boleh membaca.
      */
-    Route::middleware(['web', 'auth', 'role:admin,manajer,pengurus,teller,ao,dps'])->group(function () {
+    Route::middleware(['web', 'auth', 'izin:api.baca.operasional'])->group(function () {
         Route::get('products', [ApiDepositoController::class, 'products']);
         Route::get('coa-config', [ApiDepositoController::class, 'coaConfig']);
         Route::post('simulate', [ApiDepositoController::class, 'simulate']);
@@ -178,8 +178,10 @@ Route::prefix('deposito')->group(function () {
      * berwenang atas analisis & pengajuan pembiayaan, bukan eksekusi kas.
      * Otorisasi per-baris ditegakkan ulang di
      * Api\DepositoController::earlyWithdrawal (defense-in-depth).
+     * Gerbang rute memakai izin bernama `deposito.pencairan_dini`
+     * (config/izin.php) yang isinya tepat `['teller']`.
      */
-    Route::middleware(['web', 'auth', 'role:teller'])
+    Route::middleware(['web', 'auth', 'izin:deposito.pencairan_dini'])
         ->post('{id}/early-withdrawal', [ApiDepositoController::class, 'earlyWithdrawal'])
         ->whereNumber('id')
         ->name('deposito.early-withdrawal');
@@ -190,12 +192,16 @@ Route::prefix('deposito')->group(function () {
      * Middleware `web` dipakai secara eksplisit karena berkas ini berada di
      * routes/api.php (tidak mendapat grup `web` dari bootstrap/app.php),
      * sedangkan autentikasi aplikasi ini berbasis sesi — bukan token Sanctum.
-     * Urutan `auth` lalu `role:` memastikan pengguna anonim diarahkan ke login
+     * Urutan `auth` lalu `izin:` memastikan pengguna anonim diarahkan ke login
      * dan peran yang tidak berhak menerima 403. Otorisasi per-baris (mis.
      * pencocokan pemilik & penolakan status belum terverifikasi) ditegakkan
      * di DepositoController::generateBilyetPdf.
+     *
+     * Gerbang memakai izin bernama `deposito.cetak_bilyet` — pemindahan persis
+     * daftar peran lama ditambah super_admin. Batas "hanya bilyet milik
+     * sendiri" tetap di controller (kelompok `pencetak_bilyet`).
      */
-    Route::middleware(['web', 'auth', 'role:admin,ao,manajer,pengurus,teller'])
+    Route::middleware(['web', 'auth', 'izin:deposito.cetak_bilyet'])
         ->get('{id}/print-bilyet', [ApiDepositoController::class, 'generateBilyetPdf'])
         ->whereNumber('id')
         ->name('deposito.print-bilyet');
