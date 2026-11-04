@@ -5,7 +5,7 @@
 
 {{-- Tom Select CSS --}}
 @section('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css">
+<link rel="stylesheet" href="{{ asset('vendor/tom-select/tom-select.bootstrap5.min.css') }}">
 <style>
     .ts-wrapper.single .ts-control {
         padding: .5rem .8rem;
@@ -248,7 +248,7 @@
 
 {{-- Tom Select JS --}}
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script src="{{ asset('vendor/tom-select/tom-select.complete.min.js') }}"></script>
 <script>
 const FINANSIAL_URL = "{{ url('ao/anggota') }}";
 

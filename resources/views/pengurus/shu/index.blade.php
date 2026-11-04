@@ -4,7 +4,7 @@
 @section('page-title', 'Perhitungan & Distribusi SHU')
 
 @section('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
 <style>
     /* ── Page Header ── */
     .page-header {
@@ -927,7 +927,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
 <script>
 // ── Utility: Format Rupiah ──
 // Menampilkan 2 desimal bila ada sen (mis. Rp 25.000.000,50), dan bilangan

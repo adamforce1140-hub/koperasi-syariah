@@ -33,7 +33,7 @@ return [
     |
     */
 
-    'direktori' => env('BACKUP_DIREKTORI', storage_path('app/backups')),
+    'direktori' => env('BACKUP_DIREKTORI') ?: storage_path('app/backups'),
 
     /*
     |--------------------------------------------------------------------------
@@ -47,6 +47,6 @@ return [
     |
     */
 
-    'salinan_direktori' => env('BACKUP_SALINAN_DIREKTORI'),
+    'salinan_direktori' => env('BACKUP_SALINAN_DIREKTORI') ?: null,
 
 ];

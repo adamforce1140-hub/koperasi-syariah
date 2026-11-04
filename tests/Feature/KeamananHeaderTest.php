@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Middleware\KeamananHeader;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -111,6 +112,58 @@ class KeamananHeaderTest extends TestCase
             $_ENV['APP_ENV'] = $semula[0];
             $_SERVER['APP_ENV'] = $semula[1];
         }
+    }
+
+    public function test_view_tidak_memuat_aset_dari_asal_luar(): void
+    {
+        // CSP produksi hanya mengizinkan asal sendiri. Setiap rujukan aset
+        // eksternal (font, CSS, JS, gambar) akan diblokir peramban dan
+        // mematahkan tampilan, sekaligus membuat sistem bergantung internet.
+        $pelanggaran = [];
+
+        foreach (File::allFiles(resource_path('views')) as $berkas) {
+            if (! str_ends_with($berkas->getFilename(), '.blade.php')) {
+                continue;
+            }
+
+            $isi = (string) preg_replace('~\{\{--.*?--\}\}~s', '', $berkas->getContents());
+
+            if (preg_match_all('~\b(?:src|href)\s*=\s*["\']\s*https?://[^"\']+~i', $isi, $cocok)) {
+                foreach ($cocok[0] as $temuan) {
+                    $pelanggaran[] = $berkas->getRelativePathname().' → '.$temuan;
+                }
+            }
+
+            if (preg_match_all('~url\(\s*["\']?https?://[^)"\']+~i', $isi, $cocok)) {
+                foreach ($cocok[0] as $temuan) {
+                    $pelanggaran[] = $berkas->getRelativePathname().' → '.$temuan;
+                }
+            }
+        }
+
+        $this->assertSame([], $pelanggaran, implode(PHP_EOL, array_merge(
+            ['Aset eksternal berikut akan diblokir CSP produksi:'],
+            $pelanggaran
+        )));
+    }
+
+    public function test_aset_pihak_ketiga_disajikan_dari_server_sendiri(): void
+    {
+        $wajib = [
+            'public/css/figtree.css',
+            'public/vendor/tom-select/tom-select.bootstrap5.min.css',
+            'public/vendor/tom-select/tom-select.complete.min.js',
+            'public/vendor/sweetalert2/sweetalert2.min.css',
+            'public/vendor/sweetalert2/sweetalert2.all.min.js',
+            'public/js/qrcode.min.js',
+        ];
+
+        foreach ($wajib as $jalur) {
+            $this->assertFileExists(public_path(substr($jalur, strlen('public/'))), "Aset lokal {$jalur} tidak ditemukan.");
+        }
+
+        $font = glob(public_path('fonts/figtree/*.woff2')) ?: [];
+        $this->assertCount(8, $font, 'Delapan berkas Figtree (4 bobot × 2 subset) harus tersedia lokal.');
     }
 
     public function test_csp_dapat_dinonaktifkan_lewat_env(): void

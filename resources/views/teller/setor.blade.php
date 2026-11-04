@@ -24,7 +24,7 @@
 @endsection
 
 @section('styles')
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+<link href="{{ asset('vendor/tom-select/tom-select.bootstrap5.min.css') }}" rel="stylesheet">
 <style>
 .ts-wrapper { width:100% !important; }
 .ts-wrapper.single .ts-control { border-radius:6px !important; padding:.6rem .8rem !important; font-size:.95rem !important; border-color:#d1d5db !important; min-height:auto !important; }
@@ -132,7 +132,7 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script src="{{ asset('vendor/tom-select/tom-select.complete.min.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const el = document.getElementById('anggota_id');

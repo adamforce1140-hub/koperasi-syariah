@@ -209,6 +209,21 @@ class NotifikasiCadanganTest extends TestCase
         $this->assertGreaterThan(0, File::size($hasil));
     }
 
+    public function test_salinan_offsite_dibaca_dari_konfigurasi(): void
+    {
+        // Jadwal cadangan berjalan tanpa opsi `--salinan-tujuan`, sehingga
+        // `BACKUP_SALINAN_DIREKTORI` pada .env harus benar-benar dipakai.
+        // Tanpa ini, kunci di .env.example tidak berefek apa pun dan cadangan
+        // tetap hanya ada di satu disk.
+        config(['cadangan.salinan_direktori' => $this->salinan]);
+
+        $this->artisan('db:cadangkan', ['--tujuan' => $this->sementara])
+            ->assertSuccessful();
+
+        $this->assertCount(1, File::glob($this->salinan.'/*.sql.gz.enc'),
+            'Salinan offsite dari konfigurasi tidak terbentuk.');
+    }
+
     public function test_gagal_menyalin_offsite_membuat_command_gagal(): void
     {
         // Tujuan salinan berupa BERKAS biasa → direktori tujuan tak dapat

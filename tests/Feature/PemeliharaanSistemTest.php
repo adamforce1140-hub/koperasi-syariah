@@ -47,6 +47,32 @@ class PemeliharaanSistemTest extends TestCase
         ])->assertSuccessful();
     }
 
+    public function test_direktori_cadangan_kosong_jatuh_ke_lokasi_baku(): void
+    {
+        // `.env.example` mengizinkan kedua kunci ditulis kosong. `env()`
+        // mengembalikan "" (bukan null) untuk nilai kosong, sehingga tanpa
+        // normalisasi direktori cadangan menjadi "" dan command gagal membuat
+        // direktori — padahal yang dimaksud adalah memakai lokasi baku.
+        $_ENV['BACKUP_DIREKTORI'] = '';
+        $_SERVER['BACKUP_DIREKTORI'] = '';
+        $_ENV['BACKUP_SALINAN_DIREKTORI'] = '';
+        $_SERVER['BACKUP_SALINAN_DIREKTORI'] = '';
+
+        try {
+            $konfigurasi = require base_path('config/cadangan.php');
+        } finally {
+            unset(
+                $_ENV['BACKUP_DIREKTORI'], $_SERVER['BACKUP_DIREKTORI'],
+                $_ENV['BACKUP_SALINAN_DIREKTORI'], $_SERVER['BACKUP_SALINAN_DIREKTORI']
+            );
+        }
+
+        $this->assertSame(storage_path('app/backups'), $konfigurasi['direktori'],
+            'Nilai kosong harus jatuh ke storage/app/backups, bukan string kosong.');
+        $this->assertNull($konfigurasi['salinan_direktori'],
+            'Nilai kosong berarti tidak ada salinan offsite.');
+    }
+
     public function test_command_cadangan_menghasilkan_berkas_terenkripsi_yang_dapat_dipulihkan(): void
     {
         $this->artisan('db:cadangkan', ['--tujuan' => $this->sementara])

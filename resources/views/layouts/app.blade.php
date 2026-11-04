@@ -11,8 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'Koperasi Syariah'))</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    {{-- Font disajikan dari server sendiri agar tetap tampil tanpa internet
+         dan tidak diblokir Content-Security-Policy produksi. --}}
+    <link rel="stylesheet" href="{{ asset('css/figtree.css') }}">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {

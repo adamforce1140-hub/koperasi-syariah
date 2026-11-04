@@ -145,9 +145,9 @@
     align-items: center;
     justify-content: center;
 }
-.qr-box img {
-    width: 52px;
-    height: 52px;
+.qr-box svg {
+    width: 60px;
+    height: 60px;
     display: block;
 }
 
@@ -258,12 +258,11 @@
                         Berlaku: Seumur Hidup
                     </div>
                 </div>
-                {{-- QR Code via api.qrserver.com (andal, gratis, tidak butuh library) --}}
-                <div class="qr-box">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data={{ urlencode($anggota->no_anggota ?? $anggota->nik) }}&format=png"
-                         alt="QR {{ $anggota->no_anggota }}"
-                         width="60" height="60">
-                </div>
+                {{-- QR dibangkitkan di peramban memakai public/js/qrcode.min.js
+                     agar tidak bergantung layanan luar dan tidak diblokir CSP. --}}
+                <div class="qr-box" id="qr-anggota" role="img"
+                     data-qr="{{ $anggota->no_anggota ?? $anggota->nik }}"
+                     aria-label="QR {{ $anggota->no_anggota }}"></div>
             </div>
         </div>
 
@@ -296,3 +295,21 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/qrcode.min.js') }}"></script>
+<script>
+    (function () {
+        var wadah = document.getElementById('qr-anggota');
+        if (!wadah) return;
+
+        var isi = wadah.getAttribute('data-qr');
+        if (!isi) return;
+
+        var qr = qrcode(0, 'M');
+        qr.addData(isi);
+        qr.make();
+        wadah.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 0, alt: 'QR ' + isi });
+    })();
+</script>
+@endpush

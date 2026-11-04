@@ -256,7 +256,9 @@ class CadangkanBasisData extends Command
         // sehingga kunci yang sama dapat memulihkannya. Kegagalan di sini
         // membuat command GAGAL — cadangan yang hanya ada di satu disk tidak
         // melindungi dari kerusakan disk itu sendiri.
-        $salinan = $this->option('salinan-tujuan');
+        // Opsi `--salinan-tujuan` menang; bila tidak dikirim (mis. dari jadwal
+        // tiap jam), pakai `BACKUP_SALINAN_DIREKTORI` di .env.
+        $salinan = $this->option('salinan-tujuan') ?: config('cadangan.salinan_direktori');
 
         if (is_string($salinan) && $salinan !== '') {
             if (! $this->siapkanDirektori($salinan, 'Direktori salinan offsite')) {
