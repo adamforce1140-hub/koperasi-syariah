@@ -81,10 +81,22 @@ class PemeliharaanSistemTest extends TestCase
 
     public function test_pemantauan_operasional_melaporkan_seluruh_indikator_sehat(): void
     {
-        $this->artisan('denyut:pemeriksaan')
-            ->expectsOutputToContain('[OK]   Basis data')
-            ->expectsOutputToContain('[OK]   Integritas jurnal')
-            ->assertSuccessful();
+        // Indikator cadangan membaca folder asli storage/app/backups. Tanpa
+        // berkas segar di sana hasilnya bergantung pada jadwal cadangan mesin
+        // sehingga test bisa merah hanya karena cadangan kemarin kedaluwarsa.
+        // Berkas penanda dibuat sendiri lalu dibersihkan agar deterministik.
+        $penanda = storage_path('app/backups/uji-denyut-'.uniqid().'.sql.gz');
+        File::ensureDirectoryExists(dirname($penanda));
+        file_put_contents($penanda, gzencode('-- penanda uji pemantauan'));
+
+        try {
+            $this->artisan('denyut:pemeriksaan')
+                ->expectsOutputToContain('[OK]   Basis data')
+                ->expectsOutputToContain('[OK]   Integritas jurnal')
+                ->assertSuccessful();
+        } finally {
+            File::delete($penanda);
+        }
     }
 
     public function test_pemantauan_gagal_bila_cadangan_kedaluwarsa(): void
