@@ -46,7 +46,7 @@
 {{-- ============================================================ --}}
 {{-- FORM PENGAJUAN (AO) --}}
 {{-- ============================================================ --}}
-@can('role', ['ao','manajer'])
+@can('role', \App\Support\Izin::peran('pembiayaan.pengajuan.masukan'))
 <div class="data-card">
     <div class="card-header">
         <span class="card-title">Form Pengajuan Pembiayaan</span>

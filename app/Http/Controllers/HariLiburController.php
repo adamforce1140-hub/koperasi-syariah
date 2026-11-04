@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HariLibur;
 use App\Services\HariLiburService;
-use App\Support\HierarkiRole;
+use App\Support\Izin;
 use App\Support\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -182,8 +182,8 @@ class HariLiburController extends Controller
     }
 
     /**
-     * Perubahan kalender menggeser jadwal angsuran — dibatasi setara Manajer
-     * ke atas (pola yang sama dengan modul master lain).
+     * Perubahan kalender menggeser jadwal angsuran — kewenangannya dibaca dari
+     * izin bernama yang sama dengan gerbang rute (`izin:kebijakan.koperasi`).
      *
      * @throws ValidationException
      */
@@ -194,13 +194,13 @@ class HariLiburController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'tanggal' => 'Perubahan kalender hari libur memerlukan kewenangan minimal Manajer.',
+            'tanggal' => 'Perubahan kalender hari libur memerlukan kewenangan Pengurus.',
         ]);
     }
 
     private function bolehUbah(): bool
     {
-        return HierarkiRole::level(auth()->user()?->role) >= HierarkiRole::level('manajer');
+        return Izin::peranMemegang(auth()->user()?->role, 'kebijakan.koperasi');
     }
 
     /** Petunjuk dampak: bila tanggal ini jatuh pada akhir pekan / libur, ke mana digeser. */

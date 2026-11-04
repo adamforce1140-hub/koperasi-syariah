@@ -176,6 +176,11 @@ class SuperAdminHakAksesTerkunciTest extends TestCase
             // /api/deposito/{id}/print-bilyet. Tombol cetak tersedia pada menu
             // Deposito loket (`teller.loket`).
             'deposito.cetak_bilyet' => 'teller.loket',
+            // `pembiayaan.pengajuan.masukan` (5h) hanya menempel pada aksi
+            // TULIS `POST /pengajuan-pembiayaan` — form simpannya berada di
+            // halaman `pengajuan-pembiayaan.index` yang dijaga
+            // `pembiayaan.pengajuan`.
+            'pembiayaan.pengajuan.masukan' => 'pembiayaan.pengajuan',
         ];
 
         $terjangkau = [];

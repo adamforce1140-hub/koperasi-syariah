@@ -499,7 +499,14 @@ return [
         ],
 
         // ─────────────────────────────────────────
-        // DPS — READ-ONLY, pengawasan kepatuhan syariah.
+        // DPS — pengawasan kepatuhan syariah.
+        //
+        // 5f — DPS TIDAK sepenuhnya read-only. Selain membaca data operasional,
+        // DPS berwenang MENYERTIFIKASI produk baru
+        // (`POST /dps/review-produk/{id}/approve`) dan MENULIS opini/catatan
+        // pengawasan (`POST /dps/opini-catatan`); keduanya dikunci
+        // `izin:dps.pengawasan` dan `IntegritasRuteDpsTest`. Yang read-only
+        // adalah modul operasional (kas, simpanan, pembiayaan, zakat).
         // ─────────────────────────────────────────
         'dps' => [
             ['label' => 'Dashboard DPS', 'route' => 'dashboard.dps', 'icon' => 'home', 'children' => []],

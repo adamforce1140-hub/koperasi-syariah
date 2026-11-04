@@ -73,7 +73,8 @@ Route::post('/buka-rekening', [PengajuanPublikController::class, 'store'])
 // Auth routes
 Route::get('/login', [WebAuthController::class, 'loginForm'])->name('login')->middleware('guest');
 Route::post('/login', [WebAuthController::class, 'login'])->name('login.post')->middleware(['guest', 'throttle:5,1']);
-Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
+// 5g — logout mengakhiri sesi: hanya untuk pengguna yang sedang masuk.
+Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 /*
  |------------------------------------------------------------------
@@ -874,9 +875,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('izin:pembiayaan.pengajuan')->prefix('pengajuan-pembiayaan')
         ->name('pengajuan-pembiayaan.')
         ->group(function () {
-            // Index + Form Input (AO)
+            // Index + Form Input (AO). 5h — menulis pengajuan dijaga izin yang
+            // sama dengan penampil form: `pengurus` hanya memantau.
             Route::get('/', [PengajuanPembiayaanIntegController::class, 'index'])->name('index');
-            Route::post('/', [PengajuanPembiayaanIntegController::class, 'store'])->name('store');
+            Route::post('/', [PengajuanPembiayaanIntegController::class, 'store'])
+                ->middleware('izin:pembiayaan.pengajuan.masukan')
+                ->name('store');
             Route::get('/{id}', [PengajuanPembiayaanIntegController::class, 'show'])->name('show')->whereNumber('id');
 
             // AJAX: Eligibility Check CIF

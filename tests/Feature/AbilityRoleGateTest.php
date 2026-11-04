@@ -116,4 +116,54 @@ class AbilityRoleGateTest extends TestCase
             ->get(route('pengajuan-pembiayaan.index'))
             ->assertForbidden();
     }
+
+    /**
+     * DYN-18 — wewenang menginput pengajuan dibaca dari izin bernama
+     * `pembiayaan.pengajuan.masukan`, bukan daftar peran literal di view.
+     * Harus memuat `ao` & `manajer`, dan TIDAK memuat `pengurus`/`teller`.
+     */
+    public function test_izin_masukan_pengajuan_mengikuti_daftar_peran_form(): void
+    {
+        $peran = \App\Support\Izin::peran('pembiayaan.pengajuan.masukan');
+
+        sort($peran);
+
+        $this->assertSame(['ao', 'manajer', 'super_admin'], $peran);
+    }
+
+    public function test_view_pengajuan_tidak_lagi_memakai_ability_peran_literal(): void
+    {
+        $tersisa = [];
+
+        $berkas = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(resource_path('views'), \FilesystemIterator::SKIP_DOTS)
+        );
+
+        foreach ($berkas as $satu) {
+            if ($satu->getExtension() !== 'php') {
+                continue;
+            }
+
+            $isi = (string) file_get_contents($satu->getPathname());
+
+            // Daftar peran literal = tanda kurung siku sesudah ability `role`.
+            if (preg_match("/@(?:can|cannot|canany|cannotany)\(\s*'role'\s*,\s*\[/", $isi)) {
+                $tersisa[] = str_replace(resource_path('views').DIRECTORY_SEPARATOR, '', $satu->getPathname());
+            }
+        }
+
+        $this->assertSame([], $tersisa, "View masih memakai @can('role', [...]) literal:\n".implode("\n", $tersisa));
+    }
+
+    /**
+     * Super Admin memegang `pembiayaan.pengajuan.masukan` (aturan 5: pewaris
+     * puncak), sehingga form pengajuan juga dirender untuknya.
+     */
+    public function test_form_pengajuan_dirender_untuk_super_admin(): void
+    {
+        $this->sebagai('super_admin')
+            ->get(route('pengajuan-pembiayaan.index'))
+            ->assertOk()
+            ->assertSee('Form Pengajuan Pembiayaan');
+    }
 }

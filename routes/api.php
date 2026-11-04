@@ -120,11 +120,17 @@ Route::middleware(['web', 'auth', 'izin:pembiayaan.kontrak'])->group(function ()
     Route::apiResource('pembiayaan', PembiayaanController::class)->only(['store', 'update', 'destroy']);
 });
 
-// Pengajuan rekening (mobile app)
+/*
+ * Pengajuan rekening (mobile app).
+ *
+ * 5g — dibatasi lajunya mengikuti padanan web `/buka-rekening`
+ * (30/menit baca, 10/menit tulis) agar tidak menjadi alat spam antrean
+ * verifikasi maupun penyimpanan berkas.
+ */
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('pengajuan-rekening', [PengajuanRekeningController::class, 'apiStore']);
-    Route::get('pengajuan-rekening/status', [PengajuanRekeningController::class, 'apiStatus']);
-    Route::post('pengajuan-rekening/bukti-bayar', [PengajuanRekeningController::class, 'apiUploadBukti']);
+    Route::post('pengajuan-rekening', [PengajuanRekeningController::class, 'apiStore'])->middleware('throttle:10,1');
+    Route::get('pengajuan-rekening/status', [PengajuanRekeningController::class, 'apiStatus'])->middleware('throttle:30,1');
+    Route::post('pengajuan-rekening/bukti-bayar', [PengajuanRekeningController::class, 'apiUploadBukti'])->middleware('throttle:10,1');
 });
 
 // Produk pembiayaan (publik, untuk mobile)

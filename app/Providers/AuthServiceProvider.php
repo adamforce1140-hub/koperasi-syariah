@@ -22,14 +22,16 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // K-1 — ability `role` dipakai view lewat `@can('role', ['ao','manajer'])`.
+        // K-1 — ability `role` dipakai view lewat
+        // `@can('role', Izin::peran('pembiayaan.pengajuan.masukan'))`.
         // Tanpa definisi ini Gate tidak menemukan callback sama sekali dan
         // selalu mengembalikan false, sehingga blok `@can` tidak pernah
         // dirender untuk peran mana pun (termasuk AO & Manajer).
         //
         // Ability ini hanya menerjemahkan daftar peran yang diminta pemanggil
         // menjadi keputusan boolean. Sumber kewenangan tetap `config/izin.php`
-        // + middleware `izin:*` pada rute; tidak ada bypass implisit.
+        // (view membaca daftar perannya dari sana) + middleware `izin:*` pada
+        // rute; tidak ada bypass implisit.
         Gate::define('role', function (User $user, mixed ...$peran): bool {
             $peran = array_filter(
                 Arr::flatten($peran),

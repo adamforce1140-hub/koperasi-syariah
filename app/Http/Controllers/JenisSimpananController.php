@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Coa;
 use App\Models\JenisSimpanan;
 use App\Models\Rekening;
-use App\Support\HierarkiRole;
+use App\Support\Izin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -269,11 +269,10 @@ class JenisSimpananController extends Controller
     }
 
     /**
-     * Gembok akses perubahan izin auto-debit.
-     *
-     * HANYA Admin atau Manager yang boleh menyalakan `allow_auto_debit`, dan
-     * HANYA untuk produk Simpanan Wajib. Pengurus biasa tetap boleh
-     * menonaktifkannya (mematikan auto-debit selalu aman).
+     * Gembok akses perubahan izin auto-debit: wewenangnya dibaca dari izin
+     * bernama `simpanan.jenis` (sama dengan gerbang rute), bukan perbandingan
+     * level peran. HANYA pemegang izin itu yang boleh menyalakan
+     * `allow_auto_debit`, dan HANYA untuk produk Simpanan Wajib.
      *
      * @throws ValidationException
      */
@@ -283,18 +282,9 @@ class JenisSimpananController extends Controller
             return; // Mematikan auto-debit selalu diizinkan.
         }
 
-        $user = Auth::user();
-        $role = strtolower((string) ($user?->role ?? ''));
-
-        // Peran berwenang pada sistem ini: `manajer` (Manager) & `pengurus`
-        // (setara Admin/otoritas tertinggi). Kelayakan ditanyakan ke registri
-        // tunggal App\Support\HierarkiRole agar tidak ada literal peran yang
-        // bercabang antar berkas dan peran baru ikut berlaku otomatis.
-        $berwenang = HierarkiRole::level($role) >= HierarkiRole::level('manajer');
-
-        if (! $berwenang) {
+        if (! Izin::peranMemegang(Auth::user()?->role, 'simpanan.jenis')) {
             throw ValidationException::withMessages([
-                'allow_auto_debit' => 'Hanya Manager atau Pengurus (Admin) yang berwenang mengaktifkan auto-debit produk simpanan.',
+                'allow_auto_debit' => 'Hanya pengelola master jenis simpanan yang berwenang mengaktifkan auto-debit produk simpanan.',
             ]);
         }
 

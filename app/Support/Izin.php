@@ -32,6 +32,19 @@ final class Izin
     }
 
     /**
+     * Apakah satu peran memegang izin bernama.
+     *
+     * Penjaga wewenang DI DALAM controller memakai pembaca ini agar sumber
+     * wewenangnya sama persis dengan gerbang rute (`izin:`). Perbandingan
+     * level peran TIDAK dipakai: level hanyalah peringkat organisasi, sehingga
+     * peran berlevel tinggi yang tidak diberi izin (mis. `dps`) akan lolos.
+     */
+    public static function peranMemegang(?string $peran, string $nama): bool
+    {
+        return in_array((string) $peran, self::peran($nama), true);
+    }
+
+    /**
      * Peran yang lolos SELURUH izin yang diberikan (irisan).
      *
      * Rute dapat dijaga beberapa izin sekaligus; middleware mensyaratkan

@@ -105,6 +105,11 @@ return [
         'pengajuan.rekening' => ['teller', 'manajer', 'pengurus', 'super_admin'],
         'approval.transaksi' => ['manajer', 'pengurus'],
         'pembiayaan.pengajuan' => ['ao', 'manajer', 'pengurus', 'super_admin'],
+
+        // Menginput pengajuan baru (form pada halaman pengajuan-pembiayaan).
+        // Halaman boleh dibuka `pengurus` untuk memantau, tetapi memasukkan
+        // pengajuan adalah tugas AO/Manajer — bukan wewenang Pengurus.
+        'pembiayaan.pengajuan.masukan' => ['ao', 'manajer', 'super_admin'],
         'pembiayaan.approve' => ['manajer', 'pengurus'],
         'pembiayaan.persetujuan' => ['pengurus'],
         'produk.pembiayaan' => ['pengurus', 'super_admin'],
