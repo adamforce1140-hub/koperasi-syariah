@@ -11,7 +11,9 @@ use App\Services\JurnalReconciliationService;
 use App\Support\Coa as KodeCoa;
 use App\Support\Setting;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -391,5 +393,134 @@ class RekonsiliasiSubledgerTest extends TestCase
 
         $this->assertArrayHasKey('subledger', $hasil);
         $this->assertCount(2, $hasil['subledger']);
+    }
+
+    /* ==================================================================
+     | F. PENANDA DEDUP LOG (ANTI-SPAM & ANTI-SENYAP)
+     ================================================================== */
+
+    /**
+     * ALARM TIDAK BOLEH HILANG SENYAP SAAT CACHE GAGAL.
+     *
+     * Bug yang dikunci: penanda `Cache::add()` untuk dedup alarm berada di
+     * DALAM blok `try` yang sama dengan `Log::critical`. Saat store cache
+     * gagal (driver file tak bisa menulis, Redis mati, disk penuh), exception
+     * tertelan dan alarm selisih HILANG — tepat saat infrastruktur bermasalah
+     * dan alarm paling dibutuhkan.
+     *
+     * Store cache di sini benar-benar dirusak (bukan di-mock): direktori
+     * `storage/framework/cache` diganti berkas biasa, sehingga setiap baca
+     * maupun tulis melalui facade `Cache` melempar. Inilah bentuk nyata dari
+     * disk penuh / direktori cache tidak dapat dibuat.
+     */
+    public function test_alarm_selisih_tetap_tercatat_walau_cache_gagal(): void
+    {
+        config(['reconciliation.gate_enforce' => false]);
+        $this->rekening('CACHE-MATI', 4_000_000);
+
+        $penanda = storage_path('framework/cache/rekonsiliasi-subledger-log');
+        @unlink($penanda);
+
+        $this->app['env'] = 'production';
+
+        try {
+            /*
+             * Rusakkan store `file`: direktori cache diarahkan ke DALAM sebuah
+             * BERKAS biasa. Laravel tidak dapat membuat subfolder hash di
+             * dalamnya, sehingga `Cache::add()` melempar exception asli.
+             */
+            $berkas = storage_path('app/uji-cache-bukan-folder');
+            @unlink($berkas);
+            file_put_contents($berkas, 'x');
+
+            config([
+                'cache.stores.rusak' => [
+                    'driver' => 'file',
+                    'path' => $berkas.DIRECTORY_SEPARATOR.'cache',
+                ],
+            ]);
+            Cache::forgetDriver('rusak');
+
+            // Prasyarat: kegagalan cache memang terjadi, agar test tidak hijau palsu.
+            $cacheGagal = false;
+
+            try {
+                Cache::store('rusak')->put('uji-pemicu', true, 60);
+            } catch (\Throwable) {
+                $cacheGagal = true;
+            }
+
+            $this->assertTrue($cacheGagal, 'Prasyarat test: store cache harus gagal menulis.');
+
+            Log::spy();
+
+            // Alarm dibatasi sekali per jam lewat penanda BERKAS — tidak
+            // bergantung pada store cache yang sedang rusak.
+            $this->service()->pastikanSubledgerSehat([KodeCoa::SIMPANAN_SUKARELA]);
+
+            Log::shouldHaveReceived('critical')
+                ->withArgs(fn (string $pesan) => str_contains($pesan, 'Rekonsiliasi subledger menemukan selisih'))
+                ->atLeast()->once();
+
+            $this->assertFileExists($penanda, 'Penanda dedup harus memakai berkas polos, bukan Cache::add().');
+        } finally {
+            @unlink($berkas);
+            Cache::forgetDriver('rusak');
+            @unlink($penanda);
+            $this->app['env'] = 'testing';
+        }
+    }
+
+    /** Penanda yang sudah ada (<= 1 jam) tetap mencegah log berulang. */
+    public function test_alarm_selisih_tidak_diulang_dalam_satu_jam(): void
+    {
+        config(['reconciliation.gate_enforce' => false]);
+        $this->rekening('DEDUP', 5_000_000);
+
+        $this->app['env'] = 'production';
+
+        $penanda = storage_path('framework/cache/rekonsiliasi-subledger-log');
+
+        try {
+            @unlink($penanda);
+            Log::spy();
+
+            // Panggilan pertama menulis alarm dan memasang penanda.
+            $this->service()->pastikanSubledgerSehat([KodeCoa::SIMPANAN_SUKARELA]);
+
+            $this->assertFileExists($penanda, 'Alarm pertama harus memasang penanda dedup.');
+
+            // Panggilan kedua dalam jam yang sama tidak boleh menambah alarm.
+            $this->service()->pastikanSubledgerSehat([KodeCoa::SIMPANAN_SUKARELA]);
+
+            Log::shouldHaveReceived('critical')
+                ->withArgs(fn (string $pesan) => str_contains($pesan, 'Rekonsiliasi subledger menemukan selisih'))
+                ->once();
+        } finally {
+            @unlink($penanda);
+            $this->app['env'] = 'testing';
+        }
+    }
+
+    /**
+     * Lingkungan pengujian tidak boleh membanjiri log `testing`: suite ini
+     * memanggil gate ribuan kali dengan selisih buatan test. Bukti nyata
+     * tercatat di `laravel-2026-11-03.log` — 1512 baris CRITICAL palsu.
+     */
+    public function test_alarm_selisih_tidak_menulis_log_di_lingkungan_pengujian(): void
+    {
+        $this->assertSame('testing', app()->environment());
+
+        config(['reconciliation.gate_enforce' => false]);
+        $this->rekening('SENYAP', 6_000_000);
+
+        $penanda = storage_path('framework/cache/rekonsiliasi-subledger-log');
+
+        @unlink($penanda);
+        Log::spy();
+
+        $this->service()->pastikanSubledgerSehat([KodeCoa::SIMPANAN_SUKARELA]);
+
+        Log::shouldNotHaveReceived('critical');
     }
 }

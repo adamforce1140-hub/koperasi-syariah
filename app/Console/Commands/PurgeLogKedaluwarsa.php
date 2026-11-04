@@ -127,24 +127,76 @@ class PurgeLogKedaluwarsa extends Command
 
         $this->newLine();
 
+        $berkasDihapus = $this->purgeBerkasLog($config, $terapkan);
+
         if (! $terapkan) {
             $this->info("Pratinjau selesai: {$total} baris akan dipurge. Jalankan ulang dengan --force untuk menerapkan.");
 
             return self::SUCCESS;
         }
 
-        $this->info("Purge selesai: {$total} baris dihapus dan rantai hash disegel ulang.");
+        $this->info("Purge selesai: {$total} baris dihapus, {$berkasDihapus} berkas log dihapus, dan rantai hash disegel ulang.");
 
         Log::info('Purge jejak audit kedaluwarsa dijalankan (OJK-04).', [
             'baris_dihapus' => $total,
+            'berkas_log_dihapus' => $berkasDihapus,
             'kebijakan' => [
                 'log_hari' => $config['log_hari'] ?? null,
                 'log_keuangan_hari' => $config['log_keuangan_hari'] ?? null,
                 'pii_hari' => $config['pii_hari'] ?? null,
+                'log_berkas_hari' => $config['log_berkas_hari'] ?? null,
             ],
         ]);
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Hapus berkas log harian yang melampaui masa retensi berkas.
+     *
+     * Hanya berkas berakhiran `.log` di `storage/logs` yang disentuh; berkas
+     * lain (mis. keluaran scheduler) dibiarkan. Batas waktu memakai waktu
+     * MODIFIKASI berkas supaya berkas yang masih ditulis tidak pernah dihapus.
+     *
+     * @param  array<string, mixed>  $config
+     * @return int jumlah berkas yang dihapus (atau AKAN dihapus saat pratinjau)
+     */
+    private function purgeBerkasLog(array $config, bool $terapkan): int
+    {
+        $hari = (int) ($config['log_berkas_hari'] ?? 0);
+
+        if ($hari <= 0) {
+            $this->line('  Berkas log (storage/logs)    : retensi tak terbatas — dilewati');
+
+            return 0;
+        }
+
+        $dir = storage_path('logs');
+        $batas = now()->subDays($hari)->getTimestamp();
+        $kedaluwarsa = 0;
+        $dihapus = 0;
+
+        foreach (File::glob($dir.DIRECTORY_SEPARATOR.'*.log') ?: [] as $berkas) {
+            if (! is_file($berkas) || (int) @filemtime($berkas) >= $batas) {
+                continue;
+            }
+
+            $kedaluwarsa++;
+
+            if ($terapkan && @unlink($berkas)) {
+                $dihapus++;
+            }
+        }
+
+        if ($kedaluwarsa === 0) {
+            $this->line(sprintf('  %-30s : 0 berkas kedaluwarsa (sebelum %s)', 'Berkas log (storage/logs)', now()->subDays($hari)->toDateString()));
+
+            return 0;
+        }
+
+        $this->warn(sprintf('  %-30s : %d berkas kedaluwarsa (sebelum %s)', 'Berkas log (storage/logs)', $kedaluwarsa, now()->subDays($hari)->toDateString()));
+
+        return $terapkan ? $dihapus : $kedaluwarsa;
     }
 
     /**

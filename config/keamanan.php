@@ -118,6 +118,12 @@ return [
 
         // Jumlah baris yang dipurge per batch (menjaga memori & lock waktu).
         'batch' => (int) env('KEAMANAN_RETENSI_BATCH', 1000),
+
+        // Berkas log harian `storage/logs/laravel-YYYY-MM-DD.log` — hari.
+        // Tanpa ini berkas log tumbuh tanpa batas dan dapat memenuhi disk
+        // (disk penuh → aplikasi gagal menulis log maupun cache).
+        // Hanya berkas `*.log` yang dihapus; berkas lain diabadikan.
+        'log_berkas_hari' => (int) env('KEAMANAN_RETENSI_LOG_BERKAS_HARI', 90),
     ],
 
     /*

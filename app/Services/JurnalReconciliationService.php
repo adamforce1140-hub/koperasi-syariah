@@ -57,6 +57,14 @@ class JurnalReconciliationService
     public const KODE_SUBLEDGER_DEFAULT = [KodeCoa::SIMPANAN_SUKARELA, KodeCoa::SIMPANAN_BERJANGKA];
 
     /**
+     * Nama berkas penanda dedup alarm selisih (di `storage/framework/cache`).
+     *
+     * Sengaja berkas polos, bukan facade `Cache`, agar tidak bergantung pada
+     * store cache yang sedang diperiksa/diasumsikan bermasalah.
+     */
+    private const PENANDA_LOG_SUBLEDGER = 'rekonsiliasi-subledger-log';
+
+    /**
      * Pemetaan akun kontrol -> tipe produk simpanan pada tabel `rekening`.
      *
      * Publik agar command audit (`simpanan:audit-subledger`) memakai pemetaan
@@ -352,17 +360,7 @@ class JurnalReconciliationService
 
         $tegakkan = $this->gateSubledgerDitegakkan();
 
-        try {
-            if (Cache::add('rekonsiliasi:subledger:log', true, now()->addHour())) {
-                Log::critical('Rekonsiliasi subledger menemukan selisih saldo simpanan.', [
-                    'mode' => $tegakkan ? 'tegakkan' : 'lapor',
-                    'baris' => $hasil['baris'],
-                    'temuan' => array_map(fn (array $t) => $t['aturan'], $hasil['temuan']),
-                ]);
-            }
-        } catch (\Throwable) {
-            // Pencatatan tidak boleh menjadi sumber kegagalan baru.
-        }
+        $this->catatAlarmSelisih($tegakkan, $hasil);
 
         if (! $tegakkan) {
             return;
@@ -378,6 +376,70 @@ class JurnalReconciliationService
     public function gateSubledgerDitegakkan(): bool
     {
         return (bool) config('reconciliation.gate_enforce', false);
+    }
+
+    /**
+     * Catat alarm selisih subledger — dibatasi sekali per jam.
+     *
+     * Bila store cache gagal (driver file tak dapat menulis, Redis mati, disk
+     * penuh), alarm TETAP dicatat: infrastruktur yang bermasalah justru saat
+     * paling berbahaya, sehingga kehilangan alarm senyap tidak dapat diterima.
+     * Kegagalan cache hanya menghilangkan pembatasan frekuensi, bukan alarmnya.
+     *
+     * Lingkungan `testing` dilewati karena suite memanggil gate ribuan kali
+     * dengan selisih buatan test; tanpa ini log pengujian dibanjiri CRITICAL
+     * palsu yang menenggelamkan alarm sungguhan.
+     *
+     * Dedup SENGAJA tidak memakai facade `Cache`: store yang bermasalah
+     * menginisialisasi objek-objek internal secara separuh, dan melempar lagi
+     * saat di-teardown — alarm ikut hilang. Kegagalan dedup hanya menghapus
+     * pembatas frekuensi; alarm selalu tercatat.
+     */
+    private function catatAlarmSelisih(bool $tegakkan, array $hasil): void
+    {
+        if (app()->environment('testing')) {
+            return;
+        }
+
+        if ($this->sudahDilaporkan(window: 60)) {
+            return; // Sudah dilaporkan dalam jam terakhir.
+        }
+
+        try {
+            Log::critical('Rekonsiliasi subledger menemukan selisih saldo simpanan.', [
+                'mode' => $tegakkan ? 'tegakkan' : 'lapor',
+                'baris' => $hasil['baris'],
+                'temuan' => array_map(fn (array $t) => $t['aturan'], $hasil['temuan']),
+            ]);
+        } catch (\Throwable) {
+            // Pencatatan tidak boleh menjadi sumber kegagalan transaksi.
+        }
+    }
+
+    /**
+     * Apakah alarm selisih sudah dilaporkan dalam `$window` menit terakhir.
+     *
+     * Penanda berupa berkas kecil di `storage/framework/cache` — TIDAK memakai
+     * facade `Cache`, karena dedup ini justru harus tetap bekerja saat store
+     * cache bermasalah (itulah saat alarm paling dibutuhkan). Bila penanda
+     * tidak dapat ditulis/dibaca, method mengembalikan `false` sehingga alarm
+     * tetap dicatat; kegagalan dedup hanya melonggarkan pembatas frekuensi.
+     */
+    private function sudahDilaporkan(int $window): bool
+    {
+        try {
+            $path = storage_path('framework/cache/'.self::PENANDA_LOG_SUBLEDGER);
+
+            if (is_file($path) && (time() - (int) @filemtime($path)) < $window * 60) {
+                return true;
+            }
+
+            @file_put_contents($path, (string) time());
+
+            return false;
+        } catch (\Throwable) {
+            return false;
+        }
     }
 
     /**

@@ -28,12 +28,18 @@ class PurgeLogKedaluwarsaTest extends TestCase
     /** Paksa cutoff ke angka tertentu lewat config, lalu jalankan command. */
     private function jalankan(array $opsi = [], int $hari = 1): PendingCommand|int
     {
-        config()->set('keamanan.retensi_log', [
-            'log_hari' => $hari,
-            'log_keuangan_hari' => $hari,
-            'pii_hari' => $hari,
-            'batch' => 100,
-        ]);
+        // Disalin dari config agar kunci retensi lain (mis. `log_berkas_hari`)
+        // tetap berlaku — config()->set() mengganti SELURUH array.
+        config()->set('keamanan.retensi_log', array_merge(
+            (array) config('keamanan.retensi_log'),
+            [
+                'log_hari' => $hari,
+                'log_keuangan_hari' => $hari,
+                'pii_hari' => $hari,
+                'batch' => 100,
+                'log_berkas_hari' => $hari,
+            ]
+        ));
 
         return $this->artisan('log:purge-kedaluwarsa', $opsi);
     }
@@ -203,5 +209,75 @@ class PurgeLogKedaluwarsaTest extends TestCase
         $this->assertStringContainsString('perlu diarsipkan', $isi);
 
         @unlink($berkas);
+    }
+
+    /* =====================================================================
+     | 6. RETENSI BERKAS LOG (storage/logs/*.log)
+     ===================================================================== */
+
+    /**
+     * Berkas log harian ikut dipangkas sesuai `log_berkas_hari`.
+     *
+     * Bug yang dikunci: command hanya memangkas tabel DB. Berkas
+     * `storage/logs/laravel-YYYY-MM-DD.log` tumbuh tanpa batas (terbukti
+     * 207,9 MB / 59 berkas di lingkungan pengembangan), sehingga disk
+     * produksi dapat penuh — disk penuh membuat aplikasi gagal menulis log
+     * maupun cache, dan justru memicu kegagalan senyap.
+     */
+    public function test_berkas_log_kedaluwarsa_dihapus_dan_yang_baru_dipertahankan(): void
+    {
+        $dir = storage_path('logs');
+        $awalan = 'uji-retensi-';
+
+        $lama = $dir.DIRECTORY_SEPARATOR.$awalan.'2020-01-01.log';
+        $baru = $dir.DIRECTORY_SEPARATOR.$awalan.now()->format('Y-m-d').'.log';
+
+        file_put_contents($lama, "lama\n");
+        touch($lama, now()->subDays(400)->getTimestamp());
+        file_put_contents($baru, "baru\n");
+
+        try {
+            $this->jalankan(['--force' => true], hari: 30)->assertExitCode(0);
+
+            $this->assertFileDoesNotExist($lama, 'Berkas log kedaluwarsa harus dihapus.');
+            $this->assertFileExists($baru, 'Berkas log yang masih dalam masa retensi harus dipertahankan.');
+        } finally {
+            @unlink($lama);
+            @unlink($baru);
+        }
+    }
+
+    /** Mode pratinjau tidak boleh menghapus berkas log apa pun. */
+    public function test_pratinjau_tidak_menghapus_berkas_log(): void
+    {
+        $berkas = storage_path('logs/uji-retensi-'.now()->subDays(400)->format('Y-m-d').'.log');
+        file_put_contents($berkas, "lama\n");
+        touch($berkas, now()->subDays(400)->getTimestamp());
+
+        try {
+            $this->jalankan([], hari: 30)->assertExitCode(0);
+
+            $this->assertFileExists($berkas);
+        } finally {
+            @unlink($berkas);
+        }
+    }
+
+    /** Retensi berkas 0 = tak terbatas; berkas lama tidak boleh dihapus. */
+    public function test_retensi_berkas_nol_tidak_menghapus(): void
+    {
+        $berkas = storage_path('logs/uji-retensi-'.now()->subDays(400)->format('Y-m-d').'.log');
+        file_put_contents($berkas, "lama\n");
+        touch($berkas, now()->subDays(400)->getTimestamp());
+
+        try {
+            config()->set('keamanan.retensi_log.log_berkas_hari', 0);
+
+            $this->artisan('log:purge-kedaluwarsa', ['--force' => true])->assertExitCode(0);
+
+            $this->assertFileExists($berkas);
+        } finally {
+            @unlink($berkas);
+        }
     }
 }
