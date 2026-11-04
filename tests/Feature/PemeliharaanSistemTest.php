@@ -28,6 +28,10 @@ class PemeliharaanSistemTest extends TestCase
     protected function tearDown(): void
     {
         File::deleteDirectory($this->sementara);
+        // Sisa penanda uji pemantauan dibersihkan juga di sini agar proses
+        // yang mati paksa tidak meninggalkan berkas "baru" di folder cadangan
+        // asli dan menutupi cadangan yang sebenarnya sudah kedaluwarsa.
+        File::delete(File::glob(storage_path('app/backups/uji-denyut-*')));
         parent::tearDown();
     }
 
