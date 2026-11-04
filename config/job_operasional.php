@@ -15,10 +15,15 @@
  *
  * Cara mengaktifkan (setelah lulus uji):
  *   1. set `QUEUE_CONNECTION=database` pada .env;
- *   2. jalankan `php artisan queue:table` + `php artisan migrate` (tabel jobs &
- *      failed_jobs) bila belum ada;
+ *   2. tabel `jobs`, `job_batches`, dan `failed_jobs` sudah dibuat oleh
+ *      migrasi `2026_11_04_000100_create_jobs_table` — cukup `php artisan
+ *      migrate` bila basis data lama belum menjalankannya;
  *   3. set `FEATURE_QUEUE_ASYNC=true`;
  *   4. jalankan worker: `php artisan queue:work --tries=3`.
+ *
+ * PENTING: menyalakan `FEATURE_QUEUE_ASYNC` TANPA worker yang berjalan akan
+ * menumpuk job di tabel `jobs` dan tidak ada yang mengeksekusinya. Periksa
+ * `php artisan queue:monitor default` secara berkala setelah diaktifkan.
  */
 return [
 
