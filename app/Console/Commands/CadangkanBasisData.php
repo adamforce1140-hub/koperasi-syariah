@@ -44,7 +44,8 @@ class CadangkanBasisData extends Command
 {
     protected $signature = 'db:cadangkan
                             {--simpan-hari=14 : Jumlah hari retensi berkas cadangan}
-                            {--tujuan= : Direktori tujuan (default storage/app/backups)}';
+                            {--tujuan= : Direktori tujuan (default storage/app/backups)}
+                            {--lewati-bila-hari-ini-ada : Lewati bila cadangan untuk tanggal hari ini sudah ada di direktori tujuan}';
 
     protected $description = 'Membuat cadangan basis data (mysqldump + gzip) dan membersihkan cadangan kedaluwarsa';
 
@@ -67,6 +68,15 @@ class CadangkanBasisData extends Command
         }
 
         $enkripsi = CadanganTerenkripsi::aktif();
+
+        // Jadwal berjalan tiap jam (bukan hanya 01:00) agar hari yang terlewat
+        // — misalnya komputer mati pukul 01:00 — dikejar pada jam berikutnya.
+        // Tanpa penyaring ini, cadangan akan dibuat berulang setiap jam.
+        if ($this->option('lewati-bila-hari-ini-ada') && $this->sudahAdaCadanganHariIni($tujuan)) {
+            $this->info('Cadangan untuk hari ini sudah ada — pembuatan dilewati.');
+
+            return self::SUCCESS;
+        }
 
         try {
             $kunci = $enkripsi ? CadanganTerenkripsi::kunci() : null;
@@ -247,6 +257,26 @@ class CadangkanBasisData extends Command
         $this->bersihkanCadanganLama($tujuan, (int) $this->option('simpan-hari'));
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Apakah direktori tujuan sudah memuat cadangan bertanggal hari ini?
+     *
+     * Tanggal dibaca dari nama berkas (`<database>-YYYYmmdd-His.sql.gz[.enc]`)
+     * yang dibuat memakai zona waktu aplikasi, bukan dari waktu modifikasi
+     * berkas, agar hasilnya tidak bergeser bila zona waktu server berbeda.
+     */
+    private function sudahAdaCadanganHariIni(string $tujuan): bool
+    {
+        $pola = '/-'.now()->format('Ymd').'-\d{6}\.sql\.gz(\.enc)?$/';
+
+        foreach (File::glob($tujuan.DIRECTORY_SEPARATOR.'*.sql.gz*') as $berkas) {
+            if (preg_match($pola, basename($berkas)) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

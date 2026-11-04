@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
@@ -108,5 +110,59 @@ class PemeliharaanSistemTest extends TestCase
         $this->artisan('denyut:pemeriksaan --toleransi-cadangan-jam=0')
             ->expectsOutputToContain('indikator GAGAL')
             ->assertFailed();
+    }
+
+    public function test_jadwal_cadangan_mengulang_tiap_jam_setelah_proses_harian(): void
+    {
+        $scheduler = new Schedule;
+        $this->app->instance(Schedule::class, $scheduler);
+        Facade::clearResolvedInstance(Schedule::class);
+        require base_path('routes/console.php');
+
+        $jadwal = collect($scheduler->events())->first(
+            static fn ($event): bool => str_contains((string) $event->command, 'db:cadangkan')
+        );
+
+        $this->assertNotNull($jadwal, 'Jadwal db:cadangkan tidak terdaftar.');
+        $this->assertSame(
+            '0 * * * *',
+            $jadwal->expression,
+            'Cadangan harus dicoba tiap jam agar hari yang terlewat (mesin mati pukul 01.00) dikejar pada jam berikutnya.'
+        );
+        $this->assertStringContainsString('--lewati-bila-hari-ini-ada', (string) $jadwal->command);
+    }
+
+    public function test_command_cadangan_melewati_pembuatan_bila_cadangan_hari_ini_sudah_ada(): void
+    {
+        $sudahAda = $this->sementara.'/koperasi_syariah-'.now()->format('Ymd').'-010000.sql.gz.enc';
+        file_put_contents($sudahAda, 'cadangan-hari-ini');
+
+        $this->artisan('db:cadangkan', [
+            '--tujuan' => $this->sementara,
+            '--lewati-bila-hari-ini-ada' => true,
+        ])->expectsOutputToContain('dilewati')->assertSuccessful();
+
+        $this->assertCount(
+            1,
+            File::glob($this->sementara.'/*.sql.gz.enc'),
+            'Tidak boleh ada cadangan kedua pada hari yang sama.'
+        );
+    }
+
+    public function test_command_cadangan_tetap_membuat_berkas_bila_hari_ini_belum_ada(): void
+    {
+        $kemarin = $this->sementara.'/koperasi_syariah-'.now()->subDay()->format('Ymd').'-010000.sql.gz.enc';
+        file_put_contents($kemarin, 'cadangan-kemarin');
+
+        $this->artisan('db:cadangkan', [
+            '--tujuan' => $this->sementara,
+            '--lewati-bila-hari-ini-ada' => true,
+        ])->assertSuccessful();
+
+        $this->assertCount(
+            2,
+            File::glob($this->sementara.'/*.sql.gz.enc'),
+            'Cadangan kemarin tidak boleh dianggap cadangan hari ini.'
+        );
     }
 }

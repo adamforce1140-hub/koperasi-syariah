@@ -235,9 +235,17 @@ Schedule::command('denyut:kesehatan')
 |--------------------------------------------------------------------------
 | Cadangan Basis Data Harian (RPO ≤ 24 jam)
 |--------------------------------------------------------------------------
-| Dijalankan setiap hari pukul 01:00 WIB — setelah pemrosesan deposito dan
+| Dicoba SETIAP JAM mulai 01:00 WIB — setelah pemrosesan deposito dan
 | simpanan wajib (00:01) selesai, sehingga cadangan memuat kondisi buku
 | besar yang sudah final untuk hari itu.
+|
+| Mengapa tidak `dailyAt('01:00')` saja: scheduler hanya menjalankan event
+| yang jatuh pada menit itu. Bila komputer/server mati atau tidur pukul
+| 01:00, cadangan hari tersebut hilang sama sekali dan indikator kesegaran
+| cadangan menyala keesokan harinya. Dengan pengulangan per jam plus opsi
+| `--lewati-bila-hari-ini-ada`, cadangan pertama yang berhasil dibuat pada
+| hari itu langsung menghentikan percobaan berikutnya — tetap satu berkas
+| per hari, tetapi tidak lagi bergantung pada mesin menyala tepat 01:00.
 |
 | Retensi berkas cadangan dibaca dari parameter kebijakan
 | `backup_retensi_hari` (menu Kebijakan Koperasi → Pemeliharaan & Cadangan
@@ -249,8 +257,9 @@ Schedule::command('denyut:kesehatan')
 |   gunzip -c storage/app/backups/koperasi_syariah-YYYYmmdd-His.sql.gz |
 |     mysql -u root -p koperasi_syariah
 */
-Schedule::command('db:cadangkan --simpan-hari='.Setting::backupRetensiHari())
-    ->dailyAt('01:00')
+Schedule::command('db:cadangkan --simpan-hari='.Setting::backupRetensiHari().' --lewati-bila-hari-ini-ada')
+    ->hourly()
+    ->between('01:00', '23:00')
     ->timezone('Asia/Jakarta')
     ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/cadangan-basis-data.log'));
