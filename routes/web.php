@@ -356,6 +356,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/users/{user}/peran', [PengurusController::class, 'ubahPeran'])
             ->whereNumber('user')->name('pengurus.users.peran');
 
+        // Tambah akun STAF baru dan reset kata sandi. Keduanya tulis dan
+        // dijaga `master.data`; peran yang dapat DITETAPKAN tetap disaring
+        // HierarkiRole::bolehMengubahPeran() di controller.
+        Route::post('/users', [PengurusController::class, 'storeUser'])->name('pengurus.users.store');
+        Route::put('/users/{user}/kata-sandi', [PengurusController::class, 'resetKataSandi'])
+            ->whereNumber('user')->name('pengurus.users.kata-sandi');
+
         // Override batas operasional per peran (tabel limit_transaksi_role).
         // Hanya ANGKA (nominal, limit harian, kebutuhan approval) — daftar
         // wewenang tetap read-only dari config/izin.php, sehingga halaman ini

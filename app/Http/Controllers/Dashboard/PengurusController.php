@@ -23,6 +23,7 @@ use App\Models\ShuDistribution;
 use App\Models\ShuPeriod;
 use App\Models\Transaksi;
 use App\Models\User;
+use App\Rules\PasswordKuat;
 use App\Services\ShuCalculatorService;
 use App\Services\TahunBukuService;
 use App\Support\HierarkiRole;
@@ -865,6 +866,94 @@ class PengurusController extends Controller
             'jenisTersedia',
             'limitTransaksi',
             'batasEfektif'
+        ));
+    }
+
+    /**
+     * Tambah akun staf baru.
+     *
+     * Peran yang dapat ditetapkan disaring `HierarkiRole::bolehMengubahPeran()`
+     * — sama dengan daftar pada form, sehingga permintaan yang mengakali form
+     * tetap ditolak. Password di-hash otomatis oleh cast `hashed` pada model.
+     */
+    public function storeUser(Request $request)
+    {
+        $peranSah = $this->peranDapatDitetapkan($request->user()?->role);
+
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')],
+            'role' => ['required', 'string', Rule::in($peranSah)],
+            'password' => ['required', 'string', 'confirmed', new PasswordKuat],
+        ], [
+            'name.required' => 'Nama pengguna wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak sah.',
+            'email.unique' => 'Email tersebut sudah dipakai akun lain.',
+            'role.required' => 'Peran wajib dipilih.',
+            'role.in' => 'Peran tersebut tidak boleh Anda tetapkan.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak sama.',
+        ]);
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'role' => $data['role'],
+            'password' => $data['password'],
+            'is_active' => true,
+        ]);
+
+        AuditLog::record(
+            'user.tambah',
+            0,
+            null,
+            'Akun pengguna #'.$user->id.' ('.$user->email.') dibuat dengan peran '
+                .HierarkiRole::label($user->role)
+        );
+
+        return redirect()->route('pengurus.users.index')
+            ->with('success', 'Akun '.$user->name.' berhasil dibuat.');
+    }
+
+    /** Ganti kata sandi pengguna lain; tidak pernah menampilkan sandi lama. */
+    public function resetKataSandi(Request $request, User $user)
+    {
+        if (! HierarkiRole::bolehMengubahPeran($request->user()?->role, $user->role)) {
+            abort(403, 'Akun dengan peran ini hanya dapat dikelola Super Admin.');
+        }
+
+        $data = $request->validate([
+            'password' => ['required', 'string', 'confirmed', new PasswordKuat($user->name)],
+        ], [
+            'password.required' => 'Kata sandi baru wajib diisi.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak sama.',
+        ]);
+
+        $user->update(['password' => $data['password']]);
+
+        AuditLog::record(
+            'user.sandi',
+            0,
+            null,
+            'Kata sandi pengguna #'.$user->id.' ('.$user->email.') direset'
+        );
+
+        return redirect()->route('pengurus.users.index')
+            ->with('success', 'Kata sandi '.$user->name.' berhasil diperbarui.');
+    }
+
+    /**
+     * Peran yang boleh DITETAPKAN oleh aktor. Peran puncak administratif hanya
+     * muncul bagi pemegang peran puncak (HierarkiRole::bolehMengubahPeran).
+     *
+     * @return list<string>
+     */
+    private function peranDapatDitetapkan(?string $aktor): array
+    {
+        return array_values(array_filter(
+            HierarkiRole::peran(),
+            fn (string $p): bool => HierarkiRole::bolehMengubahPeran($aktor, $p)
         ));
     }
 

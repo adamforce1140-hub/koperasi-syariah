@@ -68,6 +68,7 @@
                         <th style="padding:0.75rem 1rem;text-align:left;font-weight:600;color:#475569;">Nama User</th>
                         <th style="padding:0.75rem 1rem;text-align:left;font-weight:600;color:#475569;">Email</th>
                         <th style="padding:0.75rem 1rem;text-align:center;font-weight:600;color:#475569;">Role / Peran</th>
+                        <th style="padding:0.75rem 1rem;text-align:center;font-weight:600;color:#475569;">Kata Sandi</th>
                         <th style="padding:0.75rem 1rem;text-align:center;font-weight:600;color:#475569;">Terdaftar</th>
                     </tr>
                 </thead>
@@ -104,6 +105,21 @@
                                 </span>
                             @endif
                         </td>
+                        <td style="padding:0.75rem 1rem;text-align:center;">
+                            @if($u->id === auth()->id())
+                                <span style="font-size:0.74rem;color:#94a3b8;">(akun Anda)</span>
+                            @elseif(in_array($u->role, $peranDapatDitetapkan, true))
+                                {{-- Reset sandi: admin TIDAK pernah melihat sandi lama;
+                                     pengguna wajib menggantinya bila perlu. --}}
+                                <button type="button"
+                                    onclick="bukaModalResetSandi({{ $u->id }}, @json($u->name), @json($u->email))"
+                                    style="padding:0.3rem 0.65rem;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:0.35rem;font-size:0.74rem;font-weight:600;cursor:pointer;">
+                                    Reset Sandi
+                                </button>
+                            @else
+                                <span style="font-size:0.74rem;color:#94a3b8;">—</span>
+                            @endif
+                        </td>
                         <td style="padding:0.75rem 1rem;text-align:center;color:#64748b;">{{ $u->created_at ? $u->created_at->format('d M Y') : '-' }}</td>
                     </tr>
                     @endforeach
@@ -118,6 +134,59 @@
             Belum ada data user.
         </div>
         @endif
+    </div>
+
+    {{-- ── TAMBAH AKUN STAF ─────────────────────────────── --}}
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:0.875rem;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+        <div style="border-bottom:1px solid #f1f5f9;padding-bottom:0.75rem;margin-bottom:1.25rem;">
+            <h3 style="font-size:1rem;font-weight:700;color:#1e293b;margin:0;">
+                Tambah Akun Staf
+            </h3>
+            <p style="margin:0.3rem 0 0;font-size:0.78rem;color:#64748b;">
+                Akun baru langsung aktif. Daftar peran mengikuti kewenangan akun Anda;
+                kata sandi mengikuti kebijakan keamanan (<code style="background:#f1f5f9;padding:0.05rem 0.3rem;border-radius:0.25rem;">config/keamanan.php</code>).
+            </p>
+        </div>
+
+        <form action="{{ route('pengurus.users.store') }}" method="POST"
+            style="display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:0.9rem;">
+            @csrf
+            <div>
+                <label for="tambah-user-nama" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Nama Lengkap <span style="color:#dc2626;">*</span></label>
+                <input type="text" id="tambah-user-nama" name="name" required maxlength="255" value="{{ old('name') }}"
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;">
+            </div>
+            <div>
+                <label for="tambah-user-email" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Email <span style="color:#dc2626;">*</span></label>
+                <input type="email" id="tambah-user-email" name="email" required maxlength="255" value="{{ old('email') }}"
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;">
+            </div>
+            <div>
+                <label for="tambah-user-peran" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Peran <span style="color:#dc2626;">*</span></label>
+                <select id="tambah-user-peran" name="role" required
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;background:#fff;">
+                    @foreach($peranDapatDitetapkan as $p)
+                        <option value="{{ $p }}" @selected(old('role') === $p)>{{ \App\Support\HierarkiRole::label($p) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="tambah-user-sandi" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Kata Sandi <span style="color:#dc2626;">*</span></label>
+                <input type="password" id="tambah-user-sandi" name="password" required autocomplete="new-password"
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;">
+            </div>
+            <div>
+                <label for="tambah-user-sandi-ulang" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Ulangi Kata Sandi <span style="color:#dc2626;">*</span></label>
+                <input type="password" id="tambah-user-sandi-ulang" name="password_confirmation" required autocomplete="new-password"
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;">
+            </div>
+            <div style="grid-column:1/-1;text-align:right;">
+                <button type="submit"
+                    style="padding:0.5rem 1.1rem;background:#059669;color:#fff;border:none;border-radius:0.5rem;font-size:0.8rem;font-weight:600;cursor:pointer;">
+                    + Buat Akun
+                </button>
+            </div>
+        </form>
     </div>
 
     {{-- ── MATRIKS HAK AKSES (READ-ONLY) ────────────────── --}}
@@ -419,8 +488,54 @@
     </div>
 </div>
 
+{{-- ── MODAL RESET KATA SANDI ───────────────────────────── --}}
+<div id="modal-reset-sandi" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:60;padding:1.5rem;overflow-y:auto;">
+    <div style="max-width:30rem;margin:3rem auto;background:#fff;border-radius:0.875rem;padding:1.5rem;box-shadow:0 20px 40px rgba(15,23,42,.25);">
+        <h3 style="font-size:1rem;font-weight:700;color:#1e293b;margin:0 0 0.35rem;">Reset Kata Sandi</h3>
+        <p style="margin:0 0 1.1rem;font-size:0.8rem;color:#64748b;">
+            Akun: <strong id="reset-sandi-target" style="color:#1e293b;"></strong>.
+            Sandi lama tetap tidak dapat dilihat; beri tahu pemilik akun untuk menggantinya setelah masuk.
+        </p>
+
+        <form id="form-reset-sandi" method="POST" action="">
+            @csrf
+            @method('PUT')
+            <div style="margin-bottom:0.8rem;">
+                <label for="reset-sandi-baru" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Kata Sandi Baru <span style="color:#dc2626;">*</span></label>
+                <input type="password" id="reset-sandi-baru" name="password" required autocomplete="new-password"
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;">
+            </div>
+            <div style="margin-bottom:1.1rem;">
+                <label for="reset-sandi-ulang" style="display:block;font-size:0.75rem;font-weight:700;color:#475569;margin-bottom:0.3rem;">Ulangi Kata Sandi <span style="color:#dc2626;">*</span></label>
+                <input type="password" id="reset-sandi-ulang" name="password_confirmation" required autocomplete="new-password"
+                    style="width:100%;padding:0.5rem 0.65rem;border:1px solid #cbd5e1;border-radius:0.4rem;font-size:0.82rem;color:#1e293b;">
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:0.6rem;">
+                <button type="button" onclick="tutupModalLimit('modal-reset-sandi')"
+                    style="padding:0.5rem 1rem;background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;border-radius:0.5rem;font-size:0.8rem;font-weight:600;cursor:pointer;">
+                    Batal
+                </button>
+                <button type="submit"
+                    style="padding:0.5rem 1rem;background:#1d4ed8;color:#fff;border:none;border-radius:0.5rem;font-size:0.8rem;font-weight:600;cursor:pointer;">
+                    Simpan Sandi Baru
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
 const ROUTE_LIMIT_UPDATE = @json(route('pengurus.limit-role.update', ['limit_role' => '__ID__']));
+const ROUTE_RESET_SANDI = @json(route('pengurus.users.kata-sandi', ['user' => '__ID__']));
+
+function bukaModalResetSandi(id, nama, email) {
+    document.getElementById('form-reset-sandi').action = ROUTE_RESET_SANDI.replace('__ID__', id);
+    document.getElementById('reset-sandi-target').textContent = nama + ' (' + email + ')';
+    document.getElementById('reset-sandi-baru').value = '';
+    document.getElementById('reset-sandi-ulang').value = '';
+
+    bukaModalLimit('modal-reset-sandi');
+}
 
 function bukaModalLimit(id) {
     document.getElementById(id).style.display = 'block';
@@ -461,6 +576,7 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         tutupModalLimit('modal-limit-tambah');
         tutupModalLimit('modal-limit-edit');
+        tutupModalLimit('modal-reset-sandi');
     }
 });
 </script>
