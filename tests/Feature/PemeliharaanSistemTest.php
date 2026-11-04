@@ -112,6 +112,45 @@ class PemeliharaanSistemTest extends TestCase
             ->assertFailed();
     }
 
+    /**
+     * Laptop kasir/pengurus sering ditutup (modern standby) pada malam hari.
+     * Bila job harian dipatok pada satu menit (00:01), hari itu hilang sama
+     * sekali: tagihan Simpanan Wajib anggota yang jatuh tempo tanggal tersebut
+     * tidak pernah terbit, dan deposito jatuh tempo tidak diproses.
+     *
+     * Job-job ini aman diulang (Simpanan Wajib memakai firstOrCreate per
+     * anggota+periode; deposito & angsuran memilih baris berdasarkan tanggal),
+     * sehingga dijadwalkan tiap jam agar jam berapa pun mesin menyala masih
+     * tertangani pada hari yang sama.
+     */
+    public function test_job_harian_wajib_tidak_dipatok_pada_satu_menit_saja(): void
+    {
+        $scheduler = new Schedule;
+        $this->app->instance(Schedule::class, $scheduler);
+        Facade::clearResolvedInstance(Schedule::class);
+        require base_path('routes/console.php');
+
+        $wajibMengulang = [
+            'deposito:process-maturity',
+            'mandatory-savings:process-daily',
+            'angsuran:sinkronkan-status',
+        ];
+
+        foreach ($wajibMengulang as $perintah) {
+            $jadwal = collect($scheduler->events())->first(
+                static fn ($event): bool => str_contains((string) $event->command, $perintah)
+            );
+
+            $this->assertNotNull($jadwal, "Jadwal {$perintah} tidak terdaftar.");
+            $this->assertSame(
+                '0 * * * *',
+                $jadwal->expression,
+                "{$perintah} harus dicoba tiap jam, bukan dipatok pada satu menit, "
+                .'agar hari yang terlewat (mesin tidur) tetap diproses pada hari yang sama.'
+            );
+        }
+    }
+
     public function test_jadwal_cadangan_mengulang_tiap_jam_setelah_proses_harian(): void
     {
         $scheduler = new Schedule;

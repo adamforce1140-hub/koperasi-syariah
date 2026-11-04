@@ -364,6 +364,18 @@ class MandatorySavingsService
                     continue;
                 }
 
+                /* Idempoten antar-jadwal: tagihan yang sudah ditangguhkan
+                 | menunggu konfirmasi manual TIDAK boleh diverifikasi ulang
+                 | setiap kali command dijalankan. Tanpa gerbang ini, jadwal
+                 | per jam akan mencatat audit & mengirim notifikasi ke
+                 | administrator berulang-ulang untuk tagihan yang sama.
+                 | Keputusan berikutnya ada di tangan pengguna berwenang. */
+                if ($bill->status === MandatorySavingsBill::STATUS_PENDING_CONFIRMATION) {
+                    $hasil['skipped']++;
+
+                    continue;
+                }
+
                 /* PEMILIHAN JALUR PEMBAYARAN (DINAMIS — Zero-Hardcoding).
                  |
                  |  JALUR B (OPT-IN — AUTO-DEBIT PINDAH BUKU) hanya aktif bila

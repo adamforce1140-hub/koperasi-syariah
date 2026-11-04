@@ -1289,7 +1289,11 @@ class DepositoSyariahTest extends TestCase
             ->first(fn ($e) => str_contains($e->command ?? '', 'deposito:process-maturity'));
 
         $this->assertNotNull($event, 'Command deposito:process-maturity belum terdaftar di scheduler.');
-        $this->assertSame('1 0 * * *', $event->expression, 'Jadwal harus dailyAt 00:01.');
+        $this->assertSame(
+            '0 * * * *',
+            $event->expression,
+            'Jadwal harus tiap jam: bila dipatok 00:01, hari itu terlewat saat mesin tidur.'
+        );
     }
 
     /* =====================================================================

@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schedule;
 |--------------------------------------------------------------------------
 | Pemrosesan Deposito Mudharabah Jatuh Tempo (ARO Dinamis)
 |--------------------------------------------------------------------------
-| Dijalankan setiap hari pukul 00:01 WIB. Command mengambil SELURUH deposito
-| berstatus ACTIVE dengan maturity_date <= hari ini, lalu memprosesnya sesuai
-| mode ARO pada bilyet:
+| Dijalankan tiap jam (bukan dipatok 00:01 WIB) — command mengambil SELURUH
+| deposito berstatus ACTIVE dengan maturity_date <= hari ini, lalu memprosesnya
+| sesuai mode ARO pada bilyet:
 |
 |   NON_ARO   → pokok cair ke Rekening Simpanan Sukarela (2-1001), status CLOSED,
 |               jurnal DEBET 2-1003 | KREDIT 2-1001.
@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Schedule;
 | sehingga method schedule() pada App\Console\Kernel tidak pernah dipanggil.
 */
 Schedule::command('deposito:process-maturity')
-    ->dailyAt('00:01')
+    ->hourly()
     ->timezone('Asia/Jakarta')
     ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/deposito-jatuh-tempo.log'));
@@ -33,9 +33,11 @@ Schedule::command('deposito:process-maturity')
 |--------------------------------------------------------------------------
 | Sinkronisasi Status Angsuran (Anti-Status Basi)
 |--------------------------------------------------------------------------
-| Dijalankan setiap hari pukul 00:05 WIB — setelah seluruh proses pergantian
-| hari selesai (deposito 00:01, simpanan wajib 00:01) dan SEBELUM autodebet
+| Dijalankan tiap jam (bukan dipatok 00:01 WIB) — setelah seluruh proses
+| pergantian hari selesai (deposito, simpanan wajib) dan SEBELUM autodebet
 | 07:00, sehingga autodebet & penagihan bekerja atas status yang benar.
+| Pengulangan per jam membuat hari yang terlewat (mesin tidur) tetap
+| tersinkron pada hari yang sama.
 |
 | `angsuran.status_angsuran` disimpan sebagai kolom (bukan dihitung saat
 | query) karena dipakai sebagai filter SQL oleh teller, portal nasabah, CKPN,
@@ -47,7 +49,7 @@ Schedule::command('deposito:process-maturity')
 | baris 'Dibayar Sebagian' (pokok belum tertagih penuh) tidak pernah ditimpa.
 */
 Schedule::command('angsuran:sinkronkan-status')
-    ->dailyAt('00:05')
+    ->hourly()
     ->timezone('Asia/Jakarta')
     ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/sinkronisasi-status-angsuran.log'));
@@ -68,8 +70,8 @@ Schedule::command('angsuran:sinkronkan-status')
 |--------------------------------------------------------------------------
 | Penagihan Simpanan Wajib Bulanan (Anniversary & End-of-Month)
 |--------------------------------------------------------------------------
-| Dijalankan setiap hari pukul 00:01 WIB. Command memproses SELURUH anggota
-| berstatus ACTIVE:
+| Dijalankan tiap jam (bukan dipatok 00:01 WIB). Command memproses SELURUH
+| anggota berstatus ACTIVE:
 |
 |  1. Terbitkan tagihan Simpanan Wajib periode bulan berjalan dengan
 |     `firstOrCreate` (anti-duplikat) berdasarkan tanggal bergabung anggota.
@@ -81,7 +83,7 @@ Schedule::command('angsuran:sinkronkan-status')
 |  3. Bila saldo tidak mencukupi: tagihan OVERDUE + notifikasi anggota & admin.
 */
 Schedule::command('mandatory-savings:process-daily')
-    ->dailyAt('00:01')
+    ->hourly()
     ->timezone('Asia/Jakarta')
     ->withoutOverlapping()
     ->appendOutputTo(storage_path('logs/simpanan-wajib-harian.log'));
