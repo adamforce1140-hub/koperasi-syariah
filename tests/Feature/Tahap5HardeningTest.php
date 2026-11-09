@@ -14,6 +14,7 @@ use App\Services\PeriodeAkuntansiService;
 use App\Support\Setting;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -356,6 +357,50 @@ class Tahap5HardeningTest extends TestCase
             'user_id' => null,
             'jenis_transaksi' => 'Login Gagal',
         ]);
+    }
+
+    /**
+     * Sesi lama milik akun yang sudah dihapus masih menyimpan id-nya, dan
+     * Laravel mengembalikan id itu lewat `auth()->id()` walau pengguna tidak
+     * lagi ada. Pencatatan audit tidak boleh gagal karena foreign key — dulu
+     * kasus ini membuat halaman membalas HTTP 500 (lihat ERR-EBBD14AF).
+     */
+    public function test_sesi_lama_milik_akun_terhapus_tidak_menggagalkan_audit_login(): void
+    {
+        $email = 'tahap5.sesihantu@test.local';
+        $user = $this->user('teller', $email);
+        $kunciSesi = Auth::guard('web')->getName();
+        $idLama = $user->id;
+
+        // Akun sudah dihapus, tetapi browser staf masih membawa sesi lamanya.
+        DB::table('users')->where('id', $idLama)->delete();
+
+        $this->withSession([$kunciSesi => $idLama])
+            ->post('/login', ['email' => $email, 'password' => 'salah'])
+            ->assertSessionHasErrors('email');
+
+        $this->assertDatabaseHas('audit_logs', [
+            'user_id' => null,
+            'jenis_transaksi' => 'Login Gagal',
+        ]);
+    }
+
+    /**
+     * "Lupa kata sandi" dimatikan: sistem tidak punya kanal email, sehingga
+     * tautan tidak akan pernah sampai ke staf. Reset hanya lewat admin.
+     */
+    public function test_fitur_lupa_kata_sandi_publik_dinonaktifkan(): void
+    {
+        $this->assertFalse(Route::has('password.request'));
+        $this->assertFalse(Route::has('password.email'));
+        $this->assertFalse(Route::has('password.reset'));
+        $this->assertFalse(Route::has('password.update'));
+
+        $this->get('/lupa-kata-sandi')->assertNotFound();
+
+        $this->get('/login')
+            ->assertOk()
+            ->assertDontSee('Lupa kata sandi?');
     }
 
     public function test_logout_mencatat_jejak_audit(): void

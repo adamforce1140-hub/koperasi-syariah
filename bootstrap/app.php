@@ -3,6 +3,7 @@
 use App\Exceptions\JournalPostingException;
 use App\Http\Controllers\HealthController;
 use App\Http\Middleware\BatasMenganggurToken;
+use App\Http\Middleware\BersihkanSesiTanpaAkun;
 use App\Http\Middleware\CekIzin;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\KeamananHeader;
@@ -85,6 +86,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
     )
 
     ->withMiddleware(function (Middleware $middleware) {
+        // Tailscale Serve meneruskan request dari loopback. Hanya proses lokal
+        // yang bisa datang dari 127.0.0.1, sehingga header X-Forwarded-* dari
+        // sana aman dipercaya; akses LAN/Tailscale langsung tidak ikut dipercaya.
+        $middleware->trustProxies(at: ['127.0.0.1']);
         $middleware->alias([
             'role' => CheckRole::class,
             // DYN-18: gerbang izin bernama. Rute menyebut wewenang
@@ -105,6 +110,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
         // Tanpa ini, sesi yang masih aktif tetap sah meski kredensial sudah
         // diganti/dikompromikan.
         $middleware->authenticateSessions();
+        // Sesi milik akun yang sudah dihapus masih menyimpan id-nya dan
+        // membuat auth()->id() mengembalikan id hantu → foreign key audit
+        // gagal. Bersihkan sebelum permintaan mencapai controller.
+        $middleware->appendToGroup('web', BersihkanSesiTanpaAkun::class);
         // Inject menu navigasi ke semua view untuk user yang sudah login
         $middleware->appendToGroup('web', ShareNavigationMenu::class);
         // Header keamanan (UU PDP No. 27/2022): nosniff, CSP, Referrer-Policy,
