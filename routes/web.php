@@ -31,7 +31,6 @@ use App\Http\Controllers\Manajer\ApprovalTazirController;
 use App\Http\Controllers\Manajer\ClosingApprovalController;
 use App\Http\Controllers\MemberTerminationController;
 use App\Http\Controllers\NasabahController;
-use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PencairanController;
 use App\Http\Controllers\PengajuanPembiayaanController;
 use App\Http\Controllers\PengajuanPembiayaanIntegController;
@@ -78,22 +77,16 @@ Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout')->mi
 
 /*
  |------------------------------------------------------------------
- | LUPA KATA SANDI (C1)
+ | LUPA KATA SANDI — DINONAKTIFKAN
  |------------------------------------------------------------------
- | Rute tamu saja. Permintaan tautan dibatasi `throttle:5,1` agar
- | tidak dijadikan alat spam email maupun enumerasi akun; respons
- | yang dikembalikan selalu sama untuk email terdaftar/tidak.
+ | Sistem ini tidak punya kanal pengiriman email, sehingga tautan atur
+ | ulang tidak akan pernah sampai ke staf dan hanya menjadi jalan buntu.
+ | Atur ulang kata sandi dilakukan admin lewat
+ | `pengurus.users.kata-sandi` di menu pengelolaan pengguna.
+ |
+ | Jangan daftarkan kembali rute `password.*` tanpa menyiapkan SMTP lebih
+ | dahulu; `tests/Feature/Tahap5HardeningTest.php` mengunci keputusan ini.
  */
-Route::middleware('guest')->group(function () {
-    Route::get('/lupa-kata-sandi', [PasswordResetController::class, 'formLupa'])
-        ->name('password.request');
-    Route::post('/lupa-kata-sandi', [PasswordResetController::class, 'kirimTautan'])
-        ->middleware('throttle:5,1')->name('password.email');
-    Route::get('/atur-ulang-kata-sandi/{token}', [PasswordResetController::class, 'formReset'])
-        ->name('password.reset');
-    Route::post('/atur-ulang-kata-sandi', [PasswordResetController::class, 'simpan'])
-        ->middleware('throttle:5,1')->name('password.update');
-});
 
 // Routes authenticated
 Route::middleware(['auth'])->group(function () {

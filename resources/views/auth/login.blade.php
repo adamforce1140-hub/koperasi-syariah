@@ -368,9 +368,6 @@
                     <input type="checkbox" name="remember">
                     <span>Ingat saya</span>
                 </label>
-                @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}">Lupa kata sandi?</a>
-                @endif
             </div>
 
             <button type="submit" class="tombol-masuk">

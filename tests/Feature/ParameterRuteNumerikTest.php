@@ -157,14 +157,14 @@ class ParameterRuteNumerikTest extends TestCase
 
     public function test_parameter_non_id_tidak_mendapat_batasan_numerik(): void
     {
-        // Token reset kata sandi adalah string acak, bukan ID.
-        $token = collect(Route::getRoutes()->getRoutes())
-            ->first(fn (RoutingRoute $r): bool => str_ends_with($r->uri(), 'atur-ulang-kata-sandi/{token}'));
+        // Jenis laporan AML adalah kode huruf (LTKT/LTKM/STR), bukan ID.
+        $jenis = collect(Route::getRoutes()->getRoutes())
+            ->first(fn (RoutingRoute $r): bool => str_ends_with($r->uri(), 'laporan-aml/export/{jenis}'));
 
-        $this->assertNotNull($token, 'Rute reset kata sandi {token} tidak ditemukan.');
+        $this->assertNotNull($jenis, 'Rute ekspor laporan AML {jenis} tidak ditemukan.');
         $this->assertTrue(
-            $this->cocok($token, '/atur-ulang-kata-sandi/'.str_repeat('a', 40), 'GET'),
-            'Parameter {token} bukan ID — tidak boleh mendapat batasan numerik.'
+            $this->cocok($jenis, '/pengurus/laporan-aml/export/LTKT', 'GET'),
+            'Parameter {jenis} bukan ID — tidak boleh mendapat batasan numerik.'
         );
 
         // Path berkas dokumen bukan angka.
