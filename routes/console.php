@@ -264,7 +264,19 @@ Schedule::command('denyut:kesehatan')
 |   gunzip -c storage/app/backups/koperasi_syariah-YYYYmmdd-His.sql.gz |
 |     mysql -u root -p koperasi_syariah
 */
-Schedule::command(trim('db:cadangkan --simpan-hari='.Setting::backupRetensiHari().' --lewati-bila-hari-ini-ada'.(config('cadangan.salinan_direktori') ? ' --salinan-tujuan='.config('cadangan.salinan_direktori') : '')))
+$parameterCadangan = [
+    '--simpan-hari' => Setting::backupRetensiHari(),
+    '--lewati-bila-hari-ini-ada',
+];
+
+if ($salinanCadangan = config('cadangan.salinan_direktori')) {
+    // Dikirim sebagai parameter terpisah agar nilainya dikutip. Bila digabung
+    // menjadi satu string perintah, jalur ber-spasi (mis. "Cadangan Koperasi
+    // Syariah") dipecah menjadi argumen liar dan cadangan gagal setiap jam.
+    $parameterCadangan['--salinan-tujuan'] = $salinanCadangan;
+}
+
+Schedule::command('db:cadangkan', $parameterCadangan)
     ->hourly()
     ->between('01:00', '23:00')
     ->timezone('Asia/Jakarta')
