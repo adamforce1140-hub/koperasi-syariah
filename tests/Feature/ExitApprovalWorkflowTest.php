@@ -188,7 +188,7 @@ class ExitApprovalWorkflowTest extends TestCase
      | 2. notifikasi ke SELURUH MANAJER
      |===================================================================== */
 
-    public function test_notifikasi_in_app_dan_email_dikirim_ke_semua_manajer(): void
+    public function test_notifikasi_in_app_dikirim_ke_semua_manajer(): void
     {
         $this->pastikanCoa();
         $this->aturKebijakan(['high_value_withdrawal_limit' => 100000, 'closure_admin_fee' => 0]);
@@ -208,8 +208,7 @@ class ExitApprovalWorkflowTest extends TestCase
             [$manajerA, $manajerB],
             PengunduranDiriApprovalNotification::class,
             function (PengunduranDiriApprovalNotification $notif, array $kanal) use ($terminasi) {
-                return in_array('database', $kanal, true)
-                    && in_array('mail', $kanal, true)
+                return $kanal === ['database']
                     && (int) $notif->ringkasan['terminasi_id'] === (int) $terminasi->id;
             }
         );

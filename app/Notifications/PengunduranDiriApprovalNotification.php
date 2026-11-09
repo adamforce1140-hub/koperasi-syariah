@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\MemberTermination;
 use App\Support\Setting;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 /**
@@ -15,7 +14,9 @@ use Illuminate\Notifications\Notification;
  * melampaui parameter `high_value_withdrawal_limit`. Selama persetujuan belum
  * diberikan, `ExitKeanggotaanService::eksekusi()` menolak mencairkan dana.
  *
- * Kanal: `database` (in-app, tabel `notifications`) + `mail` (audit eksternal).
+ * Kanal: `database` saja (in-app, tabel `notifications`). Kanal `mail` sengaja
+ * tidak dipakai karena server ini tidak mengirim email (`MAIL_MAILER=log`),
+ * sehingga kanal tersebut hanya menjadi jalur mati.
  */
 class PengunduranDiriApprovalNotification extends Notification
 {
@@ -52,7 +53,7 @@ class PengunduranDiriApprovalNotification extends Notification
     /** @return list<string> */
     public function via(object $notifiable): array
     {
-        return ['database', 'mail'];
+        return ['database'];
     }
 
     /** @return array<string, mixed> */
@@ -77,21 +78,5 @@ class PengunduranDiriApprovalNotification extends Notification
             'limit' => $r['limit'],
             'url' => route('member-terminations.show', $r['terminasi_id']),
         ];
-    }
-
-    public function toMail(object $notifiable): MailMessage
-    {
-        $r = $this->ringkasan;
-
-        return (new MailMessage)
-            ->subject('Persetujuan Pengunduran Diri Anggota — '.$r['no_referensi'])
-            ->greeting('Assalamu\'alaikum,')
-            ->line('Terdapat pengajuan pengunduran diri anggota yang membutuhkan persetujuan Manajer.')
-            ->line('No. Referensi: '.$r['no_referensi'])
-            ->line('Anggota: '.$r['nama_anggota'].($r['no_cif'] ? ' (CIF '.$r['no_cif'].')' : ''))
-            ->line('Total Net Pencairan: Rp '.number_format($r['total_net'], 2, ',', '.'))
-            ->line('Limit Transaksi: Rp '.number_format($r['limit'], 2, ',', '.'))
-            ->action('Buka Pengajuan', route('member-terminations.show', $r['terminasi_id']))
-            ->line('Pencairan dana diblokir sampai persetujuan diberikan.');
     }
 }
